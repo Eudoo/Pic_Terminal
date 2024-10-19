@@ -8,7 +8,7 @@ public class Administrateur extends Utilisateur {
 	public Administrateur(int id_user, String nom, String email, String password ) {
 		super(idUser, nom, email, password );
 	}
-	public void creer_categorie(Categorie categorie, List<Categorie> categories ) {
+	public void creerCategorie(Categorie categorie, List<Categorie> categories ) {
 		categories.add(categorie);
 		System.out.println("Vous avez créé une nouvelle catégorie\nNom : " + categorie.getNomCategorie()+"\nDescription: "+categorie.getDescription());
 		
@@ -136,12 +136,12 @@ public class Administrateur extends Utilisateur {
 	}
 	
 	public List<Image> rechercher(String motCle, List<Image> images) {
-	    List<Image> imagesRecherchées = new ArrayList<>();
+	    List<Image> imagesRecherchees = new ArrayList<>();
 
 	    for (Image image : images) {
 	        if (image.getTitre().toLowerCase().contains(motCle.toLowerCase()) || 
 	            image.getDescription().toLowerCase().contains(motCle.toLowerCase())) {
-	        	imagesRecherchées.add(image);
+	        	imagesRecherchees.add(image);
 	        }
 	    }
 	    System.out.println(imagesRecherchées.size() + " images trouvées avec le mot-clé '" + motCle + "'.");
@@ -149,12 +149,12 @@ public class Administrateur extends Utilisateur {
 	}
 	
 	public List<Image> filtrage(Categorie categorie, List<Image> images) {
-	    List<Image> imagesFiltrées = new ArrayList<>();
+	    List<Image> imagesFiltrees = new ArrayList<>();
 
 	    for (Image image : images) {
 	        
 	        if (image.getCategorie().getNomCategorie().equalsIgnoreCase(categorie.getNomCategorie())) {
-	        	imagesFiltrées.add(image);
+	        	imagesFiltrees.add(image);
 	        }
 	    }
 	    System.out.println(imagesFiltrées.size() + " images trouvées dans la catégorie '" + categorie.getNomCategorie() + "'.");
