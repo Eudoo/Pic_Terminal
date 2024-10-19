@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class Administrateur extends Utilisateur {
 	
-	public Administrateur(int id_user, String nom, String email, String password ) {
+	public Administrateur(int idUser, String nom, String email, String password ) {
 		super(idUser, nom, email, password );
 	}
 	public void creerCategorie(Categorie categorie, List<Categorie> categories ) {
