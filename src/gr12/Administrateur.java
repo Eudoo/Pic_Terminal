@@ -118,6 +118,7 @@ public class Administrateur extends Utilisateur {
 	        }
 	        return null;  
 	    }
+	}
 	
 	public void voirStatistiques(Statistique stats) {
 		System.out.println("Nombre total d'images : " + stats.getNbreTotalImage());
@@ -160,5 +161,5 @@ public class Administrateur extends Utilisateur {
 	    System.out.println(imagesFiltrées.size() + " images trouvées dans la catégorie '" + categorie.getNomCategorie() + "'.");
 	    return imagesFiltrées;
 	}
-}}
+}
 
