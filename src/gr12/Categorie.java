@@ -23,24 +23,24 @@ public class Categorie {
         }
         // Constructeur avec id et nom de la catégorie
         public Categorie(int idCategorie, String nomCategorie) {
-            this.idCategorie = idCategorie;
-            this.nomCategorie = nomCategorie;
+            this.id_categorie = idCategorie;
+            this.nom_categorie = nomCategorie;
             this.description = "Pas de description";
             this.images = new ArrayList<>();
         }
         // Constructeur avec id, nom et description
-        public Categorie(int idCategorie, String nomCategorie, String description) {
-            this.idCategorie = idCategorie;
-            this.nomCategorie = nomCategorie;
-            this.description = description;
+        public Categorie(int idCategorie, String nomCategorie, String Description) {
+            this.id_categorie = idCategorie;
+            this.nom_categorie = nomCategorie;
+            this.description = Description;
             this.images = new ArrayList<>();
         }
         // Constructeur avec id, nom, description et images
-        public Categorie(int idCategorie, String nomCategorie, String description, List<Image> images) {
-            this.idCategorie = idCategorie;
-            this.nomCategorie = nomCategorie;
-            this.description = description;
-            this.images = images; 
+        public Categorie(int idCategorie, String nomCategorie, String Description, List<Image> Images) {
+            this.id_categorie = idCategorie;
+            this.nom_categorie = nomCategorie;
+            this.description = Description;
+            this.images = Images; 
         }
         // Constructeur de copie
         public Categorie(Categorie original) {
@@ -66,16 +66,16 @@ public class Categorie {
     
     //Les Setters
         public void set_idCategorie(int idCategorie) {
-            this.idCategorie = idCategorie;
+            this.id_categorie = idCategorie;
         }
         public void set_nomCategorie(String nomCategorie) {
-            this.nomCategorie = nomCategorie;
+            this.nom_categorie = nomCategorie;
         }
-        public void set_description(String description) {
-            this.description = description;
+        public void set_description(String Description) {
+            this.description = Description;
         }
-        public void set_images(List<Image> images) {
-            this.images = images;
+        public void set_images(List<Image> Images) {
+            this.images = Images;
         }
     
     //Les Méthodes
