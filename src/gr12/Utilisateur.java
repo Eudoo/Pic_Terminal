@@ -103,8 +103,9 @@ public class Utilisateur {
             if (utilisateur.get_email().equals(email) && utilisateur.get_password().equals(password)) {
                 System.out.println("Vous êtes connectés");
             }  
+            
+            System.out.println("Mot de passe ou email incorrect ");
         }
-		System.out.println("Mot de passe ou email incorrect ");
 	}
 	
 	

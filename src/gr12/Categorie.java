@@ -16,8 +16,8 @@ public class Categorie {
     //Constructeur
         // Par defaut
         public Categorie() {
-            this.idCategorie = 0;
-            this.nomCategorie = "Catégorie par défaut";
+            this.id_categorie = 0;
+            this.nom_categorie = "Catégorie par défaut";
             this.description = "Description par défaut";
             this.images = new ArrayList<>(); // Liste vide
         }
@@ -44,8 +44,8 @@ public class Categorie {
         }
         // Constructeur de copie
         public Categorie(Categorie original) {
-            this.idCategorie = original.idCategorie;
-            this.nomCategorie = original.nomCategorie;
+            this.id_categorie = original.id_categorie;
+            this.nom_categorie = original.nom_categorie;
             this.description = original.description;
             this.images = new ArrayList<>(original.images); 
         }

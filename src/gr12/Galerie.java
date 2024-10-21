@@ -16,6 +16,7 @@ public class Galerie {
 		this.images = new ArrayList<>();
 	}
 	
+	
 	// Methodes
 	public void ajouter_image(Image image) {
 		images.add(image);
