@@ -6,6 +6,65 @@ import java.util.Scanner;
 import java.util.Iterator;
 
 public class Image {
+	
+    private  int id_image;
+	private  String Nomfichier ;
+	private String Titre;
+	private Categorie catégorie;
+	private  boolean Estpublic;
+	private boolean Statut;
+	private int likes;
+	private  int nbre_Téléchargement;
+	private boolean télécharger;
+	
+
+//constructeur par défaut
+	public Image(){
+		this.id_image = 0;
+		 this.Nomfichier = "Unknown.Img";
+		this.Titre = "Unknown";
+		this.Estpublic = false;
+		this.Statut = 0;
+		this.likes = 0;
+		this.nbre_Téléchargement = 0;
+		this.télécharger = false;
+		
+		
+	}
+	
+//constructeur avec  certaines valeurs
+	public Image( String Nf, String Ttr, Categorie cat) {
+		this.id_image = ;
+		 this.Nomfichier = Nf;
+		this.Titre = Ttr;
+		this.Estpublic = false;
+		this.Statut = 0;
+		this.likes = 0;
+		this.nbre_Téléchargement = 0;
+		this.télécharger = false;
+		this.catégorie = cat;
+	}
+
+	
+//constructeur all
+public Image (int idimage, String Nf, String Ttr, Categorie cat, boolean Estpublc,
+		boolean Stat, int like, int nbre_te, boolean down) 
+{
+	this.id_image = idimage;
+	 this.Nomfichier = Nf;
+	this.Titre = Ttr;
+	this.catégorie = cat;
+	this.Estpublic = Estpublc;
+	this.Statut = Stat;
+	this.likes = like;
+	this.nbre_Téléchargement = nbre_te;
+	this.télécharger = down;
+	
+	
+}
+
+//Autres méthodes
+//Afficher propriété
 
    public void afficher_propriété() {
 	 System.out.println("id" +id_image);   
