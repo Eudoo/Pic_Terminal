@@ -68,7 +68,7 @@ public class Categorie {
         public void set_idCategorie(int idCategorie) {
             this.id_categorie = idCategorie;
         }
-        public void set_nomCategorie(String nomCategorie) {
+        public void set_nom_Categorie(String nomCategorie) {
             this.nom_categorie = nomCategorie;
         }
         public void set_description(String Description) {

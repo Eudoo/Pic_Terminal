@@ -8,6 +8,7 @@ public class Utilisateur {
 	private String nom;
 	private String email;
 	private String password;
+	private boolean suspendu;
 	private ArrayList<Image> favoris = new ArrayList<>();
 
 	
@@ -18,6 +19,7 @@ public class Utilisateur {
 		this.nom = nom;
 		this.email = email;
 		this.password = password; 
+		this.suspendu = false;
 	}
 
 
@@ -40,6 +42,11 @@ public class Utilisateur {
 	public String get_password() {
 		return this.password;
 	}
+	
+	public boolean estSuspendu() {
+        return suspendu;
+    }
+
 	
 	
 	public ArrayList<Image> get_favoris() {
@@ -68,13 +75,16 @@ public class Utilisateur {
 		this.password = val;
 	}
 	
+	public void setSuspendu(boolean suspendu) {
+        this.suspendu = suspendu;
+    }
 	
 	public void set_favoris(ArrayList<Image> val) {
 		this.favoris = val;
 	}
 	
 	
-	
+	/*
 	// Autres méthodes
 	public static boolean  verifier_email(String emaill) {
 		for (Utilisateur utilisateur : Administrateur.utilisateurs) {
@@ -106,38 +116,38 @@ public class Utilisateur {
             
             System.out.println("Mot de passe ou email incorrect ");
         }
-	}
+	}*/
 	
-	
+	/*
 	public void ajouter_image(Image image, Galerie galerie) {
 		galerie.ajouter_image(image);
 		System.out.println("L'image " + image.titre + " a été ajoutée");
 	}
-	
+	*/
 	
 	public void ajouter_favori(Image image) {
 		favoris.add(image);
-		System.out.println("L'image " + image.titre + " a été ajoutée à vos favoris ");
+		System.out.println("L'image " + image.get_titre() + " a été ajoutée à vos favoris ");
 	}
 	
 	
 	public void retirer_favori(Image image) {
 		favoris.remove(image);
-		System.out.println("L'image " + image.titre + " a été retirée de vos favoris ");
+		System.out.println("L'image " + image.get_titre() + " a été retirée de vos favoris ");
 	}
 	
 	
 	public void telecharger(Image image, Galerie galerie) {
-		image.nbre_Telechargements += 1;
-		image.telecharge = true;
+		image.set_nbr_telechargement(image.get_nbr_telechargement() +1);
+		image.set_télé(true);
 		galerie.ajouter_image(image);
-		System.out.println("L'image " + image.titre + " a été téléchargée.");
+		System.out.println("L'image " + image.get_titre() + " a été téléchargée.");
 		
 	}
 	
 	
 	public void liker(Image image) {
-		image.likes += 1;
+		image.set_like(image.get_like() +1);
 		System.out.println("Vous avez liké cette image ^-^ ");
 	}
 

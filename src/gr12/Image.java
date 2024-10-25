@@ -7,79 +7,81 @@ import java.util.Iterator;
 
 public class Image {
 	
-    private  int id_image;
-	private  String Nomfichier ;
-	private String Titre;
-	private Categorie catégorie;
-	private  boolean Estpublic;
+    private int id_image;
+	private String Nomfichier ;
+	private String titre;
+	private String description;
+	private Categorie categorie;
+	private boolean Estpublic;
 	private boolean Statut;
 	private int likes;
-	private  int nbre_Téléchargement;
-	private boolean télécharger;
+	private int nbre_Telechargement;
+	private boolean telecharger;
 	
 
 //constructeur par défaut
 	public Image(){
 		this.id_image = 0;
-		 this.Nomfichier = "Unknown.Img";
-		this.Titre = "Unknown";
+		this.Nomfichier = "Unknown.Img";
+		this.titre = "Unknown";
+		this.description = "No describ";
 		this.Estpublic = false;
-		this.Statut = 0;
+		this.Statut = false;            
 		this.likes = 0;
-		this.nbre_Téléchargement = 0;
-		this.télécharger = false;
+		this.nbre_Telechargement = 0;
+		this.telecharger = false;
 		
 		
 	}
 	
 //constructeur avec  certaines valeurs
 	public Image( String Nf, String Ttr, Categorie cat) {
-		this.id_image = ;
-		 this.Nomfichier = Nf;
-		this.Titre = Ttr;
+		this.id_image = 0;
+		this.Nomfichier = Nf;
+		this.titre = Ttr;
+		this.description = "No describ";
 		this.Estpublic = false;
-		this.Statut = 0;
+		this.Statut = false;
 		this.likes = 0;
-		this.nbre_Téléchargement = 0;
-		this.télécharger = false;
-		this.catégorie = cat;
+		this.nbre_Telechargement = 0;
+		this.telecharger = false;
+		this.categorie = cat;
 	}
 
 	
 //constructeur all
-public Image (int idimage, String Nf, String Ttr, Categorie cat, boolean Estpublc,
-		boolean Stat, int like, int nbre_te, boolean down) 
-{
-	this.id_image = idimage;
-	 this.Nomfichier = Nf;
-	this.Titre = Ttr;
-	this.catégorie = cat;
-	this.Estpublic = Estpublc;
-	this.Statut = Stat;
-	this.likes = like;
-	this.nbre_Téléchargement = nbre_te;
-	this.télécharger = down;
-	
-	
-}
+	public Image (int idimage, String Nf, String Ttr,String descrip, Categorie cat, boolean Estpublc,
+		boolean Stat, int like, int nbre_te, boolean down) {
+		this.id_image = idimage;
+		this.Nomfichier = Nf;
+		this.titre = Ttr;
+		this.description = descrip;
+		this.categorie = cat;
+		this.Estpublic = Estpublc;
+		this.Statut = Stat;
+		this.likes = like;
+		this.nbre_Telechargement = nbre_te;
+		this.telecharger = down;
+		
+		
+	}
 
 //Autres méthodes
 //Afficher propriété
 
-   public void afficher_propriété() {
+   public void afficher_propriete() {
 	 System.out.println("id" +id_image);   
 	 System.out.println("Nom du fichier:"+ Nomfichier );
-	 System.out.println("Titre:"+ Titre);
-	   System.out.println("Catégorie:"+ catégorie);
+	 System.out.println("Titre:"+ titre);
+	 System.out.println("Catégorie:"+ categorie);
 	if(Estpublic=false) {
 		  System.out.println("Visibilité:Privé");
 	}
 	else {
-		  System.out.println("Visibilité:Publique");}
-	   //System.out.println("Statut:"+ Statut);
-	   System.out.println("Nombres de likes:"+ likes);
-	   System.out.println("nombre de téléchargement:"+nbre_Téléchargement);
-  
+		System.out.println("Visibilité:Publique");}
+	    //System.out.println("Statut:"+ Statut);
+	    System.out.println("Nombres de likes:"+ likes);
+	    System.out.println("nombre de téléchargement:"+nbre_Telechargement);
    }
 
 
@@ -89,64 +91,69 @@ public Image (int idimage, String Nf, String Ttr, Categorie cat, boolean Estpubl
    public void modifier_nom(String Newname) {
 	   Scanner scanner = new Scanner(System.in);
 	   System.out.println("Veuillez entrer le nouveau nom:");
-	  String Newname = scanner.nextLine();
-	 this.Nomfichier=Newname;
-	 scanner.close();
+	   Newname = scanner.nextLine();
+	   this.Nomfichier=Newname;
+	   scanner.close();
 	  }
 //modification titre   
    
    public void modifier_titre(String Newtitle) {
 	   Scanner scanner = new Scanner(System.in);
 	   System.out.println("Veuillez entrer le nouveau title:");
-	  String Newtitle = scanner.nextLine();
-	 this.Titre=Newtitle;
-	 scanner.close();}
+	   Newtitle = scanner.nextLine();
+	   this.titre=Newtitle;
+	   scanner.close();
+	   }
 	
    
    //Modification de sa catégorie
-   public void modifier_catégorie( List<Categorie> catégories) {
+   public void modifier_catégorie( List<Categorie> categories) {
    System.out.println("Faite un choix parmis les différentes catégories:");
-   for(int i = 0;i<catégories.size();i++){
+   for(int i = 0;i<categories.size();i++){
 	   System.out.println((i+1)+"."+categories.get(i).get_nom_categorie());
           };
    int choix =new Scanner(System.in).nextInt();
-   if(choix > 0 && choix <= catégories.size()) {
-    Categorie newcatégorie = catégories.get(choix - 1);
-   this.catégorie = newcatégorie;
-   System.out.println("l'image:" ,+ Nomfichier, "à changer de catégories avec succès");
+   if(choix > 0 && choix <= categories.size()) {
+    Categorie newcatégorie = categories.get(choix - 1);
+   this.categorie = newcatégorie;
+   System.out.println("l'image:" + Nomfichier + "à changer de catégories avec succès");
    }
    else
-	   System.out.println("catégorie introuvable");{
-	     }
-}
+	   System.out.println("catégorie introuvable");{}
+   }
 
-  // les getters
-public String getnomfichier(){
- return Nomfichier;}
-
-public  int getid(){
-	 return id_image;}
-
-public String getTitre(){
-	 return Titre;}
-
-public Categorie getcat(){
-	 return catégorie;}
-
-public boolean getvisibilité(){
-		return Estpublic;}
-
-public boolean getstat(){
-	 return  Statut;}
-
-public int getnbr_télé(){
-	return nbre_Téléchargement;}
- 
-public int getlike(){
-	return likes;}
-public boolean get_télé1(){
-	return télécharger;}
- 
+	 // les getters
+	public String get_nomfichier(){
+	 return Nomfichier;}
+	
+	public  int get_id(){
+		 return id_image;}
+	
+	public String get_titre(){
+		 return titre;}
+	
+	public String get_description() {
+	    return description;
+	}
+	
+	public Categorie get_categorie(){
+		 return categorie;}
+	
+	public boolean get_visibilite(){
+			return Estpublic;}
+	
+	public boolean get_stat(){
+		 return  Statut;}
+	
+	public int get_nbr_telechargement(){
+		return nbre_Telechargement;}
+	 
+	public int get_like(){
+		return likes;}
+	
+	public boolean get_télé(){
+		return telecharger;}
+	 
 
 
 
@@ -159,10 +166,14 @@ public boolean get_télé1(){
 	   this.id_image = val ;}
 	
     public void set_Titre(String val){
-		 this.Titre = val;}
+		 this.titre = val;}
+    
+    public void setDescription(String description) {
+        this.description = description;
+    }
 	
     public void set_cat(Categorie val){
-		 this.catégorie = val ;}
+		 this.categorie = val ;}
 	
     public void set_visibilité(boolean val){
 		  this.Estpublic = val;}
@@ -170,12 +181,12 @@ public boolean get_télé1(){
     public void set_stat(boolean val){
 		  this.Statut = val;}
 	
-    public void set_nbr_télé(int val){
-		this.nbre_Téléchargement= val;}
+    public void set_nbr_telechargement(int val){
+		this.nbre_Telechargement= val;}
 	 
 	public void set_like(int val){
 	     this.likes = val ;}
 	
-	public void get_télé(boolean val){
-		this.télécharger= val;}
+	public void set_télé(boolean val){
+		this.telecharger= val;}
 }

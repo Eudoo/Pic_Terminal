@@ -19,20 +19,41 @@ public class Galerie {
 	
 	// Methodes
 	public void ajouter_image(Image image) {
-		images.add(image);
-		System.out.println("Image " + image.get_titre() + " ajoutée a la galerie " + nom_galerie );
-	}
+        if (!images.contains(image)) {
+            images.add(image);
+            System.out.println("Image ajoutée à la galerie: " + nom_galerie);
+        } else {
+            System.out.println("L'image est déjà présente dans cette galerie.");
+        }
+    }
 	
-	public void supprimer_image(Image image) {
-		images.remove(image);
-		System.out.println("Image " + image.get_titre() + " supprimer de la galerie " + nom_galerie );
-	}
+	public void supprimerImage(Image image) {
+        if (images.contains(image)) {
+            images.remove(image);
+            System.out.println("Image " + image.get_titre() + " supprimée de la galerie " + nom_galerie);
+        } else {
+            System.out.println("Image non trouvée dans cette galerie.");
+        }
+    }
 	
-	public void afficher_galerie() {
-		System.out.println("Galerie : " + nom_galerie);
-		for (Image img : images) {
-			img.afficher_propriete();
-		}
-	}
+	public void afficherImages() {
+        if (images.isEmpty()) {
+            System.out.println("Aucune image dans la galerie.");
+        } else {
+            System.out.println("Images dans la galerie " + nom_galerie + ":");
+            for (Image image : images) {
+                image.afficher_propriete();
+            }
+        }
+    }
+	
+	// Getters
+    public String getNomGalerie() {
+        return nom_galerie;
+    }
+
+    public ArrayList<Image> getImages() {
+        return images;
+    }
 
 }
