@@ -2,6 +2,7 @@ package gr12;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Iterator;
+import gr12.Image;
 
 
 public class Categorie {
