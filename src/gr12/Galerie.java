@@ -6,13 +6,11 @@ public class Galerie {
 
 	private int id_galerie;
 	private String nom_galerie;
-	private Utilisateur usergaleris;
 	private ArrayList<Image> images;
 	
 	// Constructeur 
-	public Galerie(String nom_galerie, Utilisateur usergaleris) {
+	public Galerie(String nom_galerie) {
 		this.nom_galerie = nom_galerie;
-		this.usergaleris = usergaleris;
 		this.images = new ArrayList<>();
 	}
 	
@@ -21,7 +19,7 @@ public class Galerie {
 	public void ajouter_image(Image image) {
         if (!images.contains(image)) {
             images.add(image);
-            System.out.println("Image ajoutée à la galerie: " + nom_galerie);
+            System.out.println("\nImage ajoutée à la galerie: " + nom_galerie);
         } else {
             System.out.println("L'image est déjà présente dans cette galerie.");
         }
@@ -38,9 +36,9 @@ public class Galerie {
 	
 	public void afficherImages() {
         if (images.isEmpty()) {
-            System.out.println("Aucune image dans la galerie.");
+            System.out.println("\nAucune image dans la galerie.");
         } else {
-            System.out.println("Images dans la galerie " + nom_galerie + ":");
+            System.out.println("\n♂ Images dans la galerie " + nom_galerie + ":");
             for (Image image : images) {
                 image.afficher_propriete();
             }

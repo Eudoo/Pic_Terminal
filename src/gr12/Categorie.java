@@ -2,58 +2,69 @@ package gr12;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Iterator;
-import gr12.Image;
+
 
 
 public class Categorie {
 
     //Les attribut
-    private int id_categorie;
+    private static int id_compteur = 0;
+    private int id;
     private String nom_categorie;
     private String description;
     //Liste des images dans la catégorie
-    private List<Image> images;
+    public List<Image> images;
+    public static List<Categorie> categories = new ArrayList<>();
+    
 
     //Constructeur
         // Par defaut
         public Categorie() {
-            this.id_categorie = 0;
+            this.id = ++id_compteur;
             this.nom_categorie = "Catégorie par défaut";
             this.description = "Description par défaut";
             this.images = new ArrayList<>(); // Liste vide
+            Categorie.categories.add(this);
         }
         // Constructeur avec id et nom de la catégorie
-        public Categorie(int idCategorie, String nomCategorie) {
-            this.id_categorie = idCategorie;
+        public Categorie(String nomCategorie) {
+        	this.id = ++id_compteur;
             this.nom_categorie = nomCategorie;
             this.description = "Pas de description";
             this.images = new ArrayList<>();
+            this.categories.add(this);
         }
         // Constructeur avec id, nom et description
-        public Categorie(int idCategorie, String nomCategorie, String Description) {
-            this.id_categorie = idCategorie;
+        public Categorie(String nomCategorie, String Description) {
+        	this.id = ++id_compteur;
             this.nom_categorie = nomCategorie;
             this.description = Description;
             this.images = new ArrayList<>();
+            this.categories.add(this);
         }
         // Constructeur avec id, nom, description et images
-        public Categorie(int idCategorie, String nomCategorie, String Description, List<Image> Images) {
-            this.id_categorie = idCategorie;
+        public Categorie(String nomCategorie, String Description, List<Image> Images) {
+        	this.id = ++id_compteur;
             this.nom_categorie = nomCategorie;
             this.description = Description;
             this.images = Images; 
+            this.categories.add(this);
         }
         // Constructeur de copie
         public Categorie(Categorie original) {
-            this.id_categorie = original.id_categorie;
+            this.id = original.id;
             this.nom_categorie = original.nom_categorie;
             this.description = original.description;
             this.images = new ArrayList<>(original.images); 
         }
+        @Override
+        public String toString() {
+        	return "Categorie: " +nom_categorie;
+        }
 
     //Les Getters
         public int get_idcategorie() {
-            return id_categorie;
+            return id;
         }
         public String get_nom_categorie() {
             return nom_categorie;
@@ -67,7 +78,7 @@ public class Categorie {
     
     //Les Setters
         public void set_idCategorie(int idCategorie) {
-            this.id_categorie = idCategorie;
+            this.id = idCategorie;
         }
         public void set_nom_Categorie(String nomCategorie) {
             this.nom_categorie = nomCategorie;
@@ -78,6 +89,7 @@ public class Categorie {
         public void set_images(List<Image> Images) {
             this.images = Images;
         }
+        
     
     //Les Méthodes
 
@@ -85,7 +97,8 @@ public class Categorie {
         public void ajouter_image(Image image) {
             if (!images.contains(image)) {
                 this.images.add(image);
-                System.out.println("Image ajoutée à la catégorie : " + nom_categorie);
+                image.set_cat(this);
+                System.out.println("- "+image.get_nomfichier()+" ajoutée à la catégorie : " + nom_categorie);
             } else {
                 System.out.println("L'image est déjà présente dans cette catégorie.");
             }
@@ -107,16 +120,17 @@ public class Categorie {
         }
         //Afficher la composition d'une catégorie
         public void afficher_categorie() {
-            System.out.println("ID Catégorie: " + id_categorie);
-            System.out.println("Nom: " + nom_categorie);
-            System.out.println("Description: " + description);
-            System.out.println("Images dans cette catégorie:");
+            System.out.println("\n*ID Catégorie: " + id);
+            System.out.println(" Nom: " + nom_categorie);
+            System.out.println(" Description: " + description);
+            System.out.println(" Images dans cette catégorie:");
             if (images.isEmpty()) {
-                System.out.println("Aucune image dans cette catégorie.");
+                System.out.println(" Images: Aucune image dans cette catégorie.");
             } else {
+            	System.out.println(" Nombres d'images: " +images.size()+"\n");
                 // Afficher chaque image dans la catégorie
-                for (Image image : images) {
-                    image.afficher_propriete();
+                for (Image image : images) { 
+                	image.afficher_propriete();
                 }
             }
         }

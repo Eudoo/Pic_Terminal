@@ -7,81 +7,90 @@ import java.util.Iterator;
 
 public class Image {
 	
+	private static int idcompt = 0;
+	public static List<Image> imagescreer = new ArrayList<>();
     private int id_image;
 	private String Nomfichier ;
 	private String titre;
 	private String description;
-	private Categorie categorie;
+	private Categorie categorie = null;
 	private boolean Estpublic;
 	private boolean Statut;
 	private int likes;
 	private int nbre_Telechargement;
 	private boolean telecharger;
-	
+	 
 
 //constructeur par défaut
 	public Image(){
-		this.id_image = 0;
+		this.id_image = ++idcompt;
 		this.Nomfichier = "Unknown.Img";
 		this.titre = "Unknown";
 		this.description = "No describ";
-		this.Estpublic = false;
+		this.Estpublic = true;
 		this.Statut = false;            
 		this.likes = 0;
 		this.nbre_Telechargement = 0;
 		this.telecharger = false;
-		
+		imagescreer.add(this);
 		
 	}
-	
-//constructeur avec  certaines valeurs
-	public Image( String Nf, String Ttr, Categorie cat) {
-		this.id_image = 0;
+	public Image(String Nf, String Ttr) {
+		this.id_image = ++idcompt;
 		this.Nomfichier = Nf;
 		this.titre = Ttr;
 		this.description = "No describ";
-		this.Estpublic = false;
+		this.Estpublic = true;
 		this.Statut = false;
 		this.likes = 0;
 		this.nbre_Telechargement = 0;
 		this.telecharger = false;
-		this.categorie = cat;
+		imagescreer.add(this);
 	}
-
 	
 //constructeur all
-	public Image (int idimage, String Nf, String Ttr,String descrip, Categorie cat, boolean Estpublc,
+	public Image (String Nf, String Ttr,String descrip, boolean Estpublc,
 		boolean Stat, int like, int nbre_te, boolean down) {
-		this.id_image = idimage;
+		this.id_image = ++idcompt;
 		this.Nomfichier = Nf;
 		this.titre = Ttr;
 		this.description = descrip;
-		this.categorie = cat;
 		this.Estpublic = Estpublc;
 		this.Statut = Stat;
 		this.likes = like;
 		this.nbre_Telechargement = nbre_te;
 		this.telecharger = down;
-		
+		imagescreer.add(this);
 		
 	}
 
+	@Override 
+	public String toString() {
+		return "Image: "+Nomfichier+" , Description: "+description+ (categorie!=null ? ", Categorie: "+categorie.get_nom_categorie():"");
+	}
+	
 //Autres méthodes
 //Afficher propriété
 
    public void afficher_propriete() {
-	 System.out.println("id" +id_image);   
-	 System.out.println("Nom du fichier:"+ Nomfichier );
-	 System.out.println("Titre:"+ titre);
-	 System.out.println("Catégorie:"+ categorie);
-	if(Estpublic=false) {
-		  System.out.println("Visibilité:Privé");
+	 System.out.println("-id image : " + id_image);   
+	 System.out.println(" Nom du fichier : "+ Nomfichier+".img" );
+	 System.out.println(" Titre : "+ titre);
+	 System.out.println(" Catégorie : "+ categorie);
+	if(Estpublic==false) {
+		  System.out.println(" Visibilité : Privé");
 	}
 	else {
-		System.out.println("Visibilité:Publique");}
-	    //System.out.println("Statut:"+ Statut);
-	    System.out.println("Nombres de likes:"+ likes);
-	    System.out.println("nombre de téléchargement:"+nbre_Telechargement);
+		System.out.println(" Visibilité : Publique");
+	}
+	if(Statut==false) {
+		System.out.println(" Statut : Pas validée");
+	}
+	else {
+		System.out.println(" Statut : validée");
+	}
+	    System.out.println(" Nombres de likes:"+ likes);
+	    System.out.println(" nombre de téléchargement:"+nbre_Telechargement);
    }
 
 
@@ -187,6 +196,6 @@ public class Image {
 	public void set_like(int val){
 	     this.likes = val ;}
 	
-	public void set_télé(boolean val){
+	public void set_telecharger(boolean val){
 		this.telecharger= val;}
 }

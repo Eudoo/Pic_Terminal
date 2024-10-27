@@ -3,86 +3,77 @@ package gr12;
 import java.util.ArrayList;
 
 public class Utilisateur {
-	private static int id_precedent = 0;
+	private static int id_compteur = 0;
 	private int id_user;
 	private String nom;
 	private String email;
 	private String password;
-	private boolean suspendu;
+	protected boolean suspendu;
 	private ArrayList<Image> favoris = new ArrayList<>();
+	private Galerie galerie;
 
 	
 	
 	// Constructeur
 	public Utilisateur(String nom, String email, String password) {
-		this.id_user = ++id_precedent; ;
+		this.id_user = ++id_compteur; ;
 		this.nom = nom;
 		this.email = email;
 		this.password = password; 
 		this.suspendu = false;
+		this.set_galerie(new Galerie(nom));
 	}
 
 
 	// Accesseurs
+	
 	public int get_id_user() {
 		return id_user;
 	}
-	
-	
 	public String get_nom() {
 		return this.nom;
 	}
-	
-	
 	public String get_email() {
 		return this.email;
 	}
-	
-	
 	public String get_password() {
 		return this.password;
 	}
-	
-	public boolean estSuspendu() {
+	public boolean get_suspendu() {
         return suspendu;
     }
-
-	
-	
 	public ArrayList<Image> get_favoris() {
 		return this.favoris;
 	}
+	public Galerie get_galerie() {
+		return galerie;
+	}
 
-	
-	
 	// Mutateurs
+	
 	public void set_id_user(int val) {
 		this.id_user = val;
 	}
-	
-	
 	public void set_nom(String val) {
 		this.nom = val;
 	}
-	
-	
 	public void set_email(String val) {
 		this.email = val;
-	}
-	
-		
+	}	
 	public void set_password(String val) {
 		this.password = val;
 	}
-	
-	public void setSuspendu(boolean suspendu) {
+	public void set_suspendu(boolean suspendu) {
         this.suspendu = suspendu;
     }
 	
 	public void set_favoris(ArrayList<Image> val) {
 		this.favoris = val;
 	}
-	
+	public void set_galerie(Galerie galerie) {
+		this.galerie = galerie;
+	}
+
 	
 	/*
 	// Autres méthodes
@@ -137,9 +128,9 @@ public class Utilisateur {
 	}
 	
 	
-	public void telecharger(Image image, Galerie galerie) {
+	public void telecharger(Image image) {
 		image.set_nbr_telechargement(image.get_nbr_telechargement() +1);
-		image.set_télé(true);
+		image.set_telecharger(true);
 		galerie.ajouter_image(image);
 		System.out.println("L'image " + image.get_titre() + " a été téléchargée.");
 		
@@ -148,7 +139,19 @@ public class Utilisateur {
 	
 	public void liker(Image image) {
 		image.set_like(image.get_like() +1);
-		System.out.println("Vous avez liké cette image ^-^ ");
+		System.out.println("Vous avez liké cette image!!");
+	}
+	
+	public void afficher_infos() {
+		System.out.println("\nId : "+ get_id_user());
+		System.out.println("Nom : "+ get_nom());
+		System.out.println("Email : "+ get_email());
+		System.out.println("Suspendu : "+ get_suspendu());
 	}
 
+
+	
+
+
+	
 }

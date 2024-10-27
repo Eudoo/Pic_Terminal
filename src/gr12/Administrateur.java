@@ -3,29 +3,51 @@ package gr12;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Iterator;
 
 public class Administrateur extends Utilisateur {
+	
+	
 	
 	public Administrateur( String nom, String email, String password ) {
 		super( nom, email, password );
 	}
 	
-	public void creer_Categorie(Categorie categorie, List<Categorie> categories ) {
-		categories.add(categorie);
-		System.out.println("Vous avez créé une nouvelle catégorie\nNom : " + categorie.get_nom_categorie()+"\nDescription: "+categorie.get_description());
+	public void creer_Categorie(String nom, String Description) {
+		Categorie categorie = new Categorie(nom,Description);
+		if (!Categorie.categories.contains(categorie))
+			Categorie.categories.add(categorie);
+		System.out.println("\nVous avez créé une nouvelle catégorie");
+		categorie.afficher_categorie();
 		
+	}
+	
+	public void ajouter_image(Image image, Categorie categorie) {
+        categorie.ajouter_image(image);
+    }
+	
+	public void afficher_toutes_categorie() {
+		System.out.println("\n\t♂ Voici présenté toutes les categories ♂");
+		System.out.println("Nombres de categories: " +Categorie.categories.size());
+		if (Categorie.categories.isEmpty()) {
+            System.out.println("\nAucune Catégorie n'a été crée !");
+        } else {
+        	for(Categorie categorie : Categorie.categories) {
+        		categorie.afficher_categorie();
+        	}
+		}
 	}
 	
 	public void modifier_Categorie(Categorie categorie, String nNomCategorie, String nDescriptionCategorie ) {
 		categorie.set_nom_Categorie(nNomCategorie);
 		categorie.set_description(nDescriptionCategorie);
-		System.out.println("Une catégorie a été modifié en\nNom : " +nNomCategorie+ "\nDescription : "  +nDescriptionCategorie);
+		System.out.println("\nLa catégorie a été modifié en\nNom : " +nNomCategorie+ "\nDescription : "  +nDescriptionCategorie);
 		
 	}
 	
-	public boolean supprimerCategorie(Categorie categorie, List<Categorie> categories) {
-	    if (categories.contains(categorie)) {
-	        categories.remove(categorie);
+	public boolean supprimerCategorie(Categorie categorie) {
+	    if (Categorie.categories.contains(categorie)) {
+	    	Categorie.categories.remove(categorie);
 	        System.out.println("Vous avez supprimé la catégorie " + categorie.get_nom_categorie());
 	        return true;  
 	    } else {
@@ -34,10 +56,8 @@ public class Administrateur extends Utilisateur {
 	    }
 	}
 
-	public void validerImage(Image image, List<Image> images) {
-		
+	public void validerImage(Image image) {
             image.set_stat(true); 
-            images.add(image);
             System.out.println("Image '" + image.get_titre() + "' validée.");
     }
 	
@@ -50,17 +70,14 @@ public class Administrateur extends Utilisateur {
 	        }
 	    }
 	
-	public void supprimerImage(Image image, List<Image> images) {
-        images.remove(image);
+	public void supprimerImage(Image image) {
+        Image.imagescreer.remove(image);
         System.out.println("Vous avez supprimé l'image '" + image.get_titre() );
     }
 	
-	public class GererUtilisateur {
-	    private List<Utilisateur> utilisateurs;
-
-	    public GererUtilisateur() {
-	        this.utilisateurs = new ArrayList<>();
-	    }
+	
+	    private List<Utilisateur> utilisateurs = new ArrayList<>();;
+  
 
 	    public void consulterUtilisateurs() {
 	        if (utilisateurs.isEmpty()) {
@@ -68,7 +85,7 @@ public class Administrateur extends Utilisateur {
 	        } else {
 	            System.out.println("Liste des utilisateurs :");
 	            for (Utilisateur utilisateur : utilisateurs) {
-	                System.out.println("- " + utilisateur.get_nom() + " | Statut : "  + (utilisateur.estSuspendu() ? "Suspendu" : "Actif"));
+	                System.out.println("- " + utilisateur.get_nom() + " | Statut : "  + (suspendu ? "Suspendu" : "Actif"));
 	            }
 	        }
 	    }
@@ -94,8 +111,8 @@ public class Administrateur extends Utilisateur {
 	    }
 
 	    public void suspendreUtilisateur(Utilisateur utilisateur) {
-	        if (!utilisateur.estSuspendu()) {
-	            utilisateur.setSuspendu(true);
+	        if (utilisateur.suspendu == false) {
+	            utilisateur.set_suspendu(true);
 	            System.out.println("L'utilisateur '" + utilisateur.get_nom() + "' a été suspendu.");
 	        } else {
 	            System.out.println("L'utilisateur est déjà suspendu.");
@@ -119,7 +136,7 @@ public class Administrateur extends Utilisateur {
 	        }
 	        return null;  
 	    }
-	}
+	
 	/*
 	public void voirStatistiques(Statistique stats) {
 		System.out.println("Nombre total d'images : " + stats.getNbreTotalImage());
@@ -137,32 +154,37 @@ public class Administrateur extends Utilisateur {
 		
 	}*/
 	
-	public List<Image> rechercher(String motCle, List<Image> images) {
+	public void rechercher(String motCle) {
 	    List<Image> imagesRecherchees = new ArrayList<>();
 
-	    for (Image image : images) {
+	    for (Image image : Image.imagescreer) {
 	        if (image.get_titre().toLowerCase().contains(motCle.toLowerCase()) || 
 	            image.get_description().toLowerCase().contains(motCle.toLowerCase())) {       
 	        	imagesRecherchees.add(image);
 	        }
 	    }
-	    System.out.println(imagesRecherchees.size() + " images trouvées avec le mot-clé '" + motCle + "'.");
-	    return imagesRecherchees;
+	    System.out.println("\n"+imagesRecherchees.size() + " images trouvées avec le mot-clé '" + motCle + "'.");
+        for (Image image : imagesRecherchees) {
+            image.afficher_propriete();
+        }
 	}
 	
-	public List<Image> filtrage(Categorie categorie, List<Image> images) {
+	public void filtrage(String cate) {
 	    List<Image> imagesFiltrees = new ArrayList<>();
 
-	    for (Image image : images) {
+	    for (Image image : Image.imagescreer) {
 	        
-	        if (image.get_categorie().get_nom_categorie().equalsIgnoreCase(categorie.get_nom_categorie())) {
+	        if (image.get_categorie()!= null && image.get_categorie().get_nom_categorie().contains(cate)) {
 	        	imagesFiltrees.add(image);
 	        }
 	    }
-	    System.out.println(imagesFiltrees.size() + " images trouvées dans la catégorie '" + categorie.get_nom_categorie() + "'.");
-	    return imagesFiltrees;
+	    System.out.println("\n♂ "+imagesFiltrees.size() + " images trouvées dans la catégorie '" + cate+ "'. ♂");
+	    for (Image img : imagesFiltrees) {
+            img.afficher_propriete();
+        }
 	}
 }
+
 
 
 
