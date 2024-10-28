@@ -117,8 +117,8 @@ public class Administrateur extends Utilisateur {
 	    }
 
 	    public void supprimerUtilisateur(Utilisateur utilisateur) {
-	        if (utilisateurs.contains(utilisateur)) {
-	            utilisateurs.remove(utilisateur);
+	        if (liste_user.contains(utilisateur)) {
+	            liste_user.remove(utilisateur);
 	            System.out.println("L'utilisateur '" + utilisateur.get_nom() + "' a été supprimé.");
 	        } else {
 	            System.out.println("Utilisateur non trouvé.");
@@ -126,7 +126,7 @@ public class Administrateur extends Utilisateur {
 	    }
 	    
 	    public Utilisateur rechercherUtilisateur(String nom) {
-	        for (Utilisateur utilisateur : utilisateurs) {
+	        for (Utilisateur utilisateur : liste_user) {
 	            if (utilisateur.get_nom().equals(nom)) {
 	                return utilisateur;
 	            }

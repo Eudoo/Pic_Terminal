@@ -69,6 +69,7 @@ public class MainClass {
         admin.afficher_toutes_categorie();
         admin.ajouterUtilisateur("Olade","Olade@gmail.com","Ok" );
         admin.consulterUtilisateurs();
+        image1.modifier_catégorie(Categorie.categories);
 	}
 
 }
