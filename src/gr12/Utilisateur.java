@@ -5,14 +5,14 @@ import java.util.ArrayList;
 public class Utilisateur {
 	private static int id_compteur = 0;
 	private int id_user;
-	private String nom;
-	private String email;
-	private String password;
+	protected String nom;
+	protected String email;
+	protected String password;
 	protected boolean suspendu;
 	private ArrayList<Image> favoris = new ArrayList<>();
 	private Galerie galerie;
-
-	
+	public static ArrayList<Utilisateur> liste_user = new ArrayList<>();
+	private boolean like = false;
 	
 	// Constructeur
 	public Utilisateur(String nom, String email, String password) {
@@ -22,6 +22,7 @@ public class Utilisateur {
 		this.password = password; 
 		this.suspendu = false;
 		this.set_galerie(new Galerie(nom));
+		liste_user.add(this);
 	}
 
 
@@ -75,10 +76,10 @@ public class Utilisateur {
 	}
 
 	
-	/*
+	
 	// Autres méthodes
 	public static boolean  verifier_email(String emaill) {
-		for (Utilisateur utilisateur : Administrateur.utilisateurs) {
+		for (Utilisateur utilisateur : liste_user) {
             if (utilisateur.get_email().equals(emaill)) {
                 return true; 
             }
@@ -93,21 +94,21 @@ public class Utilisateur {
 		}
 		else {
 			Utilisateur new_user = new Utilisateur(nom, email, password);
-			Administrateur.utilisateurs.add(new_user);
+			liste_user.add(new_user);
 			System.out.println("Inscription reussie");
 		}
 	}
 	
 	
 	public static void se_connecter(String email, String password) {
-		for (Utilisateur utilisateur : Administrateur.utilisateurs) {
+		for (Utilisateur utilisateur : liste_user) {
             if (utilisateur.get_email().equals(email) && utilisateur.get_password().equals(password)) {
                 System.out.println("Vous êtes connectés");
             }  
             
             System.out.println("Mot de passe ou email incorrect ");
         }
-	}*/
+	}
 	
 	/*
 	public void ajouter_image(Image image, Galerie galerie) {
@@ -138,8 +139,14 @@ public class Utilisateur {
 	
 	
 	public void liker(Image image) {
+		if (!like) {
 		image.set_like(image.get_like() +1);
 		System.out.println("Vous avez liké cette image!!");
+		like = true;
+		}
+		else
+			System.out.println(image.get_titre()+" déjà liké !");
+			
 	}
 	
 	public void afficher_infos() {

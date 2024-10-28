@@ -11,6 +11,7 @@ public class Administrateur extends Utilisateur {
 	
 	public Administrateur( String nom, String email, String password ) {
 		super( nom, email, password );
+		liste_user.remove(this);
 	}
 	
 	public void creer_Categorie(String nom, String Description) {
@@ -74,17 +75,13 @@ public class Administrateur extends Utilisateur {
         Image.imagescreer.remove(image);
         System.out.println("Vous avez supprimé l'image '" + image.get_titre() );
     }
-	
-	
-	    private List<Utilisateur> utilisateurs = new ArrayList<>();;
-  
 
-	    public void consulterUtilisateurs() {
-	        if (utilisateurs.isEmpty()) {
+	public void consulterUtilisateurs() {
+	        if (Utilisateur.liste_user.isEmpty()) {
 	            System.out.println("Aucun utilisateur enregistré.");
 	        } else {
-	            System.out.println("Liste des utilisateurs :");
-	            for (Utilisateur utilisateur : utilisateurs) {
+	            System.out.println("\n ♂ Liste des utilisateurs :");
+	            for (Utilisateur utilisateur : liste_user) {
 	                System.out.println("- " + utilisateur.get_nom() + " | Statut : "  + (suspendu ? "Suspendu" : "Actif"));
 	            }
 	        }
@@ -92,8 +89,8 @@ public class Administrateur extends Utilisateur {
 
 	    public void ajouterUtilisateur(String nom,String email, String password) {
 	        Utilisateur utilisateur = new Utilisateur( nom , email,  password);
-	        if (!utilisateurs.contains(utilisateur)) {
-	            utilisateurs.add(utilisateur);
+	        if (!liste_user.contains(utilisateur)) {
+	        	liste_user.add(utilisateur);
 	            System.out.println("L'utilisateur '" + utilisateur.get_nom() + "' a été ajouté.");
 	        } else {
 	            System.out.println("Utilisateur déjà présent.");
@@ -101,7 +98,7 @@ public class Administrateur extends Utilisateur {
 	    }
 
 	    public void modifierUtilisateur(Utilisateur utilisateur, String newNom, String newPassword) {
-	        if (utilisateurs.contains(utilisateur)) {
+	        if (liste_user.contains(utilisateur)) {
 	            utilisateur.set_nom(newNom);
 	            utilisateur.set_password(newPassword);
 	            System.out.println("Les informations de l'utilisateur '" + utilisateur.get_nom() + "' ont été mises à jour.");

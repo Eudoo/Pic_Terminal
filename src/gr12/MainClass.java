@@ -54,6 +54,7 @@ public class MainClass {
         
         Paul.telecharger(image1);
         Paul.liker(image1);
+        image1.afficher_propriete();
         Paul.get_galerie().afficherImages();
 
         // Test de recherche d'image par mot-clé
@@ -66,7 +67,8 @@ public class MainClass {
         admin.modifier_Categorie(categorie1, "Nature et Paysages", "Photos de paysages naturels");
         categorie1.afficher_categorie();
         admin.afficher_toutes_categorie();
-
+        admin.ajouterUtilisateur("Olade","Olade@gmail.com","Ok" );
+        admin.consulterUtilisateurs();
 	}
 
 }
