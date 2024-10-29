@@ -1,8 +1,11 @@
 package gr12;
 
+import java.io.Serializable;
+import java.util.Scanner;
 import java.util.ArrayList;
 
-public class Utilisateur {
+public class Utilisateur implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private static int id_compteur = 0;
 	private int id_user;
 	protected String nom;
@@ -155,10 +158,53 @@ public class Utilisateur {
 		System.out.println("Email : "+ get_email());
 		System.out.println("Suspendu : "+ get_suspendu());
 	}
-
-
 	
+	public static void sinscrire() {
+        Scanner scanner = new Scanner(System.in);
+        
+        System.out.println("\n=== INSCRIPTION ===");
+        System.out.print("Entrez votre nom : ");
+        String nom = scanner.nextLine();
+        
+        System.out.print("Entrez votre email : ");
+        String email = scanner.nextLine();
+        
+        System.out.print("Entrez votre mot de passe : ");
+        String password = scanner.nextLine();
 
+        if (verifier_email(email)) {
+            System.out.println("L'email existe déjà");
+        } else {
+            Utilisateur new_user = new Utilisateur(nom, email, password);
+            liste_user.add(new_user);
+            UserFileManager.saveUsers();
+            System.out.println("Inscription réussie!");
+            System.out.println("Bienvenue " + nom + "!");
+        }
+    }
 
+    public static Utilisateur se_connecter() {
+        Scanner scanner = new Scanner(System.in);
+        
+        System.out.println("\n=== CONNEXION ===");
+        System.out.print("Entrez votre email : ");
+        String email = scanner.nextLine();
+        
+        System.out.print("Entrez votre mot de passe : ");
+        String password = scanner.nextLine();
+
+        UserFileManager.loadUsers();
+
+        for (Utilisateur utilisateur : liste_user) {
+            if (utilisateur.get_email().equals(email) && 
+                utilisateur.get_password().equals(password)) {
+                System.out.println("Connexion réussie!");
+                System.out.println("Bienvenue " + utilisateur.get_nom() + "!");
+                return utilisateur;
+            }
+        }
+        System.out.println("Email ou mot de passe incorrect");
+        return null;
+    }
 	
 }

@@ -1,8 +1,10 @@
 package gr12;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Galerie {
+public class Galerie implements Serializable {
+	private static final long serialVersionUID = 1L;
 
 	private int id_galerie;
 	private String nom_galerie;

@@ -1,5 +1,5 @@
 package gr12;
-
+/*
 import java.util.List;
 
 public class MainClass {
@@ -71,5 +71,37 @@ public class MainClass {
         admin.consulterUtilisateurs();
         image1.modifier_catégorie(Categorie.categories);
 	}
-
 }
+*/
+
+
+import java.util.Scanner;
+
+public class MainClass {
+    public static void main(String[] args) {
+        // Charger les utilisateurs au démarrage
+        UserFileManager.loadUsers();
+        
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("1. Inscription\n2. Connexion");
+        System.out.print("Veuillez entrer un chiffre pour faire un choix: ");
+        int choix = scanner.nextInt();
+        scanner.nextLine(); // Consommer la ligne restante
+
+        if (choix == 1) {
+            Utilisateur.sinscrire();
+        } else if (choix == 2) {
+            Utilisateur utilisateur = Utilisateur.se_connecter();
+            if (utilisateur != null) {
+                // Actions possibles après connexion réussie
+                utilisateur.afficher_infos();
+            }
+        }
+
+        // Sauvegarder les utilisateurs avant de fermer
+        UserFileManager.saveUsers();
+    }
+}
+
+
+
