@@ -6,8 +6,8 @@ import java.util.ArrayList;
 
 public class Utilisateur implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private static int id_compteur = 0;
-	private int id_user;
+	private int id_compteur = 1;
+	private  int id_user;
 	protected String nom;
 	protected String email;
 	protected String password;
@@ -19,13 +19,17 @@ public class Utilisateur implements Serializable {
 	
 	// Constructeur
 	public Utilisateur(String nom, String email, String password) {
-		this.id_user = ++id_compteur; ;
+		this.id_user = id_compteur; 
 		this.nom = nom;
 		this.email = email;
 		this.password = password; 
 		this.suspendu = false;
 		this.set_galerie(new Galerie(nom));
 		liste_user.add(this);
+		//if (id_user >= id_compteur) {
+			//id_compteur = id_user + 1;
+		//}
+		
 	}
 
 
@@ -157,6 +161,8 @@ public class Utilisateur implements Serializable {
 		System.out.println("Nom : "+ get_nom());
 		System.out.println("Email : "+ get_email());
 		System.out.println("Suspendu : "+ get_suspendu());
+		System.out.print("");
+		galerie.afficherImages();
 	}
 	
 	public static void sinscrire() {
@@ -175,11 +181,14 @@ public class Utilisateur implements Serializable {
         if (verifier_email(email)) {
             System.out.println("L'email existe déjà");
         } else {
+        	
             Utilisateur new_user = new Utilisateur(nom, email, password);
             liste_user.add(new_user);
             UserFileManager.saveUsers();
             System.out.println("Inscription réussie!");
-            System.out.println("Bienvenue " + nom + "!");
+            se_connecter();
+            //utilisateur.id_compteur = id_compteur +1 ;
+            //System.out.println("Bienvenue " + nom + "!");
         }
     }
 
@@ -200,6 +209,7 @@ public class Utilisateur implements Serializable {
                 utilisateur.get_password().equals(password)) {
                 System.out.println("Connexion réussie!");
                 System.out.println("Bienvenue " + utilisateur.get_nom() + "!");
+                utilisateur.afficher_infos();
                 return utilisateur;
             }
         }

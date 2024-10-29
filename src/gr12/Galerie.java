@@ -37,6 +37,7 @@ public class Galerie implements Serializable {
     }
 	
 	public void afficherImages() {
+		System.out.println("\n♂ Galerie de " + nom_galerie + ":");
         if (images.isEmpty()) {
             System.out.println("\nAucune image dans la galerie.");
         } else {
