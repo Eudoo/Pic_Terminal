@@ -5,11 +5,11 @@ import java.util.List;
 public class MainClass {
 
 	public static void main(String[] args) {
-		
+		Utilisateur.chargerUtilisateursDepuisFichier();
+		Administrateur admin = new Administrateur("Admin","Admin@gmail.com","ADMIN");
 		Utilisateur Paul = new Utilisateur("Eudes", "eud@gmail.com", "salsa");
-		Administrateur admin = new Administrateur("Eudes", "eud@gmail.com", "salsa");
-		admin.suspendreUtilisateur(Paul);
-		admin.consulterUtilisateurs();
+		
+		//admin.suspendreUtilisateur(Paul);
 		Paul.afficher_infos();
 		
         // Création de catégories
@@ -67,9 +67,15 @@ public class MainClass {
         admin.modifier_Categorie(categorie1, "Nature et Paysages", "Photos de paysages naturels");
         categorie1.afficher_categorie();
         admin.afficher_toutes_categorie();
-        admin.ajouterUtilisateur("Olade","Olade@gmail.com","Ok" );
-        admin.consulterUtilisateurs();
-        image1.modifier_catégorie(Categorie.categories);
+        Administrateur.ajouterUtilisateur("Olade","Olade@gmail.com","Ok" );
+        //image1.modifier_catégorie(Categorie.categories);
+        Administrateur.inscription();
+        //admin.consulterUtilisateurs();
+        admin.modifierStatutUtilisateur(3);
+        admin.afficherUtilisateurs();
+        //admin.suspendreUtilisateur(admin);
+        
+       
 	}
 
 }

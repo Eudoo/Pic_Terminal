@@ -1,8 +1,15 @@
 package gr12;
 
 import java.util.List;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.Iterator;
 
 public class Administrateur extends Utilisateur {
@@ -11,7 +18,6 @@ public class Administrateur extends Utilisateur {
 	
 	public Administrateur( String nom, String email, String password ) {
 		super( nom, email, password );
-		liste_user.remove(this);
 	}
 	
 	public void creer_Categorie(String nom, String Description) {
@@ -75,19 +81,25 @@ public class Administrateur extends Utilisateur {
         Image.imagescreer.remove(image);
         System.out.println("Vous avez supprimé l'image '" + image.get_titre() );
     }
-
-	public void consulterUtilisateurs() {
-	        if (Utilisateur.liste_user.isEmpty()) {
-	            System.out.println("Aucun utilisateur enregistré.");
-	        } else {
-	            System.out.println("\n ♂ Liste des utilisateurs :");
-	            for (Utilisateur utilisateur : liste_user) {
-	                System.out.println("- " + utilisateur.get_nom() + " | Statut : "  + (suspendu ? "Suspendu" : "Actif"));
+	
+	public void afficherUtilisateurs() {
+	    if (Utilisateur.liste_user.isEmpty()) {
+	        System.out.println("Aucun utilisateur enregistré.");
+	    } else {
+	        System.out.println("\n♂ Liste des utilisateurs :");
+	        for (Utilisateur utilisateur : Utilisateur.liste_user) {
+	            // Récupérer le statut de l'utilisateur
+	        	if (utilisateur.id_user !=1) {
+		        	String statut = utilisateur.suspendu ? "Suspendu" : "Actif";
+		            // Afficher le nom et le statut
+		            System.out.println("- Nom : " + utilisateur.get_nom() + " | Statut : " + statut);
 	            }
 	        }
 	    }
+	}
 
-	    public void ajouterUtilisateur(String nom,String email, String password) {
+
+	    public static void ajouterUtilisateur(String nom,String email, String password) {
 	        Utilisateur utilisateur = new Utilisateur( nom , email,  password);
 	        if (!liste_user.contains(utilisateur)) {
 	        	liste_user.add(utilisateur);
@@ -106,16 +118,6 @@ public class Administrateur extends Utilisateur {
 	            System.out.println("Utilisateur non trouvé.");
 	        }
 	    }
-
-	    public void suspendreUtilisateur(Utilisateur utilisateur) {
-	        if (utilisateur.suspendu == false) {
-	            utilisateur.set_suspendu(true);
-	            System.out.println("L'utilisateur '" + utilisateur.get_nom() + "' a été suspendu.");
-	        } else {
-	            System.out.println("L'utilisateur est déjà suspendu.");
-	        }
-	    }
-
 	    public void supprimerUtilisateur(Utilisateur utilisateur) {
 	        if (liste_user.contains(utilisateur)) {
 	            liste_user.remove(utilisateur);
@@ -180,6 +182,78 @@ public class Administrateur extends Utilisateur {
             img.afficher_propriete();
         }
 	}
+	
+	public static boolean emailExistant(String email) {
+	    for (Utilisateur utilisateur : liste_user) {
+	        if (utilisateur.get_email().equals(email)) {
+	            return true; // L'email existe déjà
+	        }
+	    }
+	    return false; // L'email n'existe pas
+	}
+	
+	public static void modifierStatutUtilisateur(int id) {
+	    boolean utilisateurTrouve = false;
+	    StringBuilder contenuFichier = new StringBuilder(); // Contenu du fichier à sauvegarder
+
+	    for (Utilisateur utilisateur : liste_user) {
+            if (utilisateur.id_user == id) {
+                utilisateurTrouve = true;
+                utilisateur.suspendu = !utilisateur.suspendu; // Inverse le statut
+                break;
+            }
+        }
+
+	    // Lire le fichier et mettre à jour le statut si l'utilisateur est trouvé
+	    try (BufferedReader reader = new BufferedReader(new FileReader("utilisateurs.txt"))) {
+	        String ligne;
+	        while ((ligne = reader.readLine()) != null) {
+	            String[] donnees = ligne.split(",");
+	            if (Integer.parseInt(donnees[0].trim()) == id) {
+	                // Inverse le statut de l'utilisateur trouvé
+	                boolean nouveauStatut = !donnees[4].trim().equalsIgnoreCase("Suspendu");
+	                ligne = donnees[0] + "," + donnees[1] + "," + donnees[2] + "," + donnees[3] + "," + (nouveauStatut ? "Suspendu" : "Actif");
+	                System.out.println("Statut de l'utilisateur " + donnees[1] + " mis à jour en : " + (nouveauStatut ? "Suspendu" : "Actif"));
+	                utilisateurTrouve = true; // Utilisateur trouvé
+	            }
+	            // Ajoute la ligne modifiée ou inchangée au contenu du fichier
+	            contenuFichier.append(ligne).append("\n");
+	        }
+	    } catch (IOException e) {
+	        System.out.println("Erreur lors de la lecture du fichier : " + e.getMessage());
+	        return; // Quitte la méthode en cas d'erreur
+	    }
+
+	    // Vérifier si l'utilisateur a été trouvé
+	    if (!utilisateurTrouve) {
+	        System.out.println("Aucun utilisateur trouvé avec l'ID : " + id);
+	        return; // Quitte la méthode si l'utilisateur n'est pas trouvé
+	    }
+
+	    // Réécrire le fichier avec les informations mises à jour
+	    try (FileWriter writer = new FileWriter("utilisateurs.txt", false)) { // Utilise false pour écraser le fichier
+	        writer.write(contenuFichier.toString());
+	        System.out.println("Fichier 'utilisateurs.txt' mis à jour.");
+	    } catch (IOException e) {
+	        System.out.println("Erreur lors de la mise à jour du fichier : " + e.getMessage());
+	    }
+	}
+
+
+
+    // Sauvegarder tous les utilisateurs dans le fichier texte
+	public static void sauvegarderListeUtilisateurs() {
+        try (FileWriter writer = new FileWriter("utilisateurs.txt", false)) { // 'false' pour écraser le fichier
+            for (Utilisateur utilisateur : liste_user) {
+                writer.write(Utilisateur.id_user + "," + utilisateur.nom + "," + utilisateur.email + "," + utilisateur.password + "," + (utilisateur.suspendu ? "Suspendu" : "Actif") + "\n");
+            }
+            System.out.println("Fichier 'utilisateurs.txt' mis à jour.");
+        } catch (IOException e) {
+            System.out.println("Erreur lors de la mise à jour du fichier : " + e.getMessage());
+        }
+    }
+	
+	
 }
 
 
