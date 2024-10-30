@@ -22,6 +22,49 @@ public class Statistique {
 	}
 	
 	
+	// Accesseurs
+	public int get_nbre_total_image() {
+		return this.nbre_total_image;
+	}
+	
+	
+	public int get_nbre_telechargement() {
+		return this.nbre_telechargement;
+	}
+	
+	
+	public ArrayList<ArrayList<Object>> get_image_par_cat() {
+		return this.image_par_cat;
+	}
+	
+	
+	public ArrayList<Image> get_image_populaire() {
+		return this.image_populaire;
+	}
+	
+	
+	
+	// Mutateurs
+	public void set_nbre_total_image(int val) {
+		this.nbre_total_image = val;
+	}
+	
+	
+	public void set_nbre_telechargement(int val) {
+		this.nbre_telechargement = val;
+	}
+	
+	
+	public void set_image_par_cat(ArrayList<ArrayList<Object>> val) {
+		this.image_par_cat = val;
+	}
+	
+	
+	public void set_image_populaire(ArrayList<Image> val) {
+		this.image_populaire = val;
+	}
+	
+	
 	public  ArrayList<ArrayList<Object>> telechargements_categorie() {
 		ArrayList<ArrayList<Object>> img_par_cat = new ArrayList<>();
 		for (Categorie categorie : Categorie.categories) {
