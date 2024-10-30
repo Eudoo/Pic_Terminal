@@ -7,7 +7,7 @@ import java.util.Iterator;
 
 public class Image {
 	
-	private static int idcompt = 0;
+	public static int idcompt = 0;
 	public static List<Image> imagescreer = new ArrayList<>();
     private int id_image;
 	private String Nomfichier ;
