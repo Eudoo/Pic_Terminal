@@ -1,4 +1,8 @@
 package gr12;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Iterator;
@@ -8,7 +12,7 @@ import java.util.Iterator;
 public class Categorie {
 
     //Les attribut
-    private static int id_compteur = 0;
+    private static int idcompteur = 1;
     private int id;
     private String nom_categorie;
     private String description;
@@ -20,39 +24,46 @@ public class Categorie {
     //Constructeur
         // Par defaut
         public Categorie() {
-            this.id = ++id_compteur;
+        	chargercateDernierID();
+            this.id = idcompteur++;
             this.nom_categorie = "Catégorie par défaut";
             this.description = "Description par défaut";
             this.images = new ArrayList<>(); // Liste vide
             Categorie.categories.add(this);
+            sauvegardercateDernierID();
         }
         // Constructeur avec id et nom de la catégorie
         public Categorie(String nomCategorie) {
-        	this.id = ++id_compteur;
+        	chargercateDernierID();
+        	this.id = idcompteur++;
             this.nom_categorie = nomCategorie;
             this.description = "Pas de description";
             this.images = new ArrayList<>();
-            this.categories.add(this);
+            Categorie.categories.add(this);
+            sauvegardercateDernierID();
         }
         // Constructeur avec id, nom et description
         public Categorie(String nomCategorie, String Description) {
-        	this.id = ++id_compteur;
+        	chargercateDernierID();
+        	this.id = idcompteur++;
             this.nom_categorie = nomCategorie;
             this.description = Description;
             this.images = new ArrayList<>();
-            this.categories.add(this);
+            Categorie.categories.add(this);
+            sauvegardercateDernierID();
         }
         // Constructeur avec id, nom, description et images
         public Categorie(String nomCategorie, String Description, List<Image> Images) {
-        	this.id = ++id_compteur;
+        	chargercateDernierID();
+        	this.id = idcompteur++;
             this.nom_categorie = nomCategorie;
             this.description = Description;
             this.images = Images; 
-            this.categories.add(this);
+            Categorie.categories.add(this);
         }
         // Constructeur de copie
         public Categorie(Categorie original) {
-            this.id = original.id;
+        	this.id = original.id;
             this.nom_categorie = original.nom_categorie;
             this.description = original.description;
             this.images = new ArrayList<>(original.images); 
@@ -77,9 +88,6 @@ public class Categorie {
         }
     
     //Les Setters
-        public void set_idCategorie(int idCategorie) {
-            this.id = idCategorie;
-        }
         public void set_nom_Categorie(String nomCategorie) {
             this.nom_categorie = nomCategorie;
         }
@@ -132,6 +140,25 @@ public class Categorie {
                 for (Image image : images) { 
                 	image.afficher_propriete();
                 }
+            }
+        }
+        
+        public static void chargercateDernierID() {
+            try (BufferedReader reader = new BufferedReader(new FileReader("idcat.txt"))) {
+                String lastId = reader.readLine();
+                if (lastId != null) {
+                    idcompteur = Integer.parseInt(lastId.trim());
+                }
+            } catch (IOException e) {
+                System.out.println("Erreur lors du chargement de l'ID : " + e.getMessage());
+            }
+        }
+        
+        public static void sauvegardercateDernierID() {
+            try (FileWriter writer = new FileWriter("idcat.txt", false)) {
+                writer.write(String.valueOf(idcompteur));
+            } catch (IOException e) {
+                System.out.println("Erreur lors de la sauvegarde de l'ID : " + e.getMessage());
             }
         }
 

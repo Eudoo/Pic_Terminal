@@ -66,10 +66,6 @@ public class Utilisateur implements Serializable {
 
 	// Mutateurs
 	
-	public void set_id_user(int val) {
-		this.id_user = val;
-		UserFileManager.saveUsers();
-	}
 	public void set_nom(String val) {
 		this.nom = val;
 		UserFileManager.saveUsers();
@@ -228,7 +224,7 @@ public class Utilisateur implements Serializable {
     }
     
     public static void chargerDernierID() {
-        try (BufferedReader reader = new BufferedReader(new FileReader("id_counter.txt"))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader("iduser.txt"))) {
             String lastId = reader.readLine();
             if (lastId != null) {
                 id = Integer.parseInt(lastId.trim());
@@ -239,7 +235,7 @@ public class Utilisateur implements Serializable {
     }
     
     public static void sauvegarderDernierID() {
-        try (FileWriter writer = new FileWriter("id_counter.txt", false)) {
+        try (FileWriter writer = new FileWriter("iduser.txt", false)) {
             writer.write(String.valueOf(id));
         } catch (IOException e) {
             System.out.println("Erreur lors de la sauvegarde de l'ID : " + e.getMessage());

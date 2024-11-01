@@ -3,11 +3,15 @@ package gr12;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.Iterator;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Serializable;
 
-public class Image {
-	
-	private static int idcompt = 0;
+public class Image implements Serializable {
+	protected static final long serialVersionUID = 1L;
+	private static int idcompt = 1;
 	public static List<Image> imagescreer = new ArrayList<>();
     private int id_image;
 	private String Nomfichier ;
@@ -23,7 +27,8 @@ public class Image {
 
 //constructeur par défaut
 	public Image(){
-		this.id_image = ++idcompt;
+		chargerimageDernierID();
+		this.id_image = idcompt++;
 		this.Nomfichier = "Unknown.Img";
 		this.titre = "Unknown";
 		this.description = "No describ";
@@ -33,10 +38,12 @@ public class Image {
 		this.nbre_Telechargement = 0;
 		this.telecharger = false;
 		imagescreer.add(this);
+		sauvegarderimageDernierID();
 		
 	}
 	public Image(String Nf, String Ttr) {
-		this.id_image = ++idcompt;
+		chargerimageDernierID();
+		this.id_image = idcompt++;
 		this.Nomfichier = Nf;
 		this.titre = Ttr;
 		this.description = "No describ";
@@ -46,12 +53,14 @@ public class Image {
 		this.nbre_Telechargement = 0;
 		this.telecharger = false;
 		imagescreer.add(this);
+		sauvegarderimageDernierID();
 	}
 	
 //constructeur all
 	public Image (String Nf, String Ttr,String descrip, boolean Estpublc,
 		boolean Stat, int like, int nbre_te, boolean down) {
-		this.id_image = ++idcompt;
+		chargerimageDernierID();
+		this.id_image = idcompt++;
 		this.Nomfichier = Nf;
 		this.titre = Ttr;
 		this.description = descrip;
@@ -61,6 +70,7 @@ public class Image {
 		this.nbre_Telechargement = nbre_te;
 		this.telecharger = down;
 		imagescreer.add(this);
+		sauvegarderimageDernierID();
 		
 	}
 
@@ -131,6 +141,32 @@ public class Image {
 	   System.out.println("catégorie introuvable");{}
    }
 
+   
+   public static void chargerimageDernierID() {
+       try (BufferedReader reader = new BufferedReader(new FileReader("idimage.txt"))) {
+           String lastId = reader.readLine();
+           if (lastId != null) {
+               idcompt = Integer.parseInt(lastId.trim());
+           }
+       } catch (IOException e) {
+           System.out.println("Erreur lors du chargement de l'ID : " + e.getMessage());
+       }
+   }
+   
+   public static void sauvegarderimageDernierID() {
+       try (FileWriter writer = new FileWriter("idimage.txt", false)) {
+           writer.write(String.valueOf(idcompt));
+       } catch (IOException e) {
+           System.out.println("Erreur lors de la sauvegarde de l'ID : " + e.getMessage());
+       }
+   }
+	
+   
+   
+   
+   
+   
+   
 	 // les getters
 	public String get_nomfichier(){
 	 return Nomfichier;}
@@ -171,9 +207,6 @@ public class Image {
     public void set_nomfichier(String val){
 	   this.Nomfichier = val;}
 	
-    public void  set_id(int val){
-	   this.id_image = val ;}
-	
     public void set_Titre(String val){
 		 this.titre = val;}
     
@@ -198,4 +231,7 @@ public class Image {
 	
 	public void set_telecharger(boolean val){
 		this.telecharger= val;}
+
+
+
 }
