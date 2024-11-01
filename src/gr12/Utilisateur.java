@@ -1,12 +1,16 @@
 package gr12;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Scanner;
 import java.util.ArrayList;
 
 public class Utilisateur implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private int id_compteur = 1;
+	private static int id = 1;
 	private  int id_user;
 	protected String nom;
 	protected String email;
@@ -19,13 +23,16 @@ public class Utilisateur implements Serializable {
 	
 	// Constructeur
 	public Utilisateur(String nom, String email, String password) {
-		this.id_user = id_compteur; 
+		chargerDernierID(); 
+		this.id_user = id++; 
 		this.nom = nom;
 		this.email = email;
 		this.password = password; 
 		this.suspendu = false;
 		this.set_galerie(new Galerie(nom));
 		liste_user.add(this);
+		UserFileManager.saveUsers();
+		sauvegarderDernierID();
 		//if (id_user >= id_compteur) {
 			//id_compteur = id_user + 1;
 		//}
@@ -61,25 +68,32 @@ public class Utilisateur implements Serializable {
 	
 	public void set_id_user(int val) {
 		this.id_user = val;
+		UserFileManager.saveUsers();
 	}
 	public void set_nom(String val) {
 		this.nom = val;
+		UserFileManager.saveUsers();
 	}
 	public void set_email(String val) {
 		this.email = val;
+		UserFileManager.saveUsers();
 	}	
 	public void set_password(String val) {
 		this.password = val;
+		UserFileManager.saveUsers();
 	}
 	public void set_suspendu(boolean suspendu) {
         this.suspendu = suspendu;
+        UserFileManager.saveUsers();
     }
 	
 	public void set_favoris(ArrayList<Image> val) {
 		this.favoris = val;
+		UserFileManager.saveUsers();
 	}
 	public void set_galerie(Galerie galerie) {
 		this.galerie = galerie;
+		UserFileManager.saveUsers();
 	}
 
 	
@@ -95,28 +109,6 @@ public class Utilisateur implements Serializable {
 	}
 	
 	
-	public static void sinscrire(String nom, String email, String password) {
-		if (verifier_email(email)) {
-			System.out.println("L'email existe déjà");
-		}
-		else {
-			Utilisateur new_user = new Utilisateur(nom, email, password);
-			liste_user.add(new_user);
-			System.out.println("Inscription reussie");
-		}
-	}
-	
-	
-	public static void se_connecter(String email, String password) {
-		for (Utilisateur utilisateur : liste_user) {
-            if (utilisateur.get_email().equals(email) && utilisateur.get_password().equals(password)) {
-                System.out.println("Vous êtes connectés");
-            }  
-            
-            System.out.println("Mot de passe ou email incorrect ");
-        }
-	}
-	
 	/*
 	public void ajouter_image(Image image, Galerie galerie) {
 		galerie.ajouter_image(image);
@@ -126,12 +118,15 @@ public class Utilisateur implements Serializable {
 	
 	public void ajouter_favori(Image image) {
 		favoris.add(image);
+		UserFileManager.saveUsers();
 		System.out.println("L'image " + image.get_titre() + " a été ajoutée à vos favoris ");
 	}
 	
 	
 	public void retirer_favori(Image image) {
 		favoris.remove(image);
+		UserFileManager.saveUsers();
+		UserFileManager.loadUsers();
 		System.out.println("L'image " + image.get_titre() + " a été retirée de vos favoris ");
 	}
 	
@@ -140,6 +135,8 @@ public class Utilisateur implements Serializable {
 		image.set_nbr_telechargement(image.get_nbr_telechargement() +1);
 		image.set_telecharger(true);
 		galerie.ajouter_image(image);
+		UserFileManager.saveUsers();
+		UserFileManager.loadUsers();
 		System.out.println("L'image " + image.get_titre() + " a été téléchargée.");
 		
 	}
@@ -157,12 +154,18 @@ public class Utilisateur implements Serializable {
 	}
 	
 	public void afficher_infos() {
+		//UserFileManager.loadUsers();
 		System.out.println("\nId : "+ get_id_user());
 		System.out.println("Nom : "+ get_nom());
 		System.out.println("Email : "+ get_email());
-		System.out.println("Suspendu : "+ get_suspendu());
-		System.out.print("");
-		galerie.afficherImages();
+		if(suspendu==false) {
+			  System.out.println("Statut : Actif");
+		}
+		else {
+			System.out.println("Statut : Suspendu");
+		}
+		System.out.println("Galerie de "+get_nom());
+		this.galerie.afficherImages();;
 	}
 	
 	public static void sinscrire() {
@@ -187,8 +190,8 @@ public class Utilisateur implements Serializable {
             UserFileManager.saveUsers();
             System.out.println("Inscription réussie!");
             se_connecter();
-            //utilisateur.id_compteur = id_compteur +1 ;
-            //System.out.println("Bienvenue " + nom + "!");
+            
+            
         }
     }
 
@@ -215,6 +218,32 @@ public class Utilisateur implements Serializable {
         }
         System.out.println("Email ou mot de passe incorrect");
         return null;
+    }
+    
+    public void setuser(boolean status) {
+        this.suspendu = status;
+        UserFileManager.saveUsers(); // Sauvegarde dans le fichier après la mise à jour
+        System.out.println("Le statut de l'utilisateur " + nom + " a été mis à jour : " + (suspendu ? "Actif" : "Suspendu"));
+        UserFileManager.loadUsers();
+    }
+    
+    public static void chargerDernierID() {
+        try (BufferedReader reader = new BufferedReader(new FileReader("id_counter.txt"))) {
+            String lastId = reader.readLine();
+            if (lastId != null) {
+                id = Integer.parseInt(lastId.trim());
+            }
+        } catch (IOException e) {
+            System.out.println("Erreur lors du chargement de l'ID : " + e.getMessage());
+        }
+    }
+    
+    public static void sauvegarderDernierID() {
+        try (FileWriter writer = new FileWriter("id_counter.txt", false)) {
+            writer.write(String.valueOf(id));
+        } catch (IOException e) {
+            System.out.println("Erreur lors de la sauvegarde de l'ID : " + e.getMessage());
+        }
     }
 	
 }

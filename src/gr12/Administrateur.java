@@ -114,6 +114,8 @@ public class Administrateur extends Utilisateur {
 	        } else {
 	            System.out.println("L'utilisateur est déjà suspendu.");
 	        }
+	        UserFileManager.saveUsers();
+	        UserFileManager.loadUsers();
 	    }
 
 	    public void supprimerUtilisateur(Utilisateur utilisateur) {
