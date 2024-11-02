@@ -108,20 +108,12 @@ public class Image implements Serializable {
    /**les modifications de propriété possibles sont: le nom du fichier , sa catégorie et le titre**/
 //Modification du nom
    public void modifier_nom(String Newname) {
-	   Scanner scanner = new Scanner(System.in);
-	   System.out.println("Veuillez entrer le nouveau nom:");
-	   Newname = scanner.nextLine();
 	   this.Nomfichier=Newname;
-	   scanner.close();
 	  }
 //modification titre   
    
    public void modifier_titre(String Newtitle) {
-	   Scanner scanner = new Scanner(System.in);
-	   System.out.println("Veuillez entrer le nouveau title:");
-	   Newtitle = scanner.nextLine();
-	   this.titre=Newtitle;
-	   scanner.close();
+	   this.titre= Newtitle;
 	   }
 	
    
@@ -231,7 +223,20 @@ public class Image implements Serializable {
 	
 	public void set_telecharger(boolean val){
 		this.telecharger= val;}
+	
+	
+	@Override
+	public boolean equals(Object obj) {
+	    if (this == obj) return true;
+	    if (obj == null || getClass() != obj.getClass()) return false;
+	    Image image = (Image) obj;
+	    return id_image == image.id_image; // Comparaison par ID unique
+	}
 
+	@Override
+	public int hashCode() {
+	    return Integer.hashCode(id_image); // Utilise l'ID unique pour le hashage
+	}
 
 
 }

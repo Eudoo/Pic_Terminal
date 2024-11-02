@@ -1,4 +1,6 @@
 package gr12;
+
+ ///  ########     1er MAIN    ########
 /*
 import java.util.List;
 
@@ -74,6 +76,8 @@ public class MainClass {
 }
 */
 
+
+///  ########     2eme MAIN    ########
 /*
 import java.util.Scanner;
 
@@ -106,6 +110,8 @@ public class MainClass {
 */
 
 
+///  ########     3eme MAIN    ########
+/*
 import java.util.List;
 
 public class MainClass {
@@ -151,6 +157,64 @@ public class MainClass {
         for (Categorie cat : categoriesRecharges) {
             cat.afficher_categorie();
         }
+    }
+}
+*/
+
+
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class MainClass {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Création de quelques catégories pour les tests
+        List<Categorie> categories = new ArrayList<>();
+        categories.add(new Categorie("Nature"));
+        categories.add(new Categorie("Technologie"));
+        categories.add(new Categorie("Art"));
+
+        // Création d'images avec différents constructeurs
+        Image img1 = new Image();
+        Image img2 = new Image("beach.jpg", "Plage");
+        Image img3 = new Image("mountain.jpg", "Montagne", "Image d'une montagne", true, true, 25, 10, true);
+
+        // Affichage des propriétés initiales
+        System.out.println("Affichage des images créées :");
+        img1.afficher_propriete();
+        img2.afficher_propriete();
+        img3.afficher_propriete();
+
+        // Modification des propriétés de l'image 1
+        System.out.println("\nModification des propriétés de l'image 1 :");
+        System.out.print("Entrez un nouveau nom de fichier pour l'image 1 : ");
+        String newName = scanner.nextLine();
+        img1.modifier_nom(newName);
+
+        System.out.print("Entrez un nouveau titre pour l'image 1 : ");
+        String newTitle = scanner.nextLine();
+        img1.modifier_titre(newTitle);
+
+        // Modification de la catégorie de l'image 2
+        System.out.println("\nModification de la catégorie de l'image 2 :");
+        img2.modifier_catégorie(categories);
+
+        // Affichage des propriétés après modification
+        System.out.println("\nPropriétés après modification :");
+        img1.afficher_propriete();
+        img2.afficher_propriete();
+        img3.afficher_propriete();
+
+        // Ajout de likes et téléchargements
+        System.out.println("\nMise à jour des statistiques de l'image 3 :");
+        img3.set_like(img3.get_like() + 5);
+        img3.set_nbr_telechargement(img3.get_nbr_telechargement() + 3);
+        img3.afficher_propriete();
+
+        scanner.close();
     }
 }
 
