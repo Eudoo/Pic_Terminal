@@ -74,7 +74,7 @@ public class MainClass {
 }
 */
 
-
+/*
 import java.util.Scanner;
 
 public class MainClass {
@@ -103,5 +103,55 @@ public class MainClass {
     }
 }
 
+*/
+
+
+import java.util.List;
+
+public class MainClass {
+    public static void main(String[] args) {
+        // Charger les catégories existantes au démarrage (si elles existent)
+        List<Categorie> categories = CategorieManager.chargerCategories();
+        System.out.println("Catégories chargées au démarrage:");
+        for (Categorie cat : categories) {
+            cat.afficher_categorie();
+        }
+
+        // Création de nouvelles catégories
+        System.out.println("\nCréation de nouvelles catégories:");
+        Categorie cat1 = new Categorie("Nature", "Photos de paysages et de la nature");
+        Categorie cat2 = new Categorie("Technologie", "Images de gadgets et d'innovations");
+        Categorie cat3 = new Categorie("Art", "Illustrations et œuvres d'art");
+
+        // Sauvegarde des nouvelles catégories après création
+        CategorieManager.sauvegarderCategories(Categorie.categories);
+
+        // Affichage des catégories après ajout
+        System.out.println("\nCatégories après ajout:");
+        for (Categorie cat : Categorie.categories) {
+            cat.afficher_categorie();
+        }
+
+        // Suppression d'une catégorie
+        System.out.println("\nSuppression de la catégorie 'Technologie':");
+        cat2.supprimer_image(new Image()); // Exemple de suppression d'une image (à remplacer avec une image existante dans la catégorie)
+
+        // Sauvegarde des catégories après suppression
+        CategorieManager.sauvegarderCategories(Categorie.categories);
+
+        // Affichage des catégories après suppression
+        System.out.println("\nCatégories après suppression:");
+        for (Categorie cat : Categorie.categories) {
+            cat.afficher_categorie();
+        }
+
+        // Vérification du chargement des catégories depuis le fichier
+        System.out.println("\nRechargement des catégories depuis le fichier:");
+        List<Categorie> categoriesRecharges = CategorieManager.chargerCategories();
+        for (Categorie cat : categoriesRecharges) {
+            cat.afficher_categorie();
+        }
+    }
+}
 
 
