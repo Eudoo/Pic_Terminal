@@ -1,0 +1,116 @@
+package gr12;
+import java.lang.Integer;
+
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.ArrayList;
+import java.util.List;
+
+
+
+public class Statistique {
+	
+	private int imagetotal;
+	private List<Object[]> imagepop =new ArrayList<>() ;
+	private List<List<Image>> nbre_img_parcat;
+	public static List<Categorie> categories = new ArrayList<>();
+	private int nbre_telechargement ;
+	private int nbre_users;
+	
+//Constructeurs
+	
+	public Statistique() {
+		
+		
+	this.imagetotal = Image.imagescreer.size();
+		
+		
+		this.nbre_img_parcat = null;
+		this.categories = Categorie.categories;
+		this.nbre_users = 0;
+		};
+	
+		
+
+
+
+
+
+
+
+
+//Autres méthodes
+		public void affiche_statistique() {
+			System.out.println("Le nombre d'image total = " +imagetotal);
+			System.out.println("les images par popularité " +imagepop);
+			System.out.println("Le nombres images par catégories : " +nbre_img_parcat);
+			System.out.println("Les catégories présents :" +categories);
+			System.out.println("le nombre d'utilisateurs :" +nbre_users);
+		};
+		
+		
+		
+	
+	   public void image_populaire() {	
+		   Object[]row = new Object[2];
+		for(int j=0;j<Image.imagescreer.size();j++) {
+			
+				row[0] = Image.imagescreer.get(j).get_titre();
+				row[1] = Image.imagescreer.get(j).get_like();
+			imagepop.add(row);}
+		System.out.println(""+imagepop);
+		 Collections.sort(imagepop, new Comparator<Object[]>() {
+				@Override public int compare(Object[] row1 , Object[] row2) {
+					Integer likes1=(Integer) row1[1];
+					Integer likes2 = (Integer) row2[1];
+					return Integer.compare(likes2 , likes1);}
+				
+			});
+	
+			System.out.println(""+imagepop);
+			// Affichage du résultat pour vérifier le tri
+			System.out.println("=========================================");
+			System.out.println("| Titre                | Likes         |");
+			System.out.println("=========================================");
+			for (int i =0;i<imagepop.size();i++) {
+			    String titre = (String) row[0];
+			    int likes = (int) row[1];
+			    
+			    // Affichage formaté avec padding pour aligner les colonnes
+			    System.out.printf("| %-20s | %-12d |\n", titre, likes);
+			}
+			System.out.println("=========================================");
+			};
+	public int getImagetotal() {
+		return imagetotal;
+	}
+	public void setImagetotal(int imagetotal) {
+		this.imagetotal = imagetotal;
+	}
+	/**public List<Image> getImagepop() {
+		return imagepop;
+	}
+	public void setImagepop(List<Image> imagepop) {
+		this.imagepop = imagepop;
+	}**/
+	public List<List<Image>> getNbre_img_parcat() {
+		return nbre_img_parcat;
+	}
+	public void setNbre_img_parcat(List<List<Image>> nbre_img_parcat) {
+		this.nbre_img_parcat = nbre_img_parcat;
+	}
+	public int getNbre_telechargement() {
+		return nbre_telechargement;
+	}
+	public void setNbre_telechargement(int nbre_telechargement) {
+		this.nbre_telechargement = nbre_telechargement;
+	}
+	public int getNbre_users() {
+		return nbre_users;
+	}
+	public void setNbre_users(int nbre_users) {
+		this.nbre_users = nbre_users;
+	}
+	
+
+}

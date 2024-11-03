@@ -1,0 +1,108 @@
+package gr12;
+
+import java.util.ArrayList;
+import java.util.List;
+
+
+public class Statistique {
+	
+	private int imagetotal;
+	private List<List<Image>> imagepop =new ArrayList<>() ;
+	private List<List<Image>> nbre_img_parcat;
+	public static List<Categorie> categories = new ArrayList<>();
+	private int nbre_telechargement ;
+	private int nbre_users;
+	
+//Constructeurs
+	
+	public Statistique() {
+		this.imagetotal = Image.imagescreer.get(Image.imagescreer.size()-1).get_id();
+		List<Image> row = new ArrayList<>();
+		for(int i=0;i<Image.imagescreer.size();i++) {
+		row.add(Image.imagescreer.get(i));
+		};
+		imagepop.add(row);
+		
+		
+		
+		this.nbre_img_parcat = null;
+		this.categories = Categorie.categories;
+		this.nbre_users = 0;
+		};
+	
+		
+
+
+
+
+
+
+
+
+//Autres méthodes
+		public void affiche_statistique() {
+			System.out.println("Le nombre d'image total = " +imagetotal);
+			System.out.println("les images par popularité " +imagepop);
+			System.out.println("Le nombres images par catégories : " +nbre_img_parcat);
+			System.out.println("Les catégories présents :" +categories);
+			System.out.println("le nombre d'utilisateurs :" +nbre_users);
+		};
+		
+		
+		
+	
+	//public List<Object[]> image_populaire() {
+		
+		//return imagepop;
+	//};
+	
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	public int getImagetotal() {
+		return imagetotal;
+	}
+	public void setImagetotal(int imagetotal) {
+		this.imagetotal = imagetotal;
+	}
+	public List<Image> getImagepop() {
+		return imagepop;
+	}
+	public void setImagepop(List<Image> imagepop) {
+		this.imagepop = imagepop;
+	}
+	public List<List<Image>> getNbre_img_parcat() {
+		return nbre_img_parcat;
+	}
+	public void setNbre_img_parcat(List<List<Image>> nbre_img_parcat) {
+		this.nbre_img_parcat = nbre_img_parcat;
+	}
+	public int getNbre_telechargement() {
+		return nbre_telechargement;
+	}
+	public void setNbre_telechargement(int nbre_telechargement) {
+		this.nbre_telechargement = nbre_telechargement;
+	}
+	public int getNbre_users() {
+		return nbre_users;
+	}
+	public void setNbre_users(int nbre_users) {
+		this.nbre_users = nbre_users;
+	}
+	
+
+}
