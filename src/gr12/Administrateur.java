@@ -58,13 +58,13 @@ public class Administrateur extends Utilisateur {
 	}
 
 	public void validerImage(Image image) {
-            image.set_stat(true); 
+            image.set_Statut(true); 
             System.out.println("Image '" + image.get_titre() + "' validée.");
     }
 	
 	 public void rejeterImage(Image image) {
-		 if (image.get_stat()) {
-	            image.set_stat(false); 
+		 if (image.get_Statut() == true) {
+			 	image.set_Statut(false); 
 	            System.out.println("L'image '" + image.get_titre() + "' a été rejetée.");
 	        } else {
 	            System.out.println("Image '" + image.get_titre() + "' est déjà rejetée.");

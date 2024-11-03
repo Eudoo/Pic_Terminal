@@ -31,14 +31,15 @@ public class Image implements Serializable {
 		this.id_image = idcompt++;
 		this.Nomfichier = "Unknown.Img";
 		this.titre = "Unknown";
-		this.description = "No describ";
+		this.description = "Pas de description";
 		this.Estpublic = true;
-		this.Statut = false;            
+		this.set_Statut(false);            
 		this.likes = 0;
 		this.nbre_Telechargement = 0;
 		this.telecharger = false;
 		imagescreer.add(this);
 		sauvegarderimageDernierID();
+		UserFileManager.sauvegarderImages(imagescreer);
 		
 	}
 	public Image(String Nf, String Ttr) {
@@ -48,12 +49,13 @@ public class Image implements Serializable {
 		this.titre = Ttr;
 		this.description = "No describ";
 		this.Estpublic = true;
-		this.Statut = false;
+		this.set_Statut(false);
 		this.likes = 0;
 		this.nbre_Telechargement = 0;
 		this.telecharger = false;
 		imagescreer.add(this);
 		sauvegarderimageDernierID();
+		UserFileManager.sauvegarderImages(imagescreer);
 	}
 	
 //constructeur all
@@ -65,12 +67,13 @@ public class Image implements Serializable {
 		this.titre = Ttr;
 		this.description = descrip;
 		this.Estpublic = Estpublc;
-		this.Statut = Stat;
+		this.set_Statut(Stat);
 		this.likes = like;
 		this.nbre_Telechargement = nbre_te;
 		this.telecharger = down;
 		imagescreer.add(this);
 		sauvegarderimageDernierID();
+		UserFileManager.sauvegarderImages(imagescreer);
 		
 	}
 
@@ -86,14 +89,18 @@ public class Image implements Serializable {
 	 System.out.println("-id image : " + id_image);   
 	 System.out.println(" Nom du fichier : "+ Nomfichier+".img" );
 	 System.out.println(" Titre : "+ titre);
-	 System.out.println(" Catégorie : "+ categorie);
+	 if (categorie != null) {
+	        System.out.println(" Catégorie : " + categorie.get_nom_categorie());
+	    } else {
+	        System.out.println(" Catégorie : Aucune");
+	    }
 	if(Estpublic==false) {
 		  System.out.println(" Visibilité : Privé");
 	}
 	else {
 		System.out.println(" Visibilité : Publique");
 	}
-	if(Statut==false) {
+	if(get_Statut()==false) {
 		System.out.println(" Statut : Pas validée");
 	}
 	else {
@@ -109,11 +116,13 @@ public class Image implements Serializable {
 //Modification du nom
    public void modifier_nom(String Newname) {
 	   this.Nomfichier=Newname;
+	   UserFileManager.sauvegarderImages(imagescreer);
 	  }
 //modification titre   
    
    public void modifier_titre(String Newtitle) {
 	   this.titre= Newtitle;
+	   UserFileManager.sauvegarderImages(imagescreer);
 	   }
 	
    
@@ -128,12 +137,12 @@ public class Image implements Serializable {
     Categorie newcatégorie = categories.get(choix - 1);
    this.categorie = newcatégorie;
    System.out.println("l'image:" + Nomfichier + "à changer de catégories avec succès");
+   UserFileManager.sauvegarderImages(imagescreer);
    }
    else
 	   System.out.println("catégorie introuvable");{}
    }
-
-   
+     
    public static void chargerimageDernierID() {
        try (BufferedReader reader = new BufferedReader(new FileReader("idimage.txt"))) {
            String lastId = reader.readLine();
@@ -153,11 +162,6 @@ public class Image implements Serializable {
        }
    }
 	
-   
-   
-   
-   
-   
    
 	 // les getters
 	public String get_nomfichier(){
@@ -179,8 +183,10 @@ public class Image implements Serializable {
 	public boolean get_visibilite(){
 			return Estpublic;}
 	
-	public boolean get_stat(){
-		 return  Statut;}
+
+	public boolean get_Statut() {
+		return Statut;
+	}
 	
 	public int get_nbr_telechargement(){
 		return nbre_Telechargement;}
@@ -197,33 +203,49 @@ public class Image implements Serializable {
 // les setters
 
     public void set_nomfichier(String val){
-	   this.Nomfichier = val;}
+	   this.Nomfichier = val;
+	   UserFileManager.sauvegarderImages(imagescreer);
+    }
 	
     public void set_Titre(String val){
-		 this.titre = val;}
+		 this.titre = val;
+		 UserFileManager.sauvegarderImages(imagescreer);
+    }
     
     public void setDescription(String description) {
         this.description = description;
+        UserFileManager.sauvegarderImages(imagescreer);
     }
 	
     public void set_cat(Categorie val){
-		 this.categorie = val ;}
+		 this.categorie = val ;
+		 UserFileManager.sauvegarderImages(imagescreer);
+    }
 	
     public void set_visibilité(boolean val){
-		  this.Estpublic = val;}
-	
-    public void set_stat(boolean val){
-		  this.Statut = val;}
+		  this.Estpublic = val;
+		  UserFileManager.sauvegarderImages(imagescreer);
+    }
 	
     public void set_nbr_telechargement(int val){
-		this.nbre_Telechargement= val;}
+		this.nbre_Telechargement= val;
+		UserFileManager.sauvegarderImages(imagescreer);
+    }
 	 
 	public void set_like(int val){
-	     this.likes = val ;}
+	     this.likes = val ;
+	     UserFileManager.sauvegarderImages(imagescreer);
+	}
 	
 	public void set_telecharger(boolean val){
-		this.telecharger= val;}
+		this.telecharger= val;
+		UserFileManager.sauvegarderImages(imagescreer);
+	}
 	
+	public void set_Statut(boolean statut) {
+		Statut = statut;
+		UserFileManager.sauvegarderImages(imagescreer);
+	}
 	
 	@Override
 	public boolean equals(Object obj) {
@@ -237,6 +259,7 @@ public class Image implements Serializable {
 	public int hashCode() {
 	    return Integer.hashCode(id_image); // Utilise l'ID unique pour le hashage
 	}
+	
 
 
 }

@@ -4,18 +4,19 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Categorie {
-    
+public class Categorie implements Serializable {
+	 private static final long serialVersionUID = 1L;
     // Attributs
     private static int idcompteur = 1;
     private int id;
     private String nom_categorie;
     private String description;
     public List<Image> images;
-    public static List<Categorie> categories = CategorieManager.chargerCategories(); // Chargement des catégories existantes au démarrage
+    public static List<Categorie> categories = new ArrayList<>(); // Chargement des catégories existantes au démarrage
 
     // Constructeur par défaut
     public Categorie() {
@@ -26,7 +27,7 @@ public class Categorie {
         this.images = new ArrayList<>();
         categories.add(this);
         sauvegardercateDernierID();
-        CategorieManager.sauvegarderCategories(categories); // Sauvegarde des catégories
+        UserFileManager.sauvegarderCategories(categories); // Sauvegarde des catégories
     }
 
     // Constructeur avec nom de catégorie
@@ -38,7 +39,7 @@ public class Categorie {
         this.images = new ArrayList<>();
         categories.add(this);
         sauvegardercateDernierID();
-        CategorieManager.sauvegarderCategories(categories); // Sauvegarde des catégories
+        UserFileManager.sauvegarderCategories(categories); // Sauvegarde des catégories
     }
 
     // Constructeur avec nom et description
@@ -50,7 +51,7 @@ public class Categorie {
         this.images = new ArrayList<>();
         categories.add(this);
         sauvegardercateDernierID();
-        CategorieManager.sauvegarderCategories(categories); // Sauvegarde des catégories
+        UserFileManager.sauvegarderCategories(categories); // Sauvegarde des catégories
     }
 
     // Constructeur avec nom, description et images
@@ -62,7 +63,7 @@ public class Categorie {
         this.images = Images;
         categories.add(this);
         sauvegardercateDernierID();
-        CategorieManager.sauvegarderCategories(categories); // Sauvegarde des catégories
+        UserFileManager.sauvegarderCategories(categories); // Sauvegarde des catégories
     }
 
     // Constructeur de copie
@@ -98,14 +99,17 @@ public class Categorie {
     // Setters
     public void set_nom_Categorie(String nomCategorie) {
         this.nom_categorie = nomCategorie;
+        UserFileManager.sauvegarderCategories(categories);
     }
 
     public void set_description(String Description) {
         this.description = Description;
+        UserFileManager.sauvegarderCategories(categories);
     }
 
     public void set_images(List<Image> Images) {
         this.images = Images;
+        UserFileManager.sauvegarderCategories(categories);
     }
 
     // Méthodes
@@ -114,7 +118,7 @@ public class Categorie {
             this.images.add(image);
             image.set_cat(this);
             System.out.println("- " + image.get_nomfichier() + " ajoutée à la catégorie : " + nom_categorie);
-            CategorieManager.sauvegarderCategories(categories); // Sauvegarde des catégories
+            UserFileManager.sauvegarderCategories(categories); // Sauvegarde des catégories
         } else {
             System.out.println("L'image est déjà présente dans cette catégorie.");
         }
@@ -124,7 +128,7 @@ public class Categorie {
         if (images.contains(image)) {
             images.remove(image);
             System.out.println("Image supprimée de la catégorie : " + nom_categorie);
-            CategorieManager.sauvegarderCategories(categories); // Sauvegarde des catégories
+            UserFileManager.sauvegarderCategories(categories); // Sauvegarde des catégories
         } else {
             System.out.println("L'image n'existe pas dans cette catégorie.");
         }
@@ -134,7 +138,7 @@ public class Categorie {
         this.nom_categorie = nouveauNom;
         this.description = nouvelleDescription;
         System.out.println("Catégorie modifiée : " + nom_categorie);
-        CategorieManager.sauvegarderCategories(categories); // Sauvegarde des catégories
+        UserFileManager.sauvegarderCategories(categories); // Sauvegarde des catégories
     }
 
     public void afficher_categorie() {
