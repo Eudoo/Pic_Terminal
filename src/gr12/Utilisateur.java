@@ -185,8 +185,6 @@ public class Utilisateur implements Serializable {
             liste_user.add(new_user);
             UserFileManager.saveUsers();
             System.out.println("Inscription réussie!");
-            se_connecter();
-            
             
         }
     }
