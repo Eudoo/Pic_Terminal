@@ -21,7 +21,7 @@ public class MainClass {
             UserFileManager.ajouterUtilisateur(admin1); // Sauvegarde l'administrateur dans le fichier
             System.out.println("Administrateur initial créé : " + admin1.get_nom());
         }
-        
+        */
         
         // Ajout des images de base
         Image image1 = new Image("paris.jpg", "Vue de la Tour Eiffel à Paris");
@@ -36,7 +36,9 @@ public class MainClass {
         images.add(image3);
         images.add(image4);
         images.add(image5);
-        */
+        Statistique Stat = new Statistique();
+        Stat.afficher_statistique();
+        
         
         System.out.println("Bienvenue sur la plateforme de téléchargement d'images!");
 
@@ -88,7 +90,7 @@ public class MainClass {
             switch (choix) {
             	case 0 -> utilisateur.afficher_galerie();
                 case 1 -> afficherImages(categories);
-                case 2 -> telechargerImage(utilisateur, categories, scanner);
+                case 2 -> telechargerImage(utilisateur);//, categories, scanner);
                 /*case 3 -> proposerImage(utilisateur, categories, scanner);*/
                 case 4 -> {
                     System.out.println("Déconnexion réussie.");
@@ -107,7 +109,7 @@ public class MainClass {
         }
     }
 
-    private static void telechargerImage(Utilisateur utilisateur, List<Categorie> categories, Scanner scanner) {
+   /* private static void telechargerImage(Utilisateur utilisateur, List<Categorie> categories, Scanner scanner) {
         System.out.print("Entrez le nom de l'image à télécharger : ");
         String nomImage = scanner.nextLine();
         
@@ -121,6 +123,17 @@ public class MainClass {
             }
         }
         System.out.println("Image non trouvée.");
+    }*/
+    private static void telechargerImage(Utilisateur utilisateur) {
+    	 System.out.print("Entrez le nom de l'image à télécharger : ");
+        String nomImage =  new Scanner(System.in).nextLine();
+        for (Image image : Image.imagescreer) {
+            if (image.get_nomfichier().equals(nomImage)) {
+                utilisateur.telecharger(image);
+                System.out.println("Image téléchargée avec succès.");
+                return;
+            }
+        }
     }
 /*
     private static void proposerImage(Utilisateur utilisateur, List<Categorie> categories, Scanner scanner) {
@@ -161,6 +174,7 @@ public class MainClass {
             	case 0 -> afficherImages(categories);
             	case 1 -> admin.creerCategorie();
                 case 2 -> admin.ajouterImage(categories, images);
+                
                /* case 3 -> ImageProposer( image);*/
                /* case 4 -> admin.validerImage( image);*/
                 case 5 -> {
