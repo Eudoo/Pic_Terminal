@@ -28,6 +28,24 @@ public class UserFileManager {
         }
     }
     
+ // Méthode pour vérifier si un utilisateur existe déjà par son email
+    public static boolean utilisateurExiste(String email) {
+        for (Utilisateur user : Utilisateur.liste_user) {
+            if (user.get_email().equals(email)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Méthode pour ajouter un nouvel utilisateur et sauvegarder la liste
+    public static void ajouterUtilisateur(Utilisateur utilisateur) {
+        if (!utilisateurExiste(utilisateur.get_email())) {
+            Utilisateur.liste_user.add(utilisateur);
+            saveUsers(); // Sauvegarde les utilisateurs mis à jour
+        }
+    }
+    
  // Méthode pour sauvegarder les images
     public static void sauvegarderImages(List<Image> images) {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(FICHIER_IMAGES))) {

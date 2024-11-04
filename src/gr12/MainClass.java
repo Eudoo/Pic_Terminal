@@ -1,40 +1,6 @@
 package gr12;
 
 
-
-///  ########     2eme MAIN    ########
-/*
-import java.util.Scanner;
-
-public class MainClass {
-    public static void main(String[] args) {
-        // Charger les utilisateurs au démarrage
-        UserFileManager.loadUsers();
-        
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("1. Inscription\n2. Connexion");
-        System.out.print("Veuillez entrer un chiffre pour faire un choix: ");
-        int choix = scanner.nextInt();
-        scanner.nextLine(); // Consommer la ligne restante
-
-        if (choix == 1) {
-            Utilisateur.sinscrire();
-        } else if (choix == 2) {
-            Utilisateur utilisateur = Utilisateur.se_connecter();
-           
-        }
-
-        // Sauvegarder les utilisateurs avant de fermer
-        UserFileManager.saveUsers();
-    }
-}
-*/
-
-//  #############################################################################################################################
-//  #############################################################################################################################
-
-
-
 import java.util.Scanner;
 import java.util.List;
 
@@ -44,7 +10,13 @@ public class MainClass {
         Scanner scanner = new Scanner(System.in);
         UserFileManager.loadUsers();  // Charger les utilisateurs depuis le fichier
         List<Categorie> categories = UserFileManager.chargerCategories(); // Charger les catégories
-
+        
+        Administrateur admin1 = new Administrateur("admin1", "admin1@gmail.com", "1234");
+        if (!UserFileManager.utilisateurExiste(admin1.get_email())) {
+            UserFileManager.ajouterUtilisateur(admin1); // Sauvegarde l'administrateur dans le fichier
+            System.out.println("Administrateur initial créé : " + admin1.get_nom());
+        }
+        
         System.out.println("Bienvenue sur la plateforme de téléchargement d'images!");
 
         while (true) {
@@ -82,7 +54,8 @@ public class MainClass {
     private static void menuUtilisateur(Utilisateur utilisateur, List<Categorie> categories, Scanner scanner) {
         while (true) {
             System.out.println("\n--- Menu Utilisateur ---");
-            System.out.println("1. Voir les images disponibles");
+            System.out.println("0. Voir votre galerie");
+            System.out.println("1. Voir les images disponibles sur le site");
             System.out.println("2. Télécharger une image");
             System.out.println("3. Proposer une nouvelle image");
             System.out.println("4. Déconnexion");
@@ -91,6 +64,7 @@ public class MainClass {
             scanner.nextLine(); // vider le tampon
 
             switch (choix) {
+            	case 0 -> utilisateur.afficher_galerie();
                 case 1 -> afficherImages(categories);
                 case 2 -> telechargerImage(utilisateur, categories, scanner);
                 /*case 3 -> proposerImage(utilisateur, categories, scanner);*/

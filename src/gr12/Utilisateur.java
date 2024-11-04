@@ -160,6 +160,10 @@ public class Utilisateur implements Serializable {
 		else {
 			System.out.println("Statut : Suspendu");
 		}
+		
+	}
+	
+	public void afficher_galerie() {
 		System.out.println("Galerie de "+get_nom());
 		this.galerie.afficherImages();;
 	}
