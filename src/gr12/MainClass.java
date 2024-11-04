@@ -269,8 +269,8 @@ public class MainClass {
         //admin.afficherUtilisateurs();
         //admin.suspendreUtilisateur(admin);
         
-    Statistique Stat = new Statistique();
-    Stat.afficher_statistique();
-    Stat.image_populaire();}
+        Statistique Stat = new Statistique();
+        Stat.afficher_statistique();
     
+    }
 }
