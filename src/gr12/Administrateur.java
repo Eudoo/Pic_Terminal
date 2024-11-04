@@ -2,6 +2,7 @@ package gr12;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Administrateur extends Utilisateur {
 
@@ -10,7 +11,13 @@ public class Administrateur extends Utilisateur {
         liste_user.remove(this); // Assurez-vous que this est bien une référence valide ici
     }
 
-    public void creerCategorie(String nom, String description) {
+    public void creerCategorie() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Entrez le nom de la nouvelle catégorie : ");
+        String nom = scanner.nextLine();
+        System.out.print("Entrez une description pour la catégorie : ");
+        String description = scanner.nextLine();
+
         Categorie categorie = new Categorie(nom, description);
         if (!Categorie.categories.contains(categorie)) {
             Categorie.categories.add(categorie);
@@ -21,8 +28,40 @@ public class Administrateur extends Utilisateur {
         }
     }
 
-    public void ajouterImage(Image image, Categorie categorie) {
-        categorie.ajouter_image(image);
+    public void ajouterImage(List<Categorie> categoriesDisponibles, List<Image> imagesDisponibles) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Demande du nom de la catégorie
+        System.out.print("Entrez le nom de la catégorie à laquelle vous souhaitez ajouter l'image : ");
+        String nomCategorie = scanner.nextLine();
+
+        // Recherche de la catégorie dans la liste des catégories disponibles
+        Categorie categorie = categoriesDisponibles.stream()
+                .filter(cat -> cat.get_nom_categorie().equals(nomCategorie))
+                .findFirst()
+                .orElse(null);
+
+        if (categorie == null) {
+            System.out.println("Catégorie non trouvée. Veuillez vérifier le nom de la catégorie.");
+            return;
+        }
+
+        // Demande de l'identifiant de l'image
+        System.out.print("Entrez le nom du fichier ou le titre de l'image à ajouter : ");
+        String identifiantImage = scanner.nextLine();
+
+        // Recherche de l'image dans la liste des images disponibles
+        Image image = imagesDisponibles.stream()
+                .filter(img -> img.get_nomfichier().equals(identifiantImage) || img.get_titre().equals(identifiantImage))
+                .findFirst()
+                .orElse(null);
+
+        if (image != null) {
+            categorie.ajouter_image(image);
+            System.out.println("Image '" + image.get_titre() + "' ajoutée avec succès à la catégorie " + categorie.get_nom_categorie());
+        } else {
+            System.out.println("Image non trouvée. Vérifiez le nom de fichier ou le titre.");
+        }
     }
 
     public void afficherToutesCategories() {
