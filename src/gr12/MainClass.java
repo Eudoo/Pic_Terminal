@@ -74,11 +74,11 @@ public class MainClass {
                     scanner.close();
                     return;
                 }
-                default -> System.out.println("Option non valide, veuillez réessayer.");
-            }
-        }
-    }
+                default -> System.out.println("Option non valide, veuillez réessayer.");}
 
+        }
+    
+    }
     private static void menuUtilisateur(Utilisateur utilisateur, List<Categorie> categories, Scanner scanner) {
         while (true) {
             System.out.println("\n--- Menu Utilisateur ---");
@@ -198,4 +198,79 @@ public class MainClass {
     }
     
    */
+   
+    public static void main() {
+		Administrateur admin = new Administrateur("Admin","Admin@gmail.com","ADMIN");
+		Utilisateur Paul = new Utilisateur("Eudes", "eud@gmail.com", "salsa");
+		
+		//admin.suspendreUtilisateur(Paul);
+		Paul.afficher_infos();
+		
+        // Création de catégories
+        Categorie categorie1 = new Categorie("Nature");
+        Categorie categorie2 = new Categorie("Technologie", "Images sur la technologie");
+        
+        
+        // Ajout des catégories dans une liste pour gestion
+        
+        admin.creerCategorie("Fruits", "les fruits des arbres");
+        admin.creerCategorie("Aliments", "les choses mangeables");
+        admin.afficherToutesCategories();
+
+        // Création de quelques images
+        Image image1 = new Image("Montagne", "Photo d'une montagne");
+        Image image2 = new Image("Ordinateur", "Image d'un ordinateur");
+        Image image3 = new Image("Voiture", "Image d'une Mercedes Benz C400");
+		
+        //Affichage des propriétés de l'image
+        System.out.println("Propriétés de l'image 1:");
+        image1.afficher_propriete();
+
+        System.out.println("\nPropriétés de l'image 2:");
+        image2.afficher_propriete();
+        
+        System.out.println("\nPropriétés de l'image 2:");
+        image3.afficher_propriete();
+
+        // Ajout d'images dans les catégories
+        admin.ajouterImage(image1,categorie1);
+        admin.ajouterImage(image2,categorie1);
+        //categorie2.ajouter_image(image2);
+        //categorie2.ajouter_image(image3);
+        admin.validerImage(image1);
+        categorie1.afficher_categorie();
+        categorie2.afficher_categorie();
+
+        // Création d'une galerie
+        
+        Paul.get_galerie().ajouter_image(image1);
+     // Affichage des images dans la galerie
+        
+        Paul.telecharger(image1);
+        Paul.liker(image1);
+        image1.afficher_propriete();
+        Paul.get_galerie().afficherImages();
+
+        // Test de recherche d'image par mot-clé
+        admin.rechercher("ord");
+        
+        //Test de filtrage des images par catégorie
+       // admin.filtrage("Natu");
+       
+        // Modification de la catégorie
+        //admin.modifier_Categorie(categorie1, "Nature et Paysages", "Photos de paysages naturels");
+        categorie1.afficher_categorie();
+        //admin.afficher_toutes_categorie();
+        //administrateur.ajouterUtilisateur("Olade","Olade@gmail.com","Ok" );
+        //image1.modifier_catégorie(Categorie.categories);
+        //Administrateur.inscription();
+        //admin.consulterUtilisateurs();
+        //admin.modifierStatutUtilisateur(3);
+        //admin.afficherUtilisateurs();
+        //admin.suspendreUtilisateur(admin);
+        
+    Statistique Stat = new Statistique();
+    Stat.afficher_statistique();
+    Stat.image_populaire();}
+    
 }
