@@ -16,14 +16,14 @@ public class MainClass {
         
         
         //  ############ Instance Administrateur cree une seule fois ############### 
-        /* 
-        Administrateur admin1 = new Administrateur("admin1", "admin1@gmail.com", "1234");
+        /*
+        Administrateur admin1 = new Administrateur("a", "a", "a");
         if (!UserFileManager.utilisateurExiste(admin1.get_email())) {
             UserFileManager.ajouterUtilisateur(admin1); // Sauvegarde l'administrateur dans le fichier
             System.out.println("Administrateur initial créé : " + admin1.get_nom());
         }
         
-        
+         
         // Ajout des images de base
         Image image1 = new Image("paris.jpg", "Vue de la Tour Eiffel à Paris");
         Image image2 = new Image("newyork.jpg", "Skyline de New York");
@@ -186,7 +186,8 @@ public class MainClass {
         }
         return toutesLesImages;
     }
-
+    
+       
     private static void telechargerImage(Utilisateur utilisateur, List<Categorie> categories, Scanner scanner) {
         System.out.print("Entrez le nom de l'image à télécharger : ");
         String nomImage = scanner.nextLine();
@@ -195,7 +196,7 @@ public class MainClass {
             for (Image image : categorie.get_images()) {
                 if (image.get_nomfichier().equals(nomImage)) {
                     utilisateur.telecharger(image);
-                    UserFileManager.sauvegarderCategories(categories);;
+                    UserFileManager.sauvegarderCategories(categories);
                     System.out.println("Image téléchargée avec succès.");
                     return;
                 }
@@ -203,48 +204,61 @@ public class MainClass {
         }
         System.out.println("Image non trouvée.");
     }
-/*
-    private static void proposerImage(Utilisateur utilisateur, List<Categorie> categories, Scanner scanner) {
+
+    private static void proposerImage(Administrateur admin, List<Categorie> categories, Scanner scanner) {
         System.out.print("Entrez le nom de votre image : ");
         String nomImage = scanner.nextLine();
-        System.out.print("Entrez la catégorie de l'image : ");
+        System.out.print("Entrez le titre de l'image : ");
+        String titre = scanner.nextLine();
+        System.out.print("Entrez une description de l'image : ");
+        String description = scanner.nextLine();
+        System.out.print("Entrez la categorie de l'image : ");
         String nomCategorie = scanner.nextLine();
         
-        Image imageProposee = new Image(nomImage, utilisateur);
-        Categorie categorie = categories.stream()
-                                        .filter(cat -> cat.get_nom_categorie().equals(nomCategorie))
-                                        .findFirst()
-                                        .orElse(null);
+        Categorie categorieSelectionnee = null;
+        for (Categorie categorie : categories) {
+        	if (categorie.get_nom_categorie() == nomCategorie) {
+                	 categorieSelectionnee = categorie;
+                    break;
+                }
+            if (categorieSelectionnee != null) break;
+        }
 
-        if (categorie != null) {
-            categorie.ajouter_image(imageProposee);
-            UserFileManager.sauvegarderImages(categorie.get_images());
+        
+        Image imageProposee = new Image(nomImage, titre, description);
+            if (categorieSelectionnee != null) {
+            	admin.ajouterImage(categories,categorieSelectionnee.get_images());
+            UserFileManager.sauvegarderImages(categorieSelectionnee.get_images());
             System.out.println("Image proposée avec succès. En attente d'approbation par un administrateur.");
         } else {
             System.out.println("Catégorie non trouvée.");
         }
     }
-*/
+
+    
+    
     private static void menuAdministrateur(Administrateur admin, List<Categorie> categories, List<Image> images, Scanner scanner) {
         while (true) {
             System.out.println("\n--- Menu Administrateur ---");
-            System.out.println("0. Voir les images du site");
-            System.out.println("1. Creer une nouvelle categorie");
-            System.out.println("2. Ajouter une image a une categorie");
-            System.out.println("3. Voir les images proposées");
-            System.out.println("4. Approuver une image");
-            System.out.println("5. Déconnexion");
+            System.out.println("1. Creer une Image");
+            System.out.println("2. Voir les images du site");
+            System.out.println("3. Gestion des images");
+            System.out.println("4. Creer une nouvelle categorie");
+            System.out.println("5. Ajouter une image a une categorie");
+            System.out.println("6. Voir les utilisateurs");
+            System.out.println("7. Déconnexion");
             System.out.print("Choisissez une option : ");
             int choix = scanner.nextInt();
             scanner.nextLine(); // vider le tampon
 
             switch (choix) {
-            	case 0 -> afficherImages(categories);
-            	case 1 -> admin.creerCategorie();
-                case 2 -> admin.ajouterImage(categories, images);
-               /* case 3 -> ImageProposer( image);*/
-               /* case 4 -> admin.validerImage( image);*/
-                case 5 -> {
+            	case 1 -> admin.creerImage(images);
+            	case 2 -> ListerLesImages(categories);
+            	case 3 -> GererImages(categories,admin);
+            	case 4 -> creerCategorie(categories);
+                case 5 -> admin.ajouterImage(categories, images);
+                case 6 -> admin.consulterUtilisateurs();
+                case 7 -> {
                     System.out.println("Déconnexion réussie.");
                     return;
                 }
@@ -252,6 +266,102 @@ public class MainClass {
             }
         }
     }
+    
+    public static void creerCategorie(List<Categorie> categories) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Entrez le nom de la nouvelle catégorie : ");
+        String nomCategorie = scanner.nextLine();
+        Categorie nouvelleCategorie = new Categorie(nomCategorie);
+        categories.add(nouvelleCategorie); // Ajouter la catégorie à la liste des catégories
+        System.out.println("Catégorie '" + nomCategorie + "' créée avec succès.");
+        UserFileManager.sauvegarderCategories(categories);
+    }
+    
+    private static void ListerLesImages(List<Categorie> categories) {
+    	UserFileManager.chargerCategories();
+        System.out.println("\n\t--- Liste des Images du Site ---");
+        for (Categorie categorie : categories) {
+            System.out.println("\n     * Catégorie: " + categorie.get_nom_categorie());
+            for (Image image : categorie.get_images()) {
+                image.afficher_propriete(); // Affiche les détails de l'image
+            }
+        }
+     }
+    
+    
+    private static void GererImages(List<Categorie> categories, Administrateur admin) {
+    	UserFileManager.chargerCategories();
+        Scanner scanner = new Scanner(System.in);
+    	System.out.println("\n--- Images Disponibles ---");
+        for (Categorie categorie : categories) {
+            System.out.println("\nCatégorie: " + categorie.get_nom_categorie());
+            categorie.afficher_categorie();
+        }
+        
+        boolean continuer = true;
+        while (continuer) {
+        	
+            System.out.println("\nEntrez l'ID de l'image pour interagir, ou -1 pour revenir au menu principal : ");
+            int imageId = scanner.nextInt();
+            scanner.nextLine(); 
+            if (imageId == -1) {
+                continuer = false;
+                break;
+            }
+
+            // Rechercher l'image correspondant à l'ID
+            Image imageSelectionnee = null;
+            for (Categorie categorie : categories) {
+                for (Image image : categorie.get_images()) {
+                    if (image.get_id() == imageId) {
+                        imageSelectionnee = image;
+                        break;
+                    }
+                }
+                if (imageSelectionnee != null) break;
+            }
+
+            if (imageSelectionnee != null) {
+                boolean sousMenu = true;
+                while (sousMenu) {
+                    // Afficher les options pour l'image sélectionnée
+                    System.out.println("\nOptions pour l'image : " + imageSelectionnee.get_titre());
+                    System.out.println("1. Approuver l'image");
+                    System.out.println("2. Modifier l'image");
+                    System.out.println("3. Supprimer l'image");
+                    System.out.println("4. Retourner à la sélection d'image");
+
+                    System.out.print("Entrez votre choix : ");
+                    int choix = scanner.nextInt();
+                    scanner.nextLine(); // Consomme la nouvelle ligne
+
+                    switch (choix) {
+                        case 1-> {admin.validerImage(imageSelectionnee);   
+                        		UserFileManager.sauvegarderCategories(categories);
+                        }
+                        case 2-> {imageSelectionnee.modifierImage();   
+                				UserFileManager.sauvegarderCategories(categories);
+                        }
+                        case 3->{
+	                        	admin.supprimerImage(imageSelectionnee);
+	                        	UserFileManager.sauvegarderCategories(categories);
+                        }
+                        case 4->{
+                            	sousMenu = false;
+                            	break;
+                        }
+                        default->{
+                            System.out.println("Choix invalide. Veuillez réessayer.");
+                            break;
+                        }
+                    }
+                }
+            } else {
+                System.out.println("Image avec ID " + imageId + " non trouvée. Veuillez réessayer.");
+            }
+        }
+     }
+    
 /*
     private static void voirImagesProposees(List<Categorie> categories) {
         System.out.println("\n--- Images Proposées ---");

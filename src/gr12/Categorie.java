@@ -118,7 +118,7 @@ public class Categorie implements Serializable {
             this.images.add(image);
             image.set_cat(this);
             System.out.println("- " + image.get_nomfichier() + " ajoutée à la catégorie : " + nom_categorie);
-            UserFileManager.sauvegarderCategories(categories); // Sauvegarde des catégories
+             // Sauvegarde des catégories
         } else {
             System.out.println("L'image est déjà présente dans cette catégorie.");
         }

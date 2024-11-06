@@ -11,7 +11,7 @@ public class Administrateur extends Utilisateur {
         liste_user.remove(this); // Assurez-vous que this est bien une référence valide ici
     }
 
-    public void creerCategorie() {
+    public void creercategorie() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Entrez le nom de la nouvelle catégorie : ");
         String nom = scanner.nextLine();
@@ -22,47 +22,77 @@ public class Administrateur extends Utilisateur {
         if (!Categorie.categories.contains(categorie)) {
             Categorie.categories.add(categorie);
             System.out.println("\nNouvelle catégorie créée :");
-            categorie.afficher_categorie();
+            UserFileManager.sauvegarderCategories(Categorie.categories);
+            UserFileManager.chargerCategories();
+            categorie.afficher_categorie();            
         } else {
             System.out.println("Cette catégorie existe déjà.");
         }
     }
-
-    public void ajouterImage(List<Categorie> categoriesDisponibles, List<Image> imagesDisponibles) {
+    
+    public void creerImage(List<Image> images) {
         Scanner scanner = new Scanner(System.in);
+        System.out.print("Entrez le nom de l'image : ");
+        String nom = scanner.nextLine();
+        System.out.print("Entrez le titre de l'image : ");
+        String description = scanner.nextLine();
 
-        // Demande du nom de la catégorie
-        System.out.print("Entrez le nom de la catégorie à laquelle vous souhaitez ajouter l'image : ");
-        String nomCategorie = scanner.nextLine();
+        Image image = new Image(nom, description);
+       if (!images.contains(image)) {
+        	images.add(image);
+            System.out.println("\nNouvelle image créée :");
+            UserFileManager.sauvegarderImages(images);
+            UserFileManager.chargerImages();
+            image.afficher_propriete();            
+       	} else {
+            System.out.println("Cette image existe déjà.");
+        }
+    }
+    
 
-        // Recherche de la catégorie dans la liste des catégories disponibles
-        Categorie categorie = categoriesDisponibles.stream()
-                .filter(cat -> cat.get_nom_categorie().equals(nomCategorie))
-                .findFirst()
-                .orElse(null);
+    public void ajouterImage(List<Categorie> categories, List<Image> images) {
+        Scanner scanner = new Scanner(System.in);
+        for (Image img : images) {
+        	img.afficher_propriete();
+        } 
+        System.out.print("Entrez l'ID de l'image à ajouter : ");
+        int imageId = scanner.nextInt();
+        scanner.nextLine();  // vider le tampon
 
-        if (categorie == null) {
-            System.out.println("Catégorie non trouvée. Veuillez vérifier le nom de la catégorie.");
+        // Chercher l'image par ID
+        Image image = null;
+                   
+        for (Image img : images) {
+            if (img.get_id() == imageId) {
+                image = img;
+                break;
+            }
+        }
+
+        if (image == null) {
+            System.out.println("Image avec l'ID " + imageId + " non trouvée.");
             return;
         }
 
-        // Demande de l'identifiant de l'image
-        System.out.print("Entrez le nom du fichier ou le titre de l'image à ajouter : ");
-        String identifiantImage = scanner.nextLine();
-
-        // Recherche de l'image dans la liste des images disponibles
-        Image image = imagesDisponibles.stream()
-                .filter(img -> img.get_nomfichier().equals(identifiantImage) || img.get_titre().equals(identifiantImage))
-                .findFirst()
-                .orElse(null);
-
-        if (image != null) {
-            categorie.ajouter_image(image);
-            System.out.println("Image '" + image.get_titre() + "' ajoutée avec succès à la catégorie " + categorie.get_nom_categorie());
-        } else {
-            System.out.println("Image non trouvée. Vérifiez le nom de fichier ou le titre.");
+        // Afficher les catégories disponibles
+        System.out.println("Catégories disponibles :");
+        for (int i = 0; i < categories.size(); i++) {
+            System.out.println(i + ". " + categories.get(i).get_nom_categorie());
         }
+
+        System.out.print("Choisissez une catégorie pour ajouter l'image : ");
+        int choixCategorie = scanner.nextInt();
+
+        if (choixCategorie < 0 || choixCategorie >= categories.size()) {
+            System.out.println("Catégorie invalide.");
+            return;
+        }
+
+        // Ajouter l'image à la catégorie choisie
+        categories.get(choixCategorie).ajouter_image(image);
+        UserFileManager.sauvegarderCategories(categories);
     }
+
 
     public void afficherToutesCategories() {
         System.out.println("\n\t♂ Toutes les catégories disponibles ♂");

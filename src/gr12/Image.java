@@ -62,6 +62,23 @@ public class Image implements Serializable {
 		UserFileManager.sauvegarderImages(imagescreer);
 	}
 	
+	public Image(String Nf, String Ttr, String Description) {
+		chargerimageDernierID();
+		this.id_image = idcompt++;
+		this.Nomfichier = Nf;
+		this.titre = Ttr;
+		this.description = Description;
+		this.Estpublic = true;
+		this.set_Statut(false);
+		this.likes = 0;
+		this.nbre_Telechargement = 0;
+		this.telecharger = false;
+		this.utilisateursAyantLiker = new ArrayList<>();
+		imagescreer.add(this);
+		sauvegarderimageDernierID();
+		UserFileManager.sauvegarderImages(imagescreer);
+	}
+	
 //constructeur all
 	public Image (String Nf, String Ttr,String descrip, boolean Estpublc,
 		boolean Stat, int like, int nbre_te, boolean down) {
@@ -148,7 +165,36 @@ public class Image implements Serializable {
    else
 	   System.out.println("catégorie introuvable");{}
    }
-     
+   
+   public void modifierImage() {
+       Scanner scanner = new Scanner(System.in);
+
+       System.out.println("=== Modifier le Image ===");
+
+       System.out.print("Nouveau nom (" + Nomfichier + ") : ");
+       String nouveauNom = scanner.nextLine();
+       if (!nouveauNom.isEmpty()) {
+           this.Nomfichier = nouveauNom;
+       }
+
+       System.out.print("Nouvel tritre (" + titre + ") : ");
+       String nouveltitre = scanner.nextLine();
+       if (!nouveltitre.isEmpty()) {
+           this.titre = nouveltitre;
+       }
+
+       System.out.print("Description (laisser vide pour ne pas changer) : ");
+       String Description = scanner.nextLine();
+       if (!Description.isEmpty()) {
+           this.description = Description;
+       }
+
+       System.out.println("Les informations de l'image "+Nomfichier+" ont été mises à jour avec succès.");
+       
+       // Appel de la méthode pour sauvegarder les utilisateurs après modification
+       UserFileManager.sauvegarderImages(imagescreer);;
+   }
+   
    public static void chargerimageDernierID() {
        try (BufferedReader reader = new BufferedReader(new FileReader("idimage.txt"))) {
            String lastId = reader.readLine();
@@ -178,6 +224,7 @@ public class Image implements Serializable {
 	    if (!utilisateursAyantLiker.contains(emailUtilisateur)) {
 	        this.likes++;  // Incrémente le nombre de likes
 	        utilisateursAyantLiker.add(emailUtilisateur);  // Ajoute l'email de l'utilisateur à la liste
+	        UserFileManager.sauvegarderImages(imagescreer);
 	        return true;
 	    } else {
 	        System.out.println("Vous avez déjà liké cette image.");
