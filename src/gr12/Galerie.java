@@ -6,7 +6,6 @@ import java.util.ArrayList;
 public class Galerie implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private int id_galerie;
 	private String nom_galerie;
 	private ArrayList<Image> images;
 	

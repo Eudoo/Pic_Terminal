@@ -104,6 +104,34 @@ public class Utilisateur implements Serializable {
         return false;
 	}
 	
+	public void modifierProfil() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("=== Modifier le Profil ===");
+
+        System.out.print("Nouveau nom (" + nom + ") : ");
+        String nouveauNom = scanner.nextLine();
+        if (!nouveauNom.isEmpty()) {
+            this.nom = nouveauNom;
+        }
+
+        System.out.print("Nouvel email (" + email + ") : ");
+        String nouvelEmail = scanner.nextLine();
+        if (!nouvelEmail.isEmpty()) {
+            this.email = nouvelEmail;
+        }
+
+        System.out.print("Nouveau mot de passe (laisser vide pour ne pas changer) : ");
+        String nouveauMotDePasse = scanner.nextLine();
+        if (!nouveauMotDePasse.isEmpty()) {
+            this.password = nouveauMotDePasse;
+        }
+
+        System.out.println("Les informations de profil ont été mises à jour avec succès.");
+        
+        // Appel de la méthode pour sauvegarder les utilisateurs après modification
+        UserFileManager.saveUsers();
+    }
 	
 	/*
 	public void ajouter_image(Image image, Galerie galerie) {
@@ -131,8 +159,9 @@ public class Utilisateur implements Serializable {
 		image.set_nbr_telechargement(image.get_nbr_telechargement() +1);
 		image.set_telecharger(true);
 		galerie.ajouter_image(image);
+		UserFileManager.sauvegarderImages(Image.imagescreer);
+		UserFileManager.chargerImages();
 		UserFileManager.saveUsers();
-		UserFileManager.loadUsers();
 		System.out.println("L'image " + image.get_titre() + " a été téléchargée.");
 		
 	}
@@ -143,6 +172,7 @@ public class Utilisateur implements Serializable {
 		image.set_like(image.get_like() +1);
 		System.out.println("Vous avez liké cette image!!");
 		like = true;
+		UserFileManager.sauvegarderImages(Image.imagescreer);
 		}
 		else
 			System.out.println(image.get_titre()+" déjà liké !");

@@ -23,6 +23,7 @@ public class Image implements Serializable {
 	private int likes;
 	private int nbre_Telechargement;
 	private boolean telecharger;
+	private List<String> utilisateursAyantLiker = new ArrayList<>();
 	 
 
 //constructeur par défaut
@@ -37,9 +38,11 @@ public class Image implements Serializable {
 		this.likes = 0;
 		this.nbre_Telechargement = 0;
 		this.telecharger = false;
+		this.utilisateursAyantLiker = new ArrayList<>();
 		imagescreer.add(this);
 		sauvegarderimageDernierID();
 		UserFileManager.sauvegarderImages(imagescreer);
+		
 		
 	}
 	public Image(String Nf, String Ttr) {
@@ -53,6 +56,7 @@ public class Image implements Serializable {
 		this.likes = 0;
 		this.nbre_Telechargement = 0;
 		this.telecharger = false;
+		this.utilisateursAyantLiker = new ArrayList<>();
 		imagescreer.add(this);
 		sauvegarderimageDernierID();
 		UserFileManager.sauvegarderImages(imagescreer);
@@ -71,6 +75,7 @@ public class Image implements Serializable {
 		this.likes = like;
 		this.nbre_Telechargement = nbre_te;
 		this.telecharger = down;
+		this.utilisateursAyantLiker = new ArrayList<>();
 		imagescreer.add(this);
 		sauvegarderimageDernierID();
 		UserFileManager.sauvegarderImages(imagescreer);
@@ -87,7 +92,7 @@ public class Image implements Serializable {
 
    public void afficher_propriete() {
 	 System.out.println("-id image : " + id_image);   
-	 System.out.println(" Nom du fichier : "+ Nomfichier+".img" );
+	 System.out.println(" Nom du fichier : "+ Nomfichier);
 	 System.out.println(" Titre : "+ titre);
 	 if (categorie != null) {
 	        System.out.println(" Catégorie : " + categorie.get_nom_categorie());
@@ -106,8 +111,9 @@ public class Image implements Serializable {
 	else {
 		System.out.println(" Statut : validée");
 	}
-	    System.out.println(" Nombres de likes:"+ likes);
-	    System.out.println(" nombre de téléchargement:"+nbre_Telechargement);
+	System.out.println(" Nombres de likes:"+ likes);
+	System.out.println(" nombre de téléchargement:"+nbre_Telechargement);
+	System.out.println();
    }
 
 
@@ -161,6 +167,24 @@ public class Image implements Serializable {
            System.out.println("Erreur lors de la sauvegarde de l'ID : " + e.getMessage());
        }
    }
+   
+   public boolean liker(String emailUtilisateur) {
+	    // Vérifie si la liste des utilisateurs ayant liké est initialisée
+	    if (utilisateursAyantLiker == null) {
+	        utilisateursAyantLiker = new ArrayList<>();
+	    }
+
+	    // Vérifie si l'utilisateur a déjà liké l'image
+	    if (!utilisateursAyantLiker.contains(emailUtilisateur)) {
+	        this.likes++;  // Incrémente le nombre de likes
+	        utilisateursAyantLiker.add(emailUtilisateur);  // Ajoute l'email de l'utilisateur à la liste
+	        return true;
+	    } else {
+	        System.out.println("Vous avez déjà liké cette image.");
+	        return false;  // Si l'utilisateur a déjà liké, on retourne false
+	    }
+	}
+
 	
    
 	 // les getters

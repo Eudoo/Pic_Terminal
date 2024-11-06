@@ -7,15 +7,16 @@ import java.util.ArrayList;
 
 public class MainClass {
 
-    public static void main(String[] args) {
+    private static Scanner scanner;
+	public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         UserFileManager.loadUsers();  // Charger les utilisateurs depuis le fichier
         List<Categorie> categories = UserFileManager.chargerCategories(); // Charger les catégories
         List<Image> images = UserFileManager.chargerImages();
         
         
-        /*   ############ Instance Administrateur cree une seule fois ############### 
-         
+        //  ############ Instance Administrateur cree une seule fois ############### 
+        /* 
         Administrateur admin1 = new Administrateur("admin1", "admin1@gmail.com", "1234");
         if (!UserFileManager.utilisateurExiste(admin1.get_email())) {
             UserFileManager.ajouterUtilisateur(admin1); // Sauvegarde l'administrateur dans le fichier
@@ -74,37 +75,116 @@ public class MainClass {
     }
 
     private static void menuUtilisateur(Utilisateur utilisateur, List<Categorie> categories, Scanner scanner) {
-        while (true) {
+        int men;
+    	do {
             System.out.println("\n--- Menu Utilisateur ---");
-            System.out.println("0. Voir votre galerie");
-            System.out.println("1. Voir les images disponibles sur le site");
-            System.out.println("2. Télécharger une image");
-            System.out.println("3. Proposer une nouvelle image");
-            System.out.println("4. Déconnexion");
+            System.out.println("1. Voir votre galerie");
+            System.out.println("2. Voir les images disponibles sur le site");
+            System.out.println("3. Télécharger une image");
+            System.out.println("4. Mon profil");
+            System.out.println("5. Modifier profil");
+            System.out.println("6. Déconnexion");
             System.out.print("Choisissez une option : ");
             int choix = scanner.nextInt();
             scanner.nextLine(); // vider le tampon
 
             switch (choix) {
-            	case 0 -> utilisateur.afficher_galerie();
-                case 1 -> afficherImages(categories);
-                case 2 -> telechargerImage(utilisateur, categories, scanner);
-                /*case 3 -> proposerImage(utilisateur, categories, scanner);*/
-                case 4 -> {
+            	case 1 -> utilisateur.afficher_galerie();
+                case 2 -> afficherImages(categories,utilisateur);
+                case 3 -> telechargerImage(utilisateur, categories, scanner);
+                case 4 -> utilisateur.afficher_infos();
+                case 5 -> utilisateur.modifierProfil();
+                case 6 -> {
                     System.out.println("Déconnexion réussie.");
                     return;
                 }
                 default -> System.out.println("Option non valide, veuillez réessayer.");
             }
-        }
+            System.out.print("\n1. Menu \n2. Quitter");
+            System.out.print("\nVotre choix :");
+            men = scanner.nextInt();
+            scanner.nextLine(); // vider le tampon 
+        }while( men != 2 );
     }
 
-    private static void afficherImages(List<Categorie> categories) {
-        System.out.println("\n--- Images Disponibles ---");
+    private static void afficherImages(List<Categorie> categories, Utilisateur utilisateur) {
+    	UserFileManager.chargerCategories();
+        Scanner scanner = new Scanner(System.in);
+    	System.out.println("\n--- Images Disponibles ---");
         for (Categorie categorie : categories) {
             System.out.println("\nCatégorie: " + categorie.get_nom_categorie());
             categorie.afficher_categorie();
         }
+        
+        boolean continuer = true;
+        while (continuer) {
+        	
+            System.out.println("\nEntrez l'ID de l'image pour interagir, ou -1 pour revenir au menu principal : ");
+            int imageId = scanner.nextInt();
+            scanner.nextLine(); 
+            if (imageId == -1) {
+                continuer = false;
+                break;
+            }
+
+            // Rechercher l'image correspondant à l'ID
+            Image imageSelectionnee = null;
+            for (Categorie categorie : categories) {
+                for (Image image : categorie.get_images()) {
+                    if (image.get_id() == imageId) {
+                        imageSelectionnee = image;
+                        break;
+                    }
+                }
+                if (imageSelectionnee != null) break;
+            }
+
+            if (imageSelectionnee != null) {
+                boolean sousMenu = true;
+                while (sousMenu) {
+                    // Afficher les options pour l'image sélectionnée
+                    System.out.println("\nOptions pour l'image : " + imageSelectionnee.get_titre());
+                    System.out.println("1. Liker");
+                    System.out.println("2. Télécharger");
+                    System.out.println("3. Retourner à la sélection d'image");
+
+                    System.out.print("Entrez votre choix : ");
+                    int choix = scanner.nextInt();
+                    scanner.nextLine(); // Consomme la nouvelle ligne
+
+                    switch (choix) {
+                        case 1:
+                        	boolean imageLikée = imageSelectionnee.liker(utilisateur.email);
+                            if (imageLikée) {
+                                UserFileManager.sauvegarderImages(listerToutesLesImages(categories)); // Sauvegarder après modification
+                                System.out.println("Image likée avec succès.");
+                            }
+                            break;
+                        case 2:
+                            utilisateur.telecharger(imageSelectionnee);
+                            System.out.println("Image téléchargée avec succès.");
+                            break;
+                        case 3:
+                            sousMenu = false;
+                            break;
+                        default:
+                            System.out.println("Choix invalide. Veuillez réessayer.");
+                            break;
+                    }
+                }
+            } else {
+                System.out.println("Image avec ID " + imageId + " non trouvée. Veuillez réessayer.");
+            }
+        }
+           
+    }
+    
+    private static List<Image> listerToutesLesImages(List<Categorie> categories) {
+        List<Image> toutesLesImages = new ArrayList<>();
+        for (Categorie categorie : categories) {
+            toutesLesImages.addAll(categorie.get_images());
+        }
+        return toutesLesImages;
     }
 
     private static void telechargerImage(Utilisateur utilisateur, List<Categorie> categories, Scanner scanner) {
@@ -115,6 +195,7 @@ public class MainClass {
             for (Image image : categorie.get_images()) {
                 if (image.get_nomfichier().equals(nomImage)) {
                     utilisateur.telecharger(image);
+                    UserFileManager.sauvegarderCategories(categories);;
                     System.out.println("Image téléchargée avec succès.");
                     return;
                 }
