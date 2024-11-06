@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Utilisateur implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -139,6 +140,25 @@ public class Utilisateur implements Serializable {
 		System.out.println("L'image " + image.titre + " a été ajoutée");
 	}
 	*/
+	
+	public void creerImage(List<Image> images) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Entrez le nom de l'image : ");
+        String nom = scanner.nextLine();
+        System.out.print("Entrez le titre de l'image : ");
+        String description = scanner.nextLine();
+
+        Image image = new Image(nom, description);
+       if (!images.contains(image)) {
+        	images.add(image);
+            System.out.println("\nNouvelle image créée :");
+            UserFileManager.sauvegarderImages(images);
+            UserFileManager.chargerImages();
+            image.afficher_propriete();            
+       	} else {
+            System.out.println("Cette image existe déjà.");
+        }
+    }
 	
 	public void ajouter_favori(Image image) {
 		favoris.add(image);

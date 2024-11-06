@@ -7,61 +7,61 @@ import java.util.List;
 
 public class Statistique {
 
-	private int nbre_total_image;
-	private List<List<Object>> image_populaire;
-	private List<List<Object>> image_par_cat = new ArrayList<>();
-	private int nbre_telechargement;
+	private static int nbre_total_image;
+	private static List<List<Object>> image_populaire = new ArrayList<>();
+	private static List<List<Object>> image_par_cat = new ArrayList<>();
+	private static int nbre_telechargement;
 	
 	
 	// Constructeur
 	public Statistique() {
-		this.nbre_total_image = Image.imagescreer.size();
-		this.image_populaire = images_populaires(Image.imagescreer);
-		this.nbre_telechargement = nbre_telechargement();
-		this.image_par_cat = telechargements_categorie();
+		Statistique.nbre_total_image = Image.imagescreer.size();
+		Statistique.image_populaire = images_populaires(Image.imagescreer);
+		Statistique.nbre_telechargement = nbre_telechargement();
+		Statistique.image_par_cat = telechargements_categorie();
 	}
 	
 	
 	// Accesseurs
 	public int get_nbre_total_image() {
-		return this.nbre_total_image;
+		return Statistique.nbre_total_image;
 	}
 	
 	
 	public int get_nbre_telechargement() {
-		return this.nbre_telechargement;
+		return Statistique.nbre_telechargement;
 	}
 	
 	
 	public List<List<Object>> get_image_par_cat() {
-		return this.image_par_cat;
+		return Statistique.image_par_cat;
 	}
 	
 	
 	public List<List<Object>> get_image_populaire() {
-		return this.image_populaire;
+		return Statistique.image_populaire;
 	}
 	
 	
 	
 	// Mutateurs
 	public void set_nbre_total_image(int val) {
-		this.nbre_total_image = val;
+		Statistique.nbre_total_image = val;
 	}
 	
 	
 	public void set_nbre_telechargement(int val) {
-		this.nbre_telechargement = val;
+		Statistique.nbre_telechargement = val;
 	}
 	
 	
 	public void set_image_par_cat(List<List<Object>> val) {
-		this.image_par_cat = val;
+		Statistique.image_par_cat = val;
 	}
 	
 	
 	public void set_image_populaire(List<List<Object>> val) {
-		this.image_populaire = val;
+		Statistique.image_populaire = val;
 	}
 	
 	
@@ -136,7 +136,7 @@ public class Statistique {
 	
 	
 	
-	public void afficher_statistique() {
+	public static void afficher_statistique() {
 		System.out.println("[[_____Les Statistiques globals :_____]]");
 		System.out.println("Le nombre d'image total = " + nbre_total_image);
 		System.out.println("le nombre de téléchargement total :" + nbre_telechargement);

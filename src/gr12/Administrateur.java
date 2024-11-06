@@ -30,24 +30,7 @@ public class Administrateur extends Utilisateur {
         }
     }
     
-    public void creerImage(List<Image> images) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Entrez le nom de l'image : ");
-        String nom = scanner.nextLine();
-        System.out.print("Entrez le titre de l'image : ");
-        String description = scanner.nextLine();
-
-        Image image = new Image(nom, description);
-       if (!images.contains(image)) {
-        	images.add(image);
-            System.out.println("\nNouvelle image créée :");
-            UserFileManager.sauvegarderImages(images);
-            UserFileManager.chargerImages();
-            image.afficher_propriete();            
-       	} else {
-            System.out.println("Cette image existe déjà.");
-        }
-    }
+    
     
 
     public void ajouterImage(List<Categorie> categories, List<Image> images) {
@@ -137,9 +120,18 @@ public class Administrateur extends Utilisateur {
         }
     }
 
-    public void supprimerImage(Image image) {
-        Image.imagescreer.remove(image);
-        System.out.println("Image supprimée : '" + image.get_titre() + "'");
+    public void supprimerImage(Image image, List<Categorie> categories) {
+        
+    	for (Categorie categorie : categories) {
+            for (Image img : categorie.get_images()) {
+                if (image == img) {
+                    categorie.images.remove(image);
+                    UserFileManager.sauvegarderCategories(categories);
+                    System.out.println("Image supprimée avec succès.");
+                    return;
+                }
+            }
+        }
     }
 
     public void consulterUtilisateurs() {
@@ -153,14 +145,27 @@ public class Administrateur extends Utilisateur {
         }
     }
 
-    public void ajouterUtilisateur(String nom, String email, String password) {
-        Utilisateur utilisateur = new Utilisateur(nom, email, password);
-        if (!liste_user.contains(utilisateur)) {
-            liste_user.add(utilisateur);
-            System.out.println("Utilisateur ajouté : '" + utilisateur.get_nom() + "'");
+    public void ajouterUtilisateur() {
+    	Scanner scanner = new Scanner(System.in);
+        System.out.print("Entrez le nom : ");
+        String nom = scanner.nextLine();
+        
+        System.out.print("Entrez l'email : ");
+        String email = scanner.nextLine();
+        
+        System.out.print("Entrez le mot de passe : ");
+        String password = scanner.nextLine();
+
+        if (verifier_email(email)) {
+            System.out.println("L'email existe déjà");
         } else {
-            System.out.println("Utilisateur déjà présent.");
+            Utilisateur new_user = new Utilisateur(nom, email, password);
+            liste_user.add(new_user);
+            UserFileManager.saveUsers();
+            System.out.println("Inscription réussie!");
+            
         }
+
     }
 
     public void modifierUtilisateur(Utilisateur utilisateur, String nouveauNom, String nouveauPassword) {
@@ -179,6 +184,16 @@ public class Administrateur extends Utilisateur {
             System.out.println("Utilisateur suspendu : '" + utilisateur.get_nom() + "'");
         } else {
             System.out.println("Utilisateur déjà suspendu.");
+        }
+        UserFileManager.saveUsers();
+        UserFileManager.loadUsers();
+    }
+    public void activerUtilisateur(Utilisateur utilisateur) {
+        if (utilisateur.suspendu) {
+            utilisateur.set_suspendu(false);
+            System.out.println("Utilisateur réactiver : '" + utilisateur.get_nom() + "'");
+        } else {
+            System.out.println("Utilisateur déjà actif.");
         }
         UserFileManager.saveUsers();
         UserFileManager.loadUsers();

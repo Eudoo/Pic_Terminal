@@ -57,7 +57,7 @@ public class MainClass {
                         if (utilisateur instanceof Administrateur) {
                             menuAdministrateur((Administrateur) utilisateur, categories, images, scanner);
                         } else {
-                            menuUtilisateur(utilisateur, categories, scanner);
+                            menuUtilisateur(utilisateur, categories, images, scanner);
                         }
                     }
                 }
@@ -74,27 +74,29 @@ public class MainClass {
         }
     }
 
-    private static void menuUtilisateur(Utilisateur utilisateur, List<Categorie> categories, Scanner scanner) {
+    private static void menuUtilisateur(Utilisateur utilisateur, List<Categorie> categories, List<Image> images, Scanner scanner) {
         int men;
     	do {
             System.out.println("\n--- Menu Utilisateur ---");
-            System.out.println("1. Voir votre galerie");
-            System.out.println("2. Voir les images disponibles sur le site");
-            System.out.println("3. Télécharger une image");
-            System.out.println("4. Mon profil");
-            System.out.println("5. Modifier profil");
-            System.out.println("6. Déconnexion");
+            System.out.println("1. Creer une Image");
+            System.out.println("2. Voir votre galerie");
+            System.out.println("3. Voir les images disponibles sur le site");
+            System.out.println("4. Télécharger une image");
+            System.out.println("5. Mon profil");
+            System.out.println("6. Modifier profil");
+            System.out.println("7. Déconnexion");
             System.out.print("Choisissez une option : ");
             int choix = scanner.nextInt();
             scanner.nextLine(); // vider le tampon
 
             switch (choix) {
-            	case 1 -> utilisateur.afficher_galerie();
-                case 2 -> afficherImages(categories,utilisateur);
-                case 3 -> telechargerImage(utilisateur, categories, scanner);
-                case 4 -> utilisateur.afficher_infos();
-                case 5 -> utilisateur.modifierProfil();
-                case 6 -> {
+            	case 1 -> utilisateur.creerImage(images);
+            	case 2 -> utilisateur.afficher_galerie();
+                case 3 -> afficherImages(categories,utilisateur);
+                case 4 -> telechargerImage(utilisateur, categories, scanner);
+                case 5 -> utilisateur.afficher_infos();
+                case 6 -> utilisateur.modifierProfil();
+                case 7 -> {
                     System.out.println("Déconnexion réussie.");
                     return;
                 }
@@ -240,25 +242,29 @@ public class MainClass {
     private static void menuAdministrateur(Administrateur admin, List<Categorie> categories, List<Image> images, Scanner scanner) {
         while (true) {
             System.out.println("\n--- Menu Administrateur ---");
-            System.out.println("1. Creer une Image");
+            System.out.println("1. Creer un utilisateur");
             System.out.println("2. Voir les images du site");
             System.out.println("3. Gestion des images");
             System.out.println("4. Creer une nouvelle categorie");
             System.out.println("5. Ajouter une image a une categorie");
             System.out.println("6. Voir les utilisateurs");
-            System.out.println("7. Déconnexion");
+            System.out.println("7. Gestion des utilisateurs");
+            System.out.println("8. Voir Statistiques");
+            System.out.println("9. Déconnexion");
             System.out.print("Choisissez une option : ");
             int choix = scanner.nextInt();
             scanner.nextLine(); // vider le tampon
 
             switch (choix) {
-            	case 1 -> admin.creerImage(images);
+            	case 1 -> admin.ajouterUtilisateur();
             	case 2 -> ListerLesImages(categories);
             	case 3 -> GererImages(categories,admin);
             	case 4 -> creerCategorie(categories);
                 case 5 -> admin.ajouterImage(categories, images);
                 case 6 -> admin.consulterUtilisateurs();
-                case 7 -> {
+                case 7 -> GererUtilisateurs(Utilisateur.liste_user,admin);
+                case 8 -> Statistique.afficher_statistique();
+                case 9 -> {
                     System.out.println("Déconnexion réussie.");
                     return;
                 }
@@ -327,9 +333,10 @@ public class MainClass {
                     // Afficher les options pour l'image sélectionnée
                     System.out.println("\nOptions pour l'image : " + imageSelectionnee.get_titre());
                     System.out.println("1. Approuver l'image");
-                    System.out.println("2. Modifier l'image");
-                    System.out.println("3. Supprimer l'image");
-                    System.out.println("4. Retourner à la sélection d'image");
+                    System.out.println("2. Rejeter l'image");
+                    System.out.println("3. Modifier l'image");
+                    System.out.println("4. Supprimer l'image");
+                    System.out.println("5. Retourner à la sélection d'image");
 
                     System.out.print("Entrez votre choix : ");
                     int choix = scanner.nextInt();
@@ -339,14 +346,19 @@ public class MainClass {
                         case 1-> {admin.validerImage(imageSelectionnee);   
                         		UserFileManager.sauvegarderCategories(categories);
                         }
-                        case 2-> {imageSelectionnee.modifierImage();   
+                        case 2-> {admin.rejeterImage(imageSelectionnee);   
+                		UserFileManager.sauvegarderCategories(categories);
+                        }
+                        case 3-> {imageSelectionnee.modifierImage();   
                 				UserFileManager.sauvegarderCategories(categories);
                         }
-                        case 3->{
-	                        	admin.supprimerImage(imageSelectionnee);
-	                        	UserFileManager.sauvegarderCategories(categories);
-                        }
                         case 4->{
+	                        	admin.supprimerImage(imageSelectionnee, categories);
+	                        	UserFileManager.sauvegarderCategories(categories);
+	                        	sousMenu = false;
+	                            break;
+                        }
+                        case 5->{
                             	sousMenu = false;
                             	break;
                         }
@@ -358,6 +370,81 @@ public class MainClass {
                 }
             } else {
                 System.out.println("Image avec ID " + imageId + " non trouvée. Veuillez réessayer.");
+            }
+        }
+     }
+    
+    private static void GererUtilisateurs(List<Utilisateur> liste , Administrateur admin) {
+    	UserFileManager.chargerCategories();
+        Scanner scanner = new Scanner(System.in);
+    	System.out.println("\n--- Liste des utilisateurs  ---");
+        for (Utilisateur utilisateur : liste) {
+           utilisateur.afficher_infos(); 
+           
+        }
+        
+        boolean continuer = true;
+        while (continuer) {
+        	
+            System.out.println("\nEntrez l'ID de l'utilisateur pour interagir, ou -1 pour revenir au menu principal : ");
+            int id = scanner.nextInt();
+            scanner.nextLine(); 
+            if (id == -1) {
+                continuer = false;
+                break;
+            }
+            // Rechercher l'user correspondant à l'ID
+            Utilisateur user = null;
+            for (Utilisateur utilisateur : liste) {
+                    if (utilisateur.get_id_user() == id) {
+                        user = utilisateur;
+                        break;
+                    
+                }
+                if (user != null) break;
+            }
+
+            if (user != null) {
+                boolean sousMenu = true;
+                while (sousMenu) {
+                    // Afficher les options pour l'image sélectionnée
+                    System.out.println("\nOptions pour : " +user.get_nom());
+                    System.out.println("1. Suspendre");
+                    System.out.println("2. Réactiver");
+                    System.out.println("3. Modifier profil");
+                    System.out.println("4. Supprimer l'utilisateur");
+                    System.out.println("5. Retourner à la sélection d'image");
+
+                    System.out.print("Entrez votre choix : ");
+                    int choix = scanner.nextInt();
+                    scanner.nextLine(); // Consomme la nouvelle ligne
+
+                    switch (choix) {
+                        case 1-> {admin.suspendreUtilisateur(user);  
+                        		UserFileManager.saveUsers();
+                        }
+                        case 2-> {admin.activerUtilisateur(user);  
+                		UserFileManager.saveUsers();
+                        }
+                        case 3-> {user.modifierProfil();   
+                        		UserFileManager.saveUsers();
+                        }
+                        case 4->{
+	                        	admin.supprimerUtilisateur(user);;
+	                        	UserFileManager.saveUsers();
+                        }
+                        case 5->{
+                            	sousMenu = false;
+                            	break;
+                        }
+                        default->{
+                            System.out.println("Choix invalide. Veuillez réessayer.");
+                            break;
+                        }
+                    }
+                }
+            } else {
+                System.out.println("Image avec ID " + id + " non trouvée. Veuillez réessayer.");
             }
         }
      }
