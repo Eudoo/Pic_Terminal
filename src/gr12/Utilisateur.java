@@ -134,12 +134,7 @@ public class Utilisateur implements Serializable {
         UserFileManager.saveUsers();
     }
 	
-	/*
-	public void ajouter_image(Image image, Galerie galerie) {
-		galerie.ajouter_image(image);
-		System.out.println("L'image " + image.titre + " a été ajoutée");
-	}
-	*/
+	
 	
 	public void creerImage(List<Image> images) {
         Scanner scanner = new Scanner(System.in);

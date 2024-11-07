@@ -245,22 +245,7 @@ public class Administrateur extends Utilisateur {
         }
     }
     
-    /*
-	public void voirStatistiques(Statistique stats) {
-		System.out.println("Nombre total d'images : " + stats.getNbreTotalImage());
-        System.out.println("Nombre total de téléchargements : " + stats.getNbreTelechargement());
-        
-        System.out.println("Images populaires : ");
-        for (Image img : stats.getImagesPopulaires()) {
-            System.out.println(img.get_titre() + " - Likes : " + img.get_like());
-        }
-        
-        System.out.println("Images par catégorie : ");
-        for (Map.Entry<Categorie, Integer> entry : stats.getImageParCategorie().entrySet()) {
-            System.out.println(entry.getKey().get_nom_categorie() + " : " + entry.getValue() + " images.");
-        }
-		
-	}*/
+    
 }
 
 	

@@ -24,20 +24,6 @@ public class MainClass {
             System.out.println("Administrateur initial créé : " + admin1.get_nom());
         }
         
-         
-        // Ajout des images de base
-        Image image1 = new Image("paris.jpg", "Vue de la Tour Eiffel à Paris");
-        Image image2 = new Image("newyork.jpg", "Skyline de New York");
-        Image image3 = new Image("pomme.jpg", "Pomme rouge");
-        Image image4 = new Image("banane.jpg", "Banane jaune");
-        Image image5 = new Image("fraise.jpg", "Fraise fraîche");
-        
-        // Ajouter les images à la liste d'images disponibles
-        images.add(image1);
-        images.add(image2);
-        images.add(image3);
-        images.add(image4);
-        images.add(image5);
         */
         System.out.println();
         System.out.println("\t╔═══════════════════════════════════════════╗");
@@ -217,38 +203,6 @@ public class MainClass {
         System.out.println("Image non trouvée.");
     }
 
-    private static void proposerImage(Administrateur admin, List<Categorie> categories, Scanner scanner) {
-        System.out.print("►Entrez le nom de votre image : ");
-        String nomImage = scanner.nextLine();
-        System.out.print("►Entrez le titre de l'image : ");
-        String titre = scanner.nextLine();
-        System.out.print("►Entrez une description de l'image : ");
-        String description = scanner.nextLine();
-        System.out.print("►Entrez la categorie de l'image : ");
-        String nomCategorie = scanner.nextLine();
-        
-        Categorie categorieSelectionnee = null;
-        for (Categorie categorie : categories) {
-        	if (categorie.get_nom_categorie() == nomCategorie) {
-                	 categorieSelectionnee = categorie;
-                    break;
-                }
-            if (categorieSelectionnee != null) break;
-        }
-
-        
-        Image imageProposee = new Image(nomImage, titre, description);
-            if (categorieSelectionnee != null) {
-            	admin.ajouterImage(categories,categorieSelectionnee.get_images());
-            UserFileManager.sauvegarderImages(categorieSelectionnee.get_images());
-            System.out.println("Image proposée avec succès. En attente d'approbation par un administrateur.");
-        } else {
-            System.out.println("Catégorie non trouvée.");
-        }
-    }
-
-    
-    
     private static void menuAdministrateur(Administrateur admin, List<Categorie> categories, List<Image> images, Scanner scanner) {
     	int men;
     	do {
@@ -592,33 +546,5 @@ public class MainClass {
        
     }
     
-/*
-    private static void voirImagesProposees(List<Categorie> categories) {
-        System.out.println("\n--- Images Proposées ---");
-        for (Categorie categorie : categories) {
-            System.out.println("Catégorie: " + categorie.get_nom_categorie());
-            categorie.get_images().stream()
-                     .filter(Image::isProposee)
-                     .forEach(Image::afficher_propriete);
-        }
-    }
 
-    private static void approuverImage(Administrateur admin, List<Categorie> categories, Scanner scanner) {
-        System.out.print("Entrez le nom de l'image à approuver : ");
-        String nomImage = scanner.nextLine();
-        
-        for (Categorie categorie : categories) {
-            for (Image image : categorie.get_images()) {
-                if (image.get_nomfichier().equals(nomImage) && image.isProposee()) {
-                    admin.approuverImage(image);
-                    System.out.println("Image approuvée avec succès.");
-                    UserFileManager.sauvegarderImages(categorie.get_images());
-                    return;
-                }
-            }
-        }
-        System.out.println("Image proposée non trouvée ou déjà approuvée.");
-    }
-    
-   */
 }
