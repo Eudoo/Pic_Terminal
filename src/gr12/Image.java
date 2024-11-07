@@ -133,23 +133,19 @@ public class Image implements Serializable {
 	System.out.println("    nombre de téléchargement:"+nbre_Telechargement);
 	System.out.println();
    }
-
-
-
-   /**les modifications de propriété possibles sont: le nom du fichier , sa catégorie et le titre**/
-//Modification du nom
+   
+   //Modification du nom
    public void modifier_nom(String Newname) {
 	   this.Nomfichier=Newname;
 	   UserFileManager.sauvegarderImages(imagescreer);
 	  }
-//modification titre   
+   //modification titre   
    
    public void modifier_titre(String Newtitle) {
 	   this.titre= Newtitle;
 	   UserFileManager.sauvegarderImages(imagescreer);
 	   }
-	
-   
+	   
    //Modification de sa catégorie
    public void modifier_catégorie( List<Categorie> categories) {
    System.out.println("Faite un choix parmis les différentes catégories:");
@@ -229,11 +225,9 @@ public class Image implements Serializable {
 	        return true;
 	    } else {
 	        System.out.println("Vous avez déjà liké cette image.");
-	        return false;  // Si l'utilisateur a déjà liké, on retourne false
+	        return false;  
 	    }
-	}
-
-	
+	}	
    
 	 // les getters
 	public String get_nomfichier(){
@@ -270,9 +264,7 @@ public class Image implements Serializable {
 		return telecharger;}
 	 
 
-
-
-// les setters
+	// les setters
 
     public void set_nomfichier(String val){
 	   this.Nomfichier = val;
@@ -332,6 +324,4 @@ public class Image implements Serializable {
 	    return Integer.hashCode(id_image); // Utilise l'ID unique pour le hashage
 	}
 	
-
-
 }

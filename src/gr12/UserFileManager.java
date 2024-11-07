@@ -70,8 +70,6 @@ public class UserFileManager {
         }
         return images;
     }
-
-    
     
  // Méthode pour sauvegarder les catégories dans un fichier .dat
     public static void sauvegarderCategories(List<Categorie> categories) {

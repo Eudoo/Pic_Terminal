@@ -420,11 +420,7 @@ public class MainClass {
                 System.out.println("Image avec ID " + id + " non trouvée. Veuillez réessayer.");
             }
         }
-     }
-    
-    
-    
-    
+     }       
     
     public static void statistique(List<Categorie> categories, List<Image> images) {
     
@@ -456,8 +452,7 @@ public class MainClass {
     	}
     	
     }
-    
-    
+        
     public static void afficherTop10Images(List<Categorie> categories) {
         // Créer une liste temporaire pour stocker toutes les images
         List<Image> toutesImages = new ArrayList<>();
@@ -486,8 +481,7 @@ public class MainClass {
             image.afficher_propriete();
         }
     }
-    
-    
+        
     private static void rechercher(Administrateur admin,List<Categorie> categories, Scanner scanner) {
         System.out.println("\n ---------- Recherche ----------\n");
         System.out.println(" 1. Rechercher un utilisateur");
@@ -514,8 +508,7 @@ public class MainClass {
         } 
             default -> System.out.println("Option non valide.");
         }
-    }
-    
+    }    
     
     private static void rechercherUtilisateur(String nomUtilisateur) {
     	List<Utilisateur> UserRecherchees = new ArrayList<>();
@@ -534,7 +527,7 @@ public class MainClass {
         List<Image> imagesRecherchees = new ArrayList<>();
         for (Categorie categorie : categories) {
             for (Image image : categorie.get_images()) {
-                if (image.get_titre().toLowerCase().contains(nomImage.toLowerCase()) || image.get_description().toLowerCase().contains(nomImage.toLowerCase())) {
+                if (image.get_nomfichier().toLowerCase().contains(nomImage.toLowerCase()) || image.get_titre().toLowerCase().contains(nomImage.toLowerCase()) || image.get_description().toLowerCase().contains(nomImage.toLowerCase())) {
                     imagesRecherchees.add(image);
                 }
             }
@@ -542,9 +535,7 @@ public class MainClass {
         System.out.println("\n" + imagesRecherchees.size() + " images trouvées avec le mot-clé '" + nomImage + "'.");
         for (Image image : imagesRecherchees) {
              image.afficher_propriete();
-              }           
-       
+         }         
     }
     
-
 }

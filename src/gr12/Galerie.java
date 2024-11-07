@@ -15,7 +15,6 @@ public class Galerie implements Serializable {
 		this.images = new ArrayList<>();
 	}
 	
-	
 	// Methodes
 	public void ajouter_image(Image image) {
         if (!images.contains(image)) {

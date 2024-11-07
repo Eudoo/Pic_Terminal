@@ -30,9 +30,6 @@ public class Administrateur extends Utilisateur {
         }
     }
     
-    
-    
-
     public void ajouterImage(List<Categorie> categories, List<Image> images) {
         Scanner scanner = new Scanner(System.in);
         for (Categorie categorie : categories) {
@@ -78,7 +75,6 @@ public class Administrateur extends Utilisateur {
         categories.get(choixCategorie).ajouter_image(image);
         UserFileManager.sauvegarderCategories(categories);
     }
-
 
     public void afficherToutesCategories() {
         System.out.println("\n -------- Toutes les catégories disponibles ---------");
@@ -190,6 +186,7 @@ public class Administrateur extends Utilisateur {
         UserFileManager.saveUsers();
         UserFileManager.loadUsers();
     }
+    
     public void activerUtilisateur(Utilisateur utilisateur) {
         if (utilisateur.suspendu) {
             utilisateur.set_suspendu(false);
@@ -244,8 +241,7 @@ public class Administrateur extends Utilisateur {
             img.afficher_propriete();
         }
     }
-    
-    
+        
 }
 
 	
