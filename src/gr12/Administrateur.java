@@ -160,8 +160,6 @@ public class Administrateur extends Utilisateur {
             System.out.println("L'email existe déjà");
         } else {
             Utilisateur new_user = new Utilisateur(nom, email, password);
-            liste_user.add(new_user);
-            UserFileManager.saveUsers();
             System.out.println("Inscription réussie!");
             
         }

@@ -18,7 +18,7 @@ public class MainClass {
         
         //  ############ Instance Administrateur cree une seule fois ############### 
         /*
-        Administrateur admin1 = new Administrateur("a", "a", "a");
+        Administrateur admin1 = new Administrateur("admin", "admin", "admin");
         if (!UserFileManager.utilisateurExiste(admin1.get_email())) {
             UserFileManager.ajouterUtilisateur(admin1); // Sauvegarde l'administrateur dans le fichier
             System.out.println("Administrateur initial créé : " + admin1.get_nom());
@@ -263,10 +263,10 @@ public class MainClass {
             System.out.print("Choisissez une option : ");
             int choix = scanner.nextInt();
             scanner.nextLine(); // vider le tampon
-            UserFileManager.chargerImages();
+            
             switch (choix) {
             	case 1 -> admin.ajouterUtilisateur();
-            	case 2 -> ListerLesImages(categories);
+            	case 2 -> ListerLesImages(categories, images);
             	case 3 -> GererImages(categories,admin);
             	case 4 -> creerCategorie(categories);
                 case 5 -> admin.ajouterImage(categories, images);
@@ -298,7 +298,7 @@ public class MainClass {
         UserFileManager.sauvegarderCategories(categories);
     }
     
-    private static void ListerLesImages(List<Categorie> categories) {
+    private static void ListerLesImages(List<Categorie> categories, List<Image> images) {
     	UserFileManager.chargerCategories();
         Scanner scanner = new Scanner(System.in);
     	System.out.println("\n--- Images Disponibles ---");

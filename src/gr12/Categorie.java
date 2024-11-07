@@ -142,6 +142,7 @@ public class Categorie implements Serializable {
     }
 
     public void afficher_categorie() {
+    	
         System.out.println("\n*ID Catégorie: " + id);
         System.out.println(" Nom: " + nom_categorie);
         System.out.println(" Description: " + description);

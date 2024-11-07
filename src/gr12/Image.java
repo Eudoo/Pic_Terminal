@@ -111,6 +111,7 @@ public class Image implements Serializable {
 	 System.out.println("-id image : " + id_image);   
 	 System.out.println(" Nom du fichier : "+ Nomfichier);
 	 System.out.println(" Titre : "+ titre);
+	 System.out.println(" Description : "+ description);
 	 if (categorie != null) {
 	        System.out.println(" Catégorie : " + categorie.get_nom_categorie());
 	    } else {

@@ -146,9 +146,11 @@ public class Utilisateur implements Serializable {
         System.out.print("Entrez le nom de l'image : ");
         String nom = scanner.nextLine();
         System.out.print("Entrez le titre de l'image : ");
+        String titre = scanner.nextLine();
+        System.out.print("Entrez une description de l'image : ");
         String description = scanner.nextLine();
-
-        Image image = new Image(nom, description);
+        
+        Image image = new Image(nom,titre,description);
        if (!images.contains(image)) {
         	images.add(image);
             System.out.println("\nNouvelle image créée :");
