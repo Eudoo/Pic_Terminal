@@ -275,10 +275,11 @@ public class MainClass {
                 case 5 -> admin.ajouterImage(categories, images);
                 case 6 -> admin.consulterUtilisateurs();
                 case 7 -> GererUtilisateurs(Utilisateur.liste_user,admin);
-                case 8 -> {statistique(categories,images);
+                case 8 -> rechercher(admin,categories,scanner);
+                case 9 -> {statistique(categories,images);
                 			afficherTop10Images(categories);
                 }
-                case 9 -> {
+                case 10 -> {
                     System.out.println("Déconnexion réussie.");
                     return;
                 }
@@ -530,6 +531,61 @@ public class MainClass {
             System.out.println("Image ID: " + top10Ids[i]);
             image.afficher_propriete();
         }
+    }
+    
+    
+    private static void rechercher(Administrateur admin,List<Categorie> categories, Scanner scanner) {
+        System.out.println("\n--- Recherche ---");
+        System.out.println("1. Rechercher un utilisateur");
+        System.out.println("2. Rechercher une image");
+        System.out.print("Choisissez une option : ");
+        int choixRecherche = scanner.nextInt();
+        scanner.nextLine(); // vider le tampon
+
+        switch (choixRecherche) {
+            case 1 -> {
+                System.out.print("Entrez le nom de l'utilisateur à rechercher : ");
+                String nomUtilisateur = scanner.nextLine();
+                rechercherUtilisateur(nomUtilisateur);
+            }
+            case 2 -> {
+                System.out.print("Entrez le nom de l'image à rechercher : ");
+                String nomImage = scanner.nextLine();
+                rechercherImage(nomImage,categories);
+                //admin.rechercher(nomImage);
+            }
+            default -> System.out.println("Option non valide.");
+        }
+    }
+    
+    
+    private static void rechercherUtilisateur(String nomUtilisateur) {
+    	List<Utilisateur> UserRecherchees = new ArrayList<>();
+        for (Utilisateur utilisateur : Utilisateur.liste_user) {
+        	if (utilisateur.get_nom().toLowerCase().contains(nomUtilisateur.toLowerCase())) {
+        		UserRecherchees.add(utilisateur);
+            }
+        }
+        System.out.println("\n" + UserRecherchees.size() + " utilisateur trouvées avec le mot-clé '" + nomUtilisateur + "'.");
+        for (Utilisateur utilisateur : UserRecherchees) {
+        	utilisateur.afficher_infos();
+        }
+    }
+
+    private static void rechercherImage(String nomImage,List<Categorie> categories) { 
+        List<Image> imagesRecherchees = new ArrayList<>();
+        for (Categorie categorie : categories) {
+            for (Image image : categorie.get_images()) {
+                if (image.get_titre().toLowerCase().contains(nomImage.toLowerCase()) || image.get_description().toLowerCase().contains(nomImage.toLowerCase())) {
+                    imagesRecherchees.add(image);
+                }
+            }
+        }
+        System.out.println("\n" + imagesRecherchees.size() + " images trouvées avec le mot-clé '" + nomImage + "'.");
+        for (Image image : imagesRecherchees) {
+             image.afficher_propriete();
+              }           
+       
     }
     
 /*
