@@ -108,29 +108,29 @@ public class Image implements Serializable {
 //Afficher propriété
 
    public void afficher_propriete() {
-	 System.out.println("-id image : " + id_image);   
-	 System.out.println(" Nom du fichier : "+ Nomfichier);
-	 System.out.println(" Titre : "+ titre);
-	 System.out.println(" Description : "+ description);
+	 System.out.println("   -id image : " + id_image);   
+	 System.out.println("    Nom du fichier : "+ Nomfichier);
+	 System.out.println("    Titre : "+ titre);
+	 System.out.println("    Description : "+ description);
 	 if (categorie != null) {
-	        System.out.println(" Catégorie : " + categorie.get_nom_categorie());
+	        System.out.println("    Catégorie : " + categorie.get_nom_categorie());
 	    } else {
-	        System.out.println(" Catégorie : Aucune");
+	        System.out.println("    Catégorie : Aucune");
 	    }
 	if(Estpublic==false) {
-		  System.out.println(" Visibilité : Privé");
+		  System.out.println("    Visibilité : Privé");
 	}
 	else {
-		System.out.println(" Visibilité : Publique");
+		System.out.println("    Visibilité : Publique");
 	}
 	if(get_Statut()==false) {
-		System.out.println(" Statut : Pas validée");
+		System.out.println("    Statut : Pas validée");
 	}
 	else {
-		System.out.println(" Statut : validée");
+		System.out.println("    Statut : validée");
 	}
-	System.out.println(" Nombres de likes:"+ likes);
-	System.out.println(" nombre de téléchargement:"+nbre_Telechargement);
+	System.out.println("    Nombres de likes:"+ likes);
+	System.out.println("    nombre de téléchargement:"+nbre_Telechargement);
 	System.out.println();
    }
 

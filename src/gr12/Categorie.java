@@ -143,14 +143,14 @@ public class Categorie implements Serializable {
 
     public void afficher_categorie() {
     	
-        System.out.println("\n*ID Catégorie: " + id);
-        System.out.println(" Nom: " + nom_categorie);
-        System.out.println(" Description: " + description);
-        System.out.println(" Images dans cette catégorie:");
+        System.out.println("    ID Catégorie: " + id);
+        System.out.println("    Nom: " + nom_categorie);
+        System.out.println("    Description: " + description);
+        System.out.println("    Images dans cette catégorie:");
         if (images.isEmpty()) {
-            System.out.println(" Images: Aucune image dans cette catégorie.");
+            System.out.println("   Images: Aucune image dans cette catégorie.");
         } else {
-            System.out.println(" Nombres d'images: " + images.size() + "\n");
+            System.out.println("    Nombres d'images: " + images.size() + "\n");
             for (Image image : images) {
                 image.afficher_propriete();
             }

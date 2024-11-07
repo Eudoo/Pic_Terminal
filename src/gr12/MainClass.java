@@ -39,14 +39,16 @@ public class MainClass {
         images.add(image4);
         images.add(image5);
         */
-        
-        System.out.println("Bienvenue sur la plateforme de téléchargement d'images!");
+        System.out.println();
+        System.out.println("\t╔═══════════════════════════════════════════╗");
+        System.out.println("\t╟───────┤ Bienvenue sur GalleryX !!!├───────╢");
+        System.out.println("\t╚═══════════════════════════════════════════╝");
 
         while (true) {
             System.out.println("\n1. Inscription");
             System.out.println("2. Connexion");
             System.out.println("3. Quitter");
-            System.out.print("Choisissez une option : ");
+            System.out.print("►Choisissez une option : ");
             int choix = scanner.nextInt();
             scanner.nextLine(); // vider le tampon
 
@@ -78,15 +80,15 @@ public class MainClass {
     private static void menuUtilisateur(Utilisateur utilisateur, List<Categorie> categories, List<Image> images, Scanner scanner) {
         int men;
     	do {
-            System.out.println("\n--- Menu Utilisateur ---");
-            System.out.println("1. Creer une Image");
-            System.out.println("2. Voir votre galerie");
-            System.out.println("3. Voir les images disponibles sur le site");
-            System.out.println("4. Télécharger une image");
-            System.out.println("5. Mon profil");
-            System.out.println("6. Modifier profil");
-            System.out.println("7. Déconnexion");
-            System.out.print("Choisissez une option : ");
+            System.out.println("\n  --------- ֎ Menu Utilisateur ֎ ---------");
+            System.out.println("  1. Creer une Image");
+            System.out.println("  2. Voir votre galerie");
+            System.out.println("  3. Voir les images disponibles sur le site");
+            System.out.println("  4. Télécharger une image");
+            System.out.println("  5. Mon profil");
+            System.out.println("  6. Modifier profil");
+            System.out.println("  7. Déconnexion");
+            System.out.print("  ►Choisissez une option : ");
             int choix = scanner.nextInt();
             scanner.nextLine(); // vider le tampon
 
@@ -104,7 +106,7 @@ public class MainClass {
                 default -> System.out.println("Option non valide, veuillez réessayer.");
             }
             System.out.print("\n1. Menu \n2. Quitter");
-            System.out.print("\nVotre choix :");
+            System.out.print("\n►Votre choix :");
             men = scanner.nextInt();
             scanner.nextLine(); // vider le tampon 
         }while( men != 2 );
@@ -113,16 +115,16 @@ public class MainClass {
     private static void afficherImages(List<Categorie> categories, Utilisateur utilisateur, List<Image> images) {
     	UserFileManager.chargerCategories();
         Scanner scanner = new Scanner(System.in);
-    	System.out.println("\n--- Images Disponibles ---");
+    	System.out.println("\n --------------- Images Disponibles ---------------");
         for (Categorie categorie : categories) {
-            System.out.println("\nCatégorie: " + categorie.get_nom_categorie());
+            System.out.println("\n  ┌─Catégorie: " + categorie.get_nom_categorie());
             categorie.afficher_categorie();
         }
         
         boolean continuer = true;
         while (continuer) {
         	
-            System.out.println("\nEntrez l'ID de l'image pour interagir, ou -1 pour revenir au menu principal : ");
+            System.out.println("\n     ►Entrez l'ID de l'image pour interagir, ou -1 pour revenir au menu principal : ");
             int imageId = scanner.nextInt();
             scanner.nextLine(); 
             if (imageId == -1) {
@@ -146,12 +148,12 @@ public class MainClass {
                 boolean sousMenu = true;
                 while (sousMenu) {
                     // Afficher les options pour l'image sélectionnée
-                    System.out.println("\nOptions pour l'image : " + imageSelectionnee.get_titre());
-                    System.out.println("1. Liker");
-                    System.out.println("2. Télécharger");
-                    System.out.println("3. Retourner à la sélection d'image");
+                    System.out.println("\n     Options pour l'image : " + imageSelectionnee.get_titre());
+                    System.out.println("      1. Liker");
+                    System.out.println("      2. Télécharger");
+                    System.out.println("      3. Retourner à la sélection d'image");
 
-                    System.out.print("Entrez votre choix : ");
+                    System.out.print("     ►Entrez votre choix : ");
                     int choix = scanner.nextInt();
                     scanner.nextLine(); // Consomme la nouvelle ligne
 
@@ -160,24 +162,24 @@ public class MainClass {
                         	boolean imageLikée = imageSelectionnee.liker(utilisateur.email);
                             if (imageLikée) {
                                 UserFileManager.sauvegarderImages(listerToutesLesImages(categories)); // Sauvegarder après modification
-                                System.out.println("Image likée avec succès.");
+                                System.out.println("      Image likée avec succès.");
                             }
                             break;
                         case 2:
                             utilisateur.telecharger(imageSelectionnee);
                             UserFileManager.sauvegarderImages(images);
-                            System.out.println("Image téléchargée avec succès.");
+                            
                             break;
                         case 3:
                             sousMenu = false;
                             break;
                         default:
-                            System.out.println("Choix invalide. Veuillez réessayer.");
+                            System.out.println("     Choix invalide. Veuillez réessayer.");
                             break;
                     }
                 }
             } else {
-                System.out.println("Image avec ID " + imageId + " non trouvée. Veuillez réessayer.");
+                System.out.println("     Image avec ID " + imageId + " non trouvée. Veuillez réessayer.");
             }
         }
            
@@ -199,7 +201,7 @@ public class MainClass {
             categorie.afficher_categorie();
         }
     	
-    	System.out.print("Entrez le nom de l'image à télécharger : ");
+    	System.out.print("►Entrez le nom de l'image à télécharger : ");
         String nomImage = scanner.nextLine();
         
         for (Categorie categorie : categories) {
@@ -216,13 +218,13 @@ public class MainClass {
     }
 
     private static void proposerImage(Administrateur admin, List<Categorie> categories, Scanner scanner) {
-        System.out.print("Entrez le nom de votre image : ");
+        System.out.print("►Entrez le nom de votre image : ");
         String nomImage = scanner.nextLine();
-        System.out.print("Entrez le titre de l'image : ");
+        System.out.print("►Entrez le titre de l'image : ");
         String titre = scanner.nextLine();
-        System.out.print("Entrez une description de l'image : ");
+        System.out.print("►Entrez une description de l'image : ");
         String description = scanner.nextLine();
-        System.out.print("Entrez la categorie de l'image : ");
+        System.out.print("►Entrez la categorie de l'image : ");
         String nomCategorie = scanner.nextLine();
         
         Categorie categorieSelectionnee = null;
@@ -258,8 +260,9 @@ public class MainClass {
             System.out.println("5. Ajouter une image a une categorie");
             System.out.println("6. Voir les utilisateurs");
             System.out.println("7. Gestion des utilisateurs");
-            System.out.println("8. Voir Statistiques");
-            System.out.println("9. Déconnexion");
+            System.out.println("8. Rechercher");
+            System.out.println("9. Voir Statistiques");
+            System.out.println("10. Déconnexion");
             System.out.print("Choisissez une option : ");
             int choix = scanner.nextInt();
             scanner.nextLine(); // vider le tampon
@@ -282,7 +285,7 @@ public class MainClass {
                 default -> System.out.println("Option non valide, veuillez réessayer.");
             }
             System.out.print("\n1. Menu \n2. Quitter");
-            System.out.print("\nVotre choix :");
+            System.out.print("\n►Votre choix :");
             men = scanner.nextInt();
             scanner.nextLine(); // vider le tampon 
         }while( men != 2 );
@@ -290,7 +293,7 @@ public class MainClass {
     
     public static void creerCategorie(List<Categorie> categories) {
         Scanner scanner = new Scanner(System.in);
-        System.out.print("Entrez le nom de la nouvelle catégorie : ");
+        System.out.print("►Entrez le nom de la nouvelle catégorie : ");
         String nomCategorie = scanner.nextLine();
         Categorie nouvelleCategorie = new Categorie(nomCategorie);
         categories.add(nouvelleCategorie); // Ajouter la catégorie à la liste des catégories
@@ -321,7 +324,7 @@ public class MainClass {
         boolean continuer = true;
         while (continuer) {
         	
-            System.out.println("\nEntrez l'ID de l'image pour interagir, ou -1 pour revenir au menu principal : ");
+            System.out.println("\n►Entrez l'ID de l'image pour interagir, ou -1 pour revenir au menu principal : ");
             int imageId = scanner.nextInt();
             scanner.nextLine(); 
             if (imageId == -1) {
@@ -352,7 +355,7 @@ public class MainClass {
                     System.out.println("4. Supprimer l'image");
                     System.out.println("5. Retourner à la sélection d'image");
 
-                    System.out.print("Entrez votre choix : ");
+                    System.out.print("►Entrez votre choix : ");
                     int choix = scanner.nextInt();
                     scanner.nextLine(); // Consomme la nouvelle ligne
 
@@ -400,7 +403,7 @@ public class MainClass {
         boolean continuer = true;
         while (continuer) {
         	
-            System.out.println("\nEntrez l'ID de l'utilisateur pour interagir, ou -1 pour revenir au menu principal : ");
+            System.out.println("\n►Entrez l'ID de l'utilisateur pour interagir, ou -1 pour revenir au menu principal : ");
             int id = scanner.nextInt();
             scanner.nextLine(); 
             if (id == -1) {
@@ -438,7 +441,7 @@ public class MainClass {
                         		UserFileManager.saveUsers();
                         }
                         case 2-> {admin.activerUtilisateur(user);  
-                		UserFileManager.saveUsers();
+                				UserFileManager.saveUsers();
                         }
                         case 3-> {user.modifierProfil();   
                         		UserFileManager.saveUsers();

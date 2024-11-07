@@ -50,7 +50,7 @@ public class UserFileManager {
     public static void sauvegarderImages(List<Image> images) {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(FICHIER_IMAGES))) {
             oos.writeObject(images);
-            System.out.println("Les images ont été sauvegardées avec succès.");
+            //System.out.println("Les images ont été sauvegardées avec succès.");
         } catch (IOException e) {
             System.out.println("Erreur lors de la sauvegarde des images : " + e.getMessage());
         }
@@ -62,7 +62,7 @@ public class UserFileManager {
         List<Image> images = new ArrayList<>();
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(FICHIER_IMAGES))) {
             images = (List<Image>) ois.readObject();
-            System.out.println("Les images ont été chargées avec succès.");
+            //System.out.println("Les images ont été chargées avec succès.");
         } catch (FileNotFoundException e) {
             System.out.println("Aucun fichier d'images trouvé, un nouveau sera créé.");
         } catch (IOException | ClassNotFoundException e) {
@@ -77,7 +77,7 @@ public class UserFileManager {
     public static void sauvegarderCategories(List<Categorie> categories) {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(FICHIER_CATEGORIES))) {
             oos.writeObject(categories);
-            System.out.println("Les catégories ont été sauvegardées avec succès.");
+            //System.out.println("Les catégories ont été sauvegardées avec succès.");
         } catch (IOException e) {
             System.out.println("Erreur lors de la sauvegarde des catégories : " + e.getMessage());
         }
@@ -89,7 +89,7 @@ public class UserFileManager {
         List<Categorie> categories = new ArrayList<>();
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(FICHIER_CATEGORIES))) {
             categories = (List<Categorie>)ois.readObject();
-            System.out.println("Les catégories ont été chargées avec succès.");
+            //System.out.println("Les catégories ont été chargées avec succès.");
         } catch (FileNotFoundException e) {
             System.out.println("Aucun fichier de catégories trouvé, un nouveau sera créé.");
         } catch (IOException | ClassNotFoundException e) {

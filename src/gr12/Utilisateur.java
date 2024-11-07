@@ -203,56 +203,58 @@ public class Utilisateur implements Serializable {
 	
 	public void afficher_infos() {
 		//UserFileManager.loadUsers();
-		System.out.println("\nId : "+ get_id_user());
-		System.out.println("Nom : "+ get_nom());
-		System.out.println("Email : "+ get_email());
+		System.out.println("\n -------------- Profil de "+ get_nom()+" --------------");
+		System.out.println("  Id : "+ get_id_user());
+		System.out.println("  Nom : "+ get_nom());
+		System.out.println("  Email : "+ get_email());
 		if(suspendu==false) {
-			  System.out.println("Statut : Actif");
+			  System.out.println("  Statut : Actif");
 		}
 		else {
-			System.out.println("Statut : Suspendu");
+			System.out.println("  Statut : Suspendu");
 		}
 		
 	}
 	
 	public void afficher_galerie() {
-		System.out.println("Galerie de "+get_nom());
+		System.out.println("\n  ------------- Galerie de "+get_nom()+" -------------");
 		this.galerie.afficherImages();;
 	}
 	
 	public static void sinscrire() {
         Scanner scanner = new Scanner(System.in);
         
-        System.out.println("\n=== INSCRIPTION ===");
-        System.out.print("Entrez votre nom : ");
+        System.out.println("\n┌──────── ֎ INSCRIPTION ֎ ────────");
+        System.out.print("├Entrez votre nom : ");
         String nom = scanner.nextLine();
         
-        System.out.print("Entrez votre email : ");
+        System.out.print("├Entrez votre email : ");
         String email = scanner.nextLine();
         
-        System.out.print("Entrez votre mot de passe : ");
+        System.out.print("├Entrez votre mot de passe : ");
         String password = scanner.nextLine();
 
         if (verifier_email(email)) {
-            System.out.println("L'email existe déjà");
+            System.out.println("└─── L'email existe déjà ──────────");
         } else {
         	
             Utilisateur new_user = new Utilisateur(nom, email, password);
             liste_user.add(new_user);
             UserFileManager.saveUsers();
-            System.out.println("Inscription réussie!");
+            System.out.println("└───── Inscription réussie! ───────");
             
         }
+        System.out.println("  ");
     }
 
     public static Utilisateur se_connecter() {
         Scanner scanner = new Scanner(System.in);
         
-        System.out.println("\n=== CONNEXION ===");
-        System.out.print("Entrez votre email : ");
+        System.out.println("\n┌───── ֎ CONNEXION ֎ ────────────────────");
+        System.out.print("├Entrez votre email : ");
         String email = scanner.nextLine();
         
-        System.out.print("Entrez votre mot de passe : ");
+        System.out.print("├Entrez votre mot de passe : ");
         String password = scanner.nextLine();
 
         UserFileManager.loadUsers();
@@ -260,13 +262,14 @@ public class Utilisateur implements Serializable {
         for (Utilisateur utilisateur : liste_user) {
             if (utilisateur.get_email().equals(email) && 
                 utilisateur.get_password().equals(password)) {
-                System.out.println("Connexion réussie!");
-                System.out.println("Bienvenue " + utilisateur.get_nom() + "!");
+            	System.out.println("└──── Connexion réussie!──────────────────\n");
+                System.out.println("┌────────────┤ Bienvenue " + utilisateur.get_nom() + "! ├─────────────");
+                System.out.println("\n Infos de l'utilisateur : ");
                 utilisateur.afficher_infos();
                 return utilisateur;
             }
         }
-        System.out.println("Email ou mot de passe incorrect");
+        System.out.println("└── Email ou mot de passe incorrect ──────");
         return null;
     }
     
