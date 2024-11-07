@@ -252,18 +252,18 @@ public class MainClass {
     private static void menuAdministrateur(Administrateur admin, List<Categorie> categories, List<Image> images, Scanner scanner) {
     	int men;
     	do {
-            System.out.println("\n--- Menu Administrateur ---");
-            System.out.println("1. Creer un utilisateur");
-            System.out.println("2. Voir les images du site");
-            System.out.println("3. Gestion des images");
-            System.out.println("4. Creer une nouvelle categorie");
-            System.out.println("5. Ajouter une image a une categorie");
-            System.out.println("6. Voir les utilisateurs");
-            System.out.println("7. Gestion des utilisateurs");
-            System.out.println("8. Rechercher");
-            System.out.println("9. Voir Statistiques");
-            System.out.println("10. Déconnexion");
-            System.out.print("Choisissez une option : ");
+            System.out.println("\n--------- ֎ Menu Administrateur ֎ ---------");
+            System.out.println(" 1. Creer un utilisateur");
+            System.out.println(" 2. Voir les images du site");
+            System.out.println(" 3. Gestion des images");
+            System.out.println(" 4. Creer une nouvelle categorie");
+            System.out.println(" 5. Ajouter une image a une categorie");
+            System.out.println(" 6. Voir les utilisateurs");
+            System.out.println(" 7. Gestion des utilisateurs");
+            System.out.println(" 8. Rechercher");
+            System.out.println(" 9. Voir Statistiques");
+            System.out.println(" 10. Déconnexion");
+            System.out.print(" ►Choisissez une option : ");
             int choix = scanner.nextInt();
             scanner.nextLine(); // vider le tampon
             
@@ -280,7 +280,7 @@ public class MainClass {
                 			afficherTop10Images(categories);
                 }
                 case 10 -> {
-                    System.out.println("Déconnexion réussie.");
+                    System.out.println("\n└────────┤ Déconnexion réussie ├────────────── ");
                     return;
                 }
                 default -> System.out.println("Option non valide, veuillez réessayer.");
@@ -293,21 +293,22 @@ public class MainClass {
     }
     
     public static void creerCategorie(List<Categorie> categories) {
+    	System.out.print("\n -------------- nouvelle Categorie -------------- \n");
         Scanner scanner = new Scanner(System.in);
-        System.out.print("►Entrez le nom de la nouvelle catégorie : ");
+        System.out.print(" ►Entrez le nom de la nouvelle catégorie : ");
         String nomCategorie = scanner.nextLine();
         Categorie nouvelleCategorie = new Categorie(nomCategorie);
         categories.add(nouvelleCategorie); // Ajouter la catégorie à la liste des catégories
-        System.out.println("Catégorie '" + nomCategorie + "' créée avec succès.");
+        System.out.println(" Catégorie '" + nomCategorie + "' créée avec succès.");
         UserFileManager.sauvegarderCategories(categories);
     }
     
     private static void ListerLesImages(List<Categorie> categories, List<Image> images) {
     	UserFileManager.chargerCategories();
         Scanner scanner = new Scanner(System.in);
-    	System.out.println("\n--- Images Disponibles ---");
+    	System.out.println("\n --------- Images Disponibles ----------");
         for (Categorie categorie : categories) {
-            System.out.println("\nCatégorie: " + categorie.get_nom_categorie());
+            System.out.println("\n   ┌─Catégorie: " + categorie.get_nom_categorie());
             categorie.afficher_categorie();
         }
      }
@@ -316,16 +317,16 @@ public class MainClass {
     private static void GererImages(List<Categorie> categories, Administrateur admin) {
     	UserFileManager.chargerCategories();
         Scanner scanner = new Scanner(System.in);
-    	System.out.println("\n--- Images Disponibles ---");
+    	System.out.println("\n --------- Gestion Images ----------");
         for (Categorie categorie : categories) {
-            System.out.println("\nCatégorie: " + categorie.get_nom_categorie());
+            System.out.println("\n   ┌─Catégorie: " + categorie.get_nom_categorie());
             categorie.afficher_categorie();
         }
         
         boolean continuer = true;
         while (continuer) {
         	
-            System.out.println("\n►Entrez l'ID de l'image pour interagir, ou -1 pour revenir au menu principal : ");
+            System.out.println("   ►Entrez l'ID de l'image pour interagir, ou -1 pour annuler : ");
             int imageId = scanner.nextInt();
             scanner.nextLine(); 
             if (imageId == -1) {
@@ -404,7 +405,7 @@ public class MainClass {
         boolean continuer = true;
         while (continuer) {
         	
-            System.out.println("\n►Entrez l'ID de l'utilisateur pour interagir, ou -1 pour revenir au menu principal : ");
+            System.out.println("\n►Entrez l'ID de l'utilisateur pour interagir, ou -1 pour annuler : ");
             int id = scanner.nextInt();
             scanner.nextLine(); 
             if (id == -1) {
@@ -488,8 +489,8 @@ public class MainClass {
     		for (Image image : categorie.get_images())
     			nbreTelTot += image.get_nbr_telechargement();
 		}
-    	System.out.println("-le nombre d'images téléchargées : "+nbreTelTot);
-    	System.out.println("---- le nombre de téléchargements par catégorie ----");
+    	System.out.println(" - le nombre d'images téléchargées : "+nbreTelTot);
+    	System.out.println(" - le nombre de téléchargements par catégorie :");
     	for (Categorie categorie : categories) {
     		nbreTelCat = 0;
     		if(!categorie.get_images().isEmpty()) {
@@ -497,7 +498,7 @@ public class MainClass {
 	    			nbreTelCat += image.get_nbr_telechargement();
 	            }
     		}    			
-    		System.out.println("*"+categorie.get_nom_categorie()+" : "+nbreTelCat);
+    		System.out.println("     -"+categorie.get_nom_categorie()+" : "+nbreTelCat);
     	}
     	
     }
@@ -525,35 +526,38 @@ public class MainClass {
         }
 
         // Afficher les informations des images du top 10
-        System.out.println("\n--- Top 10 des Images les Plus Populaires ---");
+        System.out.println("\n ------- Top 10 des Images les Plus Populaires --------");
         for (int i = 0; i < taille; i++) {
             Image image = toutesImages.get(i);
-            System.out.println("Image ID: " + top10Ids[i]);
             image.afficher_propriete();
         }
     }
     
     
     private static void rechercher(Administrateur admin,List<Categorie> categories, Scanner scanner) {
-        System.out.println("\n--- Recherche ---");
-        System.out.println("1. Rechercher un utilisateur");
-        System.out.println("2. Rechercher une image");
-        System.out.print("Choisissez une option : ");
+        System.out.println("\n ---------- Recherche ----------\n");
+        System.out.println(" 1. Rechercher un utilisateur");
+        System.out.println(" 2. Rechercher une image");
+        System.out.println(" 3. Retour");
+        System.out.print(" ►Choisissez une option : ");
         int choixRecherche = scanner.nextInt();
         scanner.nextLine(); // vider le tampon
 
         switch (choixRecherche) {
             case 1 -> {
-                System.out.print("Entrez le nom de l'utilisateur à rechercher : ");
+                System.out.print(" ►Entrez le nom de l'utilisateur à rechercher : ");
                 String nomUtilisateur = scanner.nextLine();
                 rechercherUtilisateur(nomUtilisateur);
             }
             case 2 -> {
-                System.out.print("Entrez le nom de l'image à rechercher : ");
+                System.out.print(" ►Entrez le nom de l'image à rechercher : ");
                 String nomImage = scanner.nextLine();
                 rechercherImage(nomImage,categories);
                 //admin.rechercher(nomImage);
             }
+            case 3 -> {
+            	break;
+        } 
             default -> System.out.println("Option non valide.");
         }
     }

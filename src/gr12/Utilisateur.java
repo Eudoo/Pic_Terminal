@@ -263,7 +263,7 @@ public class Utilisateur implements Serializable {
             if (utilisateur.get_email().equals(email) && 
                 utilisateur.get_password().equals(password)) {
             	System.out.println("└──── Connexion réussie!──────────────────\n");
-                System.out.println("┌────────────┤ Bienvenue " + utilisateur.get_nom() + "! ├─────────────");
+                System.out.println("┌──────────┤ Bienvenue " + utilisateur.get_nom() + "! ├──────────");
                 System.out.println("\n Infos de l'utilisateur : ");
                 utilisateur.afficher_infos();
                 return utilisateur;

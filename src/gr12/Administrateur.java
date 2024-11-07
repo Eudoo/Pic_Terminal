@@ -35,13 +35,16 @@ public class Administrateur extends Utilisateur {
 
     public void ajouterImage(List<Categorie> categories, List<Image> images) {
         Scanner scanner = new Scanner(System.in);
-        for (Image img : images) {
-        	img.afficher_propriete();
-        } 
-        System.out.print("Entrez l'ID de l'image à ajouter : ");
+        for (Categorie categorie : categories) {
+            System.out.println("\n   ┌─Catégorie: " + categorie.get_nom_categorie());
+            categorie.afficher_categorie();
+        }
+        System.out.print(" ►Entrez l'ID de l'image à ajouter ou -1 pour annuler : ");
         int imageId = scanner.nextInt();
         scanner.nextLine();  // vider le tampon
-
+        if (imageId == -1) {
+            return;
+        }
         // Chercher l'image par ID
         Image image = null;
                    
@@ -78,7 +81,7 @@ public class Administrateur extends Utilisateur {
 
 
     public void afficherToutesCategories() {
-        System.out.println("\n\t♂ Toutes les catégories disponibles ♂");
+        System.out.println("\n -------- Toutes les catégories disponibles ---------");
         System.out.println("Nombre de catégories: " + Categorie.categories.size());
         if (Categorie.categories.isEmpty()) {
             System.out.println("\nAucune catégorie n'a été créée !");
@@ -136,31 +139,32 @@ public class Administrateur extends Utilisateur {
 
     public void consulterUtilisateurs() {
         if (Utilisateur.liste_user.isEmpty()) {
-            System.out.println("Aucun utilisateur enregistré.");
+            System.out.println(" Aucun utilisateur enregistré.");
         } else {
-            System.out.println("\n ♂ Liste des utilisateurs :");
+            System.out.println("\n ------- Liste des utilisateurs -------");
             for (Utilisateur utilisateur : liste_user) {
-                System.out.println("- " + utilisateur.get_nom() + " | Statut : " + (utilisateur.suspendu ? "Suspendu" : "Actif"));
+                System.out.println("  - " + utilisateur.get_nom() + " | Statut : " + (utilisateur.suspendu ? "Suspendu" : "Actif"));
             }
         }
     }
 
     public void ajouterUtilisateur() {
+    	System.out.print("\n ------- nouvel utilistaeur ------- \n");
     	Scanner scanner = new Scanner(System.in);
-        System.out.print("Entrez le nom : ");
+        System.out.print(" Entrez le nom : ");
         String nom = scanner.nextLine();
         
-        System.out.print("Entrez l'email : ");
+        System.out.print(" Entrez l'email : ");
         String email = scanner.nextLine();
         
-        System.out.print("Entrez le mot de passe : ");
+        System.out.print(" Entrez le mot de passe : ");
         String password = scanner.nextLine();
 
         if (verifier_email(email)) {
-            System.out.println("L'email existe déjà");
+            System.out.println(" L'email existe déjà");
         } else {
             Utilisateur new_user = new Utilisateur(nom, email, password);
-            System.out.println("Inscription réussie!");
+            System.out.println(" ------- Inscription réussie! -------");
             
         }
 
