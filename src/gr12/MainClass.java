@@ -452,6 +452,18 @@ public class MainClass {
     		}    			
     		System.out.println("     -"+categorie.get_nom_categorie()+" : "+nbreTelCat);
     	}
+    	System.out.println(" - le nombre total d'utilisateurs :" +Utilisateur.liste_user.size());
+    	int sus = 0;
+    	int nonsus = 0;
+    	for (Utilisateur user : Utilisateur.liste_user) {
+    		
+    		if (user.get_suspendu())
+    			sus++;
+    		else
+    			nonsus++;	
+    	}
+    	System.out.println(" - le nombre total d'utilisateurs suspendu :" +sus);
+    	System.out.println(" - le nombre total d'utilisateurs actif :" +nonsus);
     	
     }
         
