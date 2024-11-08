@@ -31,10 +31,10 @@ public class MainClass {
         System.out.println("\t╚═══════════════════════════════════════════╝");
 
         while (true) {
-            System.out.println("\n1. Inscription");
-            System.out.println("2. Connexion");
-            System.out.println("3. Quitter");
-            System.out.print("►Choisissez une option : ");
+            System.out.println("\n  1. Inscription");
+            System.out.println("  2. Connexion");
+            System.out.println("  3. Quitter");
+            System.out.print("  ►Choisissez une option : ");
             int choix = scanner.nextInt();
             scanner.nextLine(); // vider le tampon
 
@@ -212,11 +212,12 @@ public class MainClass {
             System.out.println(" 3. Gestion des images");
             System.out.println(" 4. Creer une nouvelle categorie");
             System.out.println(" 5. Ajouter une image a une categorie");
-            System.out.println(" 6. Voir les utilisateurs");
-            System.out.println(" 7. Gestion des utilisateurs");
-            System.out.println(" 8. Rechercher");
-            System.out.println(" 9. Voir Statistiques");
-            System.out.println(" 10. Déconnexion");
+            System.out.println(" 6. Gestion des Catégories");
+            System.out.println(" 7. Voir les utilisateurs");
+            System.out.println(" 8. Gestion des utilisateurs");
+            System.out.println(" 9. Rechercher");
+            System.out.println(" 10. Voir Statistiques");
+            System.out.println(" 11. Déconnexion");
             System.out.print(" ►Choisissez une option : ");
             int choix = scanner.nextInt();
             scanner.nextLine(); // vider le tampon
@@ -227,13 +228,14 @@ public class MainClass {
             	case 3 -> GererImages(categories,admin);
             	case 4 -> creerCategorie(categories);
                 case 5 -> admin.ajouterImage(categories, images);
-                case 6 -> admin.consulterUtilisateurs();
-                case 7 -> GererUtilisateurs(Utilisateur.liste_user,admin);
-                case 8 -> rechercher(admin,categories,scanner);
-                case 9 -> {statistique(categories,images);
+                case 6 -> GestionCategorie(categories);
+                case 7 -> admin.consulterUtilisateurs();
+                case 8 -> GererUtilisateurs(Utilisateur.liste_user,admin);
+                case 9 -> rechercher(admin,categories,scanner);
+                case 10 -> {statistique(categories,images);
                 			afficherTop10Images(categories);
                 }
-                case 10 -> {
+                case 11 -> {
                     System.out.println("\n└────────┤ Déconnexion réussie ├────────────── ");
                     return;
                 }
@@ -536,6 +538,78 @@ public class MainClass {
         for (Image image : imagesRecherchees) {
              image.afficher_propriete();
          }         
+    }
+    
+    public static void GestionCategorie(List<Categorie> categories) {
+        int choix; 
+        Scanner scanner = new Scanner(System.in);
+        do {
+            System.out.println("\n ------- Menu Gestion des Catégories ---------");
+            System.out.println(" 1. Ajouter une catégorie");
+            System.out.println(" 2. Supprimer une catégorie");
+            System.out.println(" 3. Modifier une catégorie");
+            System.out.println(" 4. Afficher toutes les catégories");
+            System.out.println(" 5. Quitter le menu des catégories");
+            System.out.print(" ►Entrez votre choix : ");
+            choix = scanner.nextInt();
+            scanner.nextLine(); // Consomme la nouvelle ligne
+
+            switch (choix) {
+                case 1:
+                    ajouterCategorie(categories);
+                    break;
+                case 2:
+                    supprimerCategorie(categories);
+                    break;
+                case 3:
+                    modifierCategorie(categories);
+                    break;
+                case 4:
+                    Categorie.afficherCategories(categories);
+                    break;
+                case 5:
+                    System.out.println("Retour au menu principal.");
+                    break;
+                default:
+                    System.out.println("Choix invalide. Veuillez réessayer.");
+            }
+        } while (choix != 5);
+    }
+
+    private static void ajouterCategorie(List<Categorie> categories) {
+    	Scanner scanner = new Scanner(System.in);
+        System.out.print("\n  ►Entrez le nom de la catégorie : ");
+        String nom = scanner.nextLine();
+        System.out.print("\n  ►Entrez la description de la catégorie : ");
+        String description = scanner.nextLine();
+        Categorie.ajouterCategorie(nom, description,categories);
+    }
+
+    private static void supprimerCategorie(List<Categorie> categories) {
+    	
+    	UserFileManager.chargerCategories();
+        for (int i = 0; i < categories.size(); i++) {
+            System.out.println(i + ". " + categories.get(i).get_nom_categorie());
+        }    	
+    	Scanner scanner = new Scanner(System.in);
+        System.out.print("\n  ►Entrez le nom de la catégorie à supprimer : ");
+        String nom = scanner.nextLine();
+        Categorie.supprimerCategorie(nom,categories);
+    }
+
+    private static void modifierCategorie(List<Categorie> categories) {
+    	UserFileManager.chargerCategories();
+        for (int i = 0; i < categories.size(); i++) {
+            System.out.println(i + ". " + categories.get(i).get_nom_categorie());
+        }
+    	Scanner scanner = new Scanner(System.in);
+        System.out.print("\n  ►Entrez le nom de la catégorie à modifier : ");
+        String nom = scanner.nextLine();
+        System.out.print("\n  ►Entrez le nouveau nom de la catégorie : ");
+        String nouveauNom = scanner.nextLine();
+        System.out.print("\n  ►Entrez la nouvelle description de la catégorie : ");
+        String nouvelleDescription = scanner.nextLine();
+        Categorie.modifierCategorie(nom, nouveauNom, nouvelleDescription);
     }
     
 }

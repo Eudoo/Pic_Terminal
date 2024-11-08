@@ -156,6 +156,61 @@ public class Categorie implements Serializable {
             }
         }
     }
+    
+ // Fonction pour ajouter une nouvelle catégorie
+    public static void ajouterCategorie(String nom, String description, List<Categorie> categories) {
+        Categorie nouvelleCategorie = new Categorie(nom, description);
+        categories.add(nouvelleCategorie);
+        System.out.println("Catégorie ajoutée : " + nom);
+    }
+
+    // Fonction pour supprimer une catégorie
+    public static void supprimerCategorie(String nom, List<Categorie> categories) {
+        Categorie categorieASupprimer = rechercherCategorie(nom, categories);
+        if (categorieASupprimer != null) {
+            categories.remove(categorieASupprimer);
+            System.out.println("Catégorie supprimée : " + nom);
+        } else {
+            System.out.println("Catégorie non trouvée : " + nom);
+        }
+    }
+
+    // Fonction pour modifier une catégorie
+    public static void modifierCategorie(String nom, String nouveauNom, String nouvelleDescription) {
+        Categorie categorieAModifier = rechercherCategorie(nom, categories);
+        if (categorieAModifier != null) {
+            categorieAModifier.set_nom_Categorie(nouveauNom);
+            categorieAModifier.set_description(nouvelleDescription);
+            System.out.println("Catégorie modifiée : " + nouveauNom);
+        } else {
+            System.out.println("Catégorie non trouvée : " + nom);
+        }
+    }
+
+    // Fonction pour rechercher une catégorie par nom
+    private static Categorie rechercherCategorie(String nom, List<Categorie> categories) {
+        for (Categorie categorie : categories) {
+            if (categorie.get_nom_categorie().equalsIgnoreCase(nom)) {
+                return categorie;
+            }
+        }
+        return null;
+    }
+
+    // Fonction pour lister toutes les catégories
+    public static void afficherCategories(List<Categorie> categories) {
+        if (categories.isEmpty()) {
+            System.out.println("Aucune catégorie disponible.");
+        } else {
+            System.out.println("Liste des catégories :");
+            for (Categorie categorie : categories) {
+            	System.out.println("\n  Id : " + categorie.get_idcategorie());
+                System.out.println("  Nom : " + categorie.get_nom_categorie());
+                System.out.println("  Description : " + categorie.get_description());
+                System.out.println("  Nbre d'images : " +categorie.images.size());
+            }
+        }
+    }
 
     // Chargement du dernier ID depuis un fichier
     public static void chargercateDernierID() {

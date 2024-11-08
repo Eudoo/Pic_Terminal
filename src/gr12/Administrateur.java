@@ -32,9 +32,8 @@ public class Administrateur extends Utilisateur {
     
     public void ajouterImage(List<Categorie> categories, List<Image> images) {
         Scanner scanner = new Scanner(System.in);
-        for (Categorie categorie : categories) {
-            System.out.println("\n   ┌─Catégorie: " + categorie.get_nom_categorie());
-            categorie.afficher_categorie();
+        for (Image image : images) {
+            image.afficher_propriete();
         }
         System.out.print(" ►Entrez l'ID de l'image à ajouter ou -1 pour annuler : ");
         int imageId = scanner.nextInt();
@@ -59,6 +58,7 @@ public class Administrateur extends Utilisateur {
 
         // Afficher les catégories disponibles
         System.out.println("Catégories disponibles :");
+        UserFileManager.chargerCategories();
         for (int i = 0; i < categories.size(); i++) {
             System.out.println(i + ". " + categories.get(i).get_nom_categorie());
         }
