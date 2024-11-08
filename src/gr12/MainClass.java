@@ -26,9 +26,9 @@ public class MainClass {
         
         */
         System.out.println();
-        System.out.println("\t╔════════════════════════════════════════════╗");
-        System.out.println("\t╟───────┤ Bienvenue sur  Picterminal ├───────╢");
-        System.out.println("\t╚════════════════════════════════════════════╝");
+        System.out.println(" ╔══════════════════════════════════════════════════════════════╗");
+        System.out.println(" ╟───────────────┤ Bienvenue sur  Picterminal ├─────────────────╢");
+        System.out.println(" ╚══════════════════════════════════════════════════════════════╝");
 
         while (true) {
             System.out.println("\n  1. Inscription");
